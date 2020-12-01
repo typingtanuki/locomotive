@@ -1,0 +1,62 @@
+scriptDir=$(dirname "$(readlink -f $0)")
+
+function questionRaw {
+  while true; do
+    read -p "$1 ? ([y]es/[n]o): " yn
+    case $yn in
+      [Yy]* ) return 0;;
+      "" ) return 0;;
+      [Nn]* ) return 1;;
+      * ) echo "Please answer [y]es or [n]o.";;
+    esac
+  done
+}
+
+function question {
+  if questionRaw "Do you wish to install $1";
+  then
+    return 1
+  else
+    return 0
+  fi
+}
+
+function installed {
+  if [[ $(type -P "$1") ]]
+  then
+    return 0;
+  else
+    return 1;
+  fi
+}
+
+function doInstall {
+  sudo apt install $@ -y
+}
+
+function installTool {
+  package=$1
+  if [ -z "$2" ]
+  then
+    name=$1
+  else
+    name=$2
+  fi
+
+  if [ -z "$3" ]
+  then
+    binary=$1
+  else
+    binary=$3
+  fi
+
+  if installed $binary;
+  then
+    echo "$name already installed"
+  else
+    if question $name;
+    then
+      doInstall $package
+    fi
+  fi
+}
