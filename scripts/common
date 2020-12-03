@@ -1,5 +1,3 @@
-scriptDir=$(dirname "$(readlink -f $0)")
-
 function questionRaw {
   while true; do
     read -p "$1 ? ([y]es/[n]o): " yn

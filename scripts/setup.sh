@@ -1,29 +1,9 @@
 #!/bin/bash
 set -e
 
-source common
+scriptDir=$(dirname "$(readlink -f $0)")
+source ${scriptDir}/common
 
-if installed "fcitx";
-then
-  echo "Keyboard already setup"
-else
-  echo "Setting up keyboard"
-  doInstall fcitx fcitx-mozc fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-frontend-qt5 fcitx-ui-classic kde-config-fcitx mozc-utils-gui fcitx-tools
-  fcitx-autostart
-  im-config -n fcitx
-  fcitx-configtool
-fi
-
-if installed "update";
-then
-    echo "Script already exists"
-else
-  echo "Creating update script"
-  sudo ln -s ${scriptDir}/scripts/update /usr/bin/update
-  sudo chmod a+rx /usr/bin/update
-fi
-
-installTool "git"
 installTool "fzf"
 installTool "fzy"
 installTool "peco"
@@ -38,7 +18,7 @@ else
   then
     doInstall zsh libnotify-bin
     cargo install exa
-    chsh -s $(which zsh)
+    chsh -s `which zsh`
   fi
 fi
 
@@ -52,38 +32,17 @@ else
   fi
 fi
 
-
-if installed "tilix";
-then
-  echo "Tilix already installed"
-else
-  if question "tilix";
-  then
-    doInstall tilix
-    if question "Tilix settings"
-    then
-      # dconf dump /com/gexperts/Tilix/ > ~/setup/tilix.dconf
-      dconf load /com/gexperts/Tilix/ < ~/setup/tilix.dconf
-    fi
-  fi
-fi
-
 installTool "htop"
 installTool "curl"
 installTool "wget"
-installTool "geany"
-installTool "vlc"
-installTool "remmina"
 installTool "build-essentials" "Build essentials" "gcc"
 installTool "dos2unix"
-
-installTool "steam"
 
 if installed "retroarch";
 then
   echo "Retroarch already installed"
 else
-  doInstall retroarch "libretro-*" -y
+  doInstall retroarch "libretro-*"  -y
 fi
 
 if installed "kodi";
@@ -91,6 +50,27 @@ then
   echo "Kodi already installed"
 else
   doInstall kodi python3 python3-dbus -y
+fi
+
+if installed "steam";
+then
+  echo "Steam already installed"
+else
+  doInstall steam libgtk2.0-0:i386 libxtst6:i386 -y
+fi
+
+if installed "wine";
+then
+  echo "Wine already installed"
+else
+  doInstall --install-recommends winehq-staging -y
+fi
+
+if installed "gamehub";
+then
+  echo "Gamehub already installed"
+else
+  doInstall xcb icoutils gamehub
 fi
 
 kwriteconfig5 --file ~/.config/kwinrc --group ModifierOnlyShortcuts --key Meta "org.kde.plasmashell,/PlasmaShell,org.kde.PlasmaShell,activateLauncherMenu"
