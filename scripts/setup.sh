@@ -3,32 +3,13 @@ set -e
 
 scriptDir=$(dirname "$(readlink -f $0)")
 source ${scriptDir}/common.sh
+parseArguments "$@"
 
-title "Packages - ZSH"
-subtitle "Improved command line environment"
+welcome "This wizard will help you install packages" "NOTE: Some packages are optional."
 
-if installed "zsh";
-then
-  echo "ZSH already installed"
-else
-  if questionInstall "ZSH and dependencies";
-  then
-    aptInstall zsh libnotify-bin fzf fzy peco cargo
-    cargo install exa
-    chsh -s `which zsh`
-  fi
-fi
-
-if installed "exa";
-then
-  echo "Exa already installed"
-else
-  if questionInstall "Exa";
-  then
-    cargo install exa
-  fi
-fi
-
+ ############
+## Required ##
+ ############
 title "Packages - Required packages"
 subtitle "Useful packages required by the tools"
 
@@ -39,33 +20,26 @@ installTool "wget"
 installTool "build-essentials" "Build essentials" "gcc"
 installTool "dos2unix"
 
-title "Packages - Retroarch"
-subtitle "Emulator manager and emulators (libretro based)"
+ ###########
+## GameHub ##
+ ###########
+title "Packages - GameHub (recommend)"
+subtitle "Game library for managing steam, GOG, ... and emulators in a single GUI"
 
-if installed "retroarch";
+if installed "gamehub";
 then
-  echo "Retroarch already installed"
+  echo "Gamehub already installed"
 else
-  if questionInstall "Retroarch and dependencies";
+  if questionInstall "Gamehub";
   then
-      aptInstall retroarch "libretro-*"
+    aptInstall xcb icoutils gamehub
   fi
 fi
 
-title "Packages - Kodi (movies/...)"
-subtitle "Movie library"
-
-if installed "kodi";
-then
-  echo "Kodi already installed"
-else
-  if questionInstall "Kodi";
-  then
-    aptInstall kodi python3 python3-dbus
-  fi
-fi
-
-title "Packages - Steam"
+ #########
+## Steam ##
+ #########
+title "Packages - Steam (recommend)"
 subtitle "The Steam client for linux"
 
 if installed "steam";
@@ -78,7 +52,10 @@ else
   fi
 fi
 
-title "Packages - Wine"
+ ########
+## Wine ##
+ ########
+title "Packages - Wine (recommend)"
 subtitle "Allows running Windows software, games, ..."
 
 if installed "wine";
@@ -91,16 +68,54 @@ else
   fi
 fi
 
-title "Packages - GameHub"
-subtitle "Game library for managing steam, GOG, ... and emulators in a single GUI"
+ #############
+## Retroarch ##
+ #############
+title "Packages - Retroarch (optional)"
+subtitle "Emulator manager and emulators (libretro based)"
 
-if installed "gamehub";
+if installed "retroarch";
 then
-  echo "Gamehub already installed"
+  echo "Retroarch already installed"
 else
-  if questionInstall "Gamehub";
+  if questionInstall "Retroarch and dependencies";
   then
-    aptInstall xcb icoutils gamehub
+      aptInstall retroarch "libretro-*"
+  fi
+fi
+
+ ########
+## Kodi ##
+ ########
+title "Packages - Kodi (optional)"
+subtitle "Movie library and player"
+
+if installed "kodi";
+then
+  echo "Kodi already installed"
+else
+  if questionInstall "Kodi";
+  then
+    aptInstall kodi python3 python3-dbus
+  fi
+fi
+
+ #######
+## ZSH ##
+ #######
+title "Packages - ZSH (optional)"
+subtitle "Improved command line environment"
+
+if installed "zsh";
+then
+  echo "ZSH already installed"
+else
+  if questionInstall "ZSH and dependencies";
+  then
+    aptInstall zsh libnotify-bin fzf fzy peco cargo
+    cargo install exa
+    chsh -s `which zsh`
+    ln -s ${scriptDir}/config/zshrc ${HOME}/.zshrc
   fi
 fi
 

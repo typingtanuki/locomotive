@@ -34,16 +34,25 @@ Create a handheld console capable of running PC games.
    * Intel 64 bits CPU
    * Intel GPU
 1. LattePanda accessories
-   1. Aluminium radiator case
+1. Aluminium radiator case
 1. UCTronics 7" screen
    * HDMI + USB
+    
+## Software
+
+1. Kubuntu
+1. Gamehub
+1. Steam
+1. Retroarch
+1. Wine
+1. Kodi
 
 ## Installing
 
 1. Install git
 
 ```bash
-sudo apt install git
+sudo apt install git git-lfs
 ```
 
 2. Clone repository
@@ -53,21 +62,23 @@ cd ~
 git clone git@github.com:typingtanuki/locomotive.git .locomotive
 ```
 
-3. Setup the extra PPAs and update libraries
+3. Start the setup wizard
 
 ```bash
-~/.locomotive/scripts/ppa.sh
-```
-
-4. Install other libraries
-
-```bash
-~/.locomotive/scripts/setup.sh
+~/.locomotive/install.sh
 ```
 
 ## Updating
 
+1. Update the repository
+
 ```bash
 cd ~/.locomotive
 git pull --rebase
+```
+
+2. Re-run the install
+
+```bash
+~/.locomotive/install.sh
 ```

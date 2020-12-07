@@ -1,8 +1,47 @@
+disableWelcome=0
+allYes=0
+
+function parseArguments {
+  while [ ! -z "$1" ];
+  do
+    if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];
+    then
+      showUsage 0
+      shift
+    elif [[ "$1" == "--no-welcome" ]] || [[ "$1" == "-w" ]];
+    then
+      disableWelcome=1
+      shift
+    elif [[ "$1" == "--all-yes" ]] || [[ "$1" == "-y" ]];
+    then
+      allYes=1
+      shift
+    else
+      echo "Unknown argument ${1}"
+      showUsage 1
+      shift
+    fi
+  done
+}
+
+function showUsage {
+  echo "Arguments:"
+  echo "  --help -h: Show this help"
+  echo "  --no-welcome -w: Hide the welcome page"
+  echo "  --all-yes -y: Answer 'yes' to all questions"
+  exit $1
+}
+
 function questionRaw {
   # Utility to ask user a yes/no question
   #
   # Arguments:
   # $1: The question to ask
+
+  if [ "${allYes}" -eq "1" ];
+  then
+    return 0;
+  fi
 
   while true; do
     read -p "$1 ? ([y]es/[n]o): " yn
@@ -166,21 +205,71 @@ function ppaInstall {
   fi
 }
 
+function centerText {
+  # Prints the text in the center of the screen
+  #
+  # Arguments:
+  # $1 The string to print
+
+  columns=$(tput cols)
+  titleLength=$(expr length "${1}")
+  padding=$(((columns - titleLength)/2))
+  pad=$(printf "%-${padding}s" " ")
+  echo "${pad}${1}"
+}
+
+function drawLine {
+  # Draws a line covering the entire screen width
+  #
+  # Arguments:
+  # $1 The character to use for the line
+
+  columns=$(tput cols)
+  printf "%-${columns}s" " " | tr ' ' "${1}"
+}
+
+function welcome {
+  if [ "${disableWelcome}" -eq "1" ];
+  then
+    return;
+  fi
+
+  centered1=$(centerText ".____                                       __  .__              ")
+  centered2=$(centerText "|    |    ____   ____  ____   _____   _____/  |_|__|__  __ ____  ")
+  centered3=$(centerText "|    |   /  _ \\_/ ___\\/  _ \\ /     \\ /  _ \\   __\\  \\  \\/ // __ \\ ")
+  centered4=$(centerText "|    |__(  <_> )  \\__(  <_> )  Y Y  (  <_> )  | |  |\\   /\\  ___/ ")
+  centered5=$(centerText "|_______ \\____/ \\___  >____/|__|_|  /\\____/|__| |__| \\_/  \\___  >")
+  centered6=$(centerText "        \\/          \\/            \\/                          \\/ ")
+
+  centered7=$(centerText "${1}")
+  centered8=$(centerText "${2}")
+  full=$(drawLine "=")
+
+  echo "${full}"
+  echo "${centered1}"
+  echo "${centered2}"
+  echo "${centered3}"
+  echo "${centered4}"
+  echo "${centered5}"
+  echo "${centered6}"
+  echo ""
+  echo "${centered7}"
+  echo "${centered8}"
+  echo "${full}"
+  read -p "Press [ENTER] to start."
+}
+
 function title {
   # Prints a title
   #
   # Arguments:
   # $1 The title to print
 
-  fullTitle="Locomotive: $1"
-  columns=$(tput cols)
-  titleLength=$(expr length "${fullTitle}")
-  padding=$((($columns - $titleLength)/2))
-  pad=$(printf "%-${padding}s" " ")
-  full=$(printf "%-${columns}s" " " | tr ' ' '=')
+  centered=$(centerText "${1}")
+  full=$(drawLine "=")
 
   echo "${full}"
-  echo "${pad}${fullTitle}"
+  echo "${centered}"
   echo "${full}"
 }
 
@@ -190,13 +279,8 @@ function subtitle {
   # Arguments:
   # $1 The subtitle to print
 
-  fullTitle="-- $1 --"
-  columns=$(tput cols)
-  titleLength=$(expr length "${fullTitle}")
-  padding=$((($columns - $titleLength)/2))
-  pad=$(printf "%-${padding}s" " ")
-
-  echo "${pad}${fullTitle}"
+  centered=$(centerText "-- ${1} --")
+  echo "${centered}"
   echo ""
 }
 

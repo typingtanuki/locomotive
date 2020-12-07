@@ -1,0 +1,91 @@
+export LANGUAGE="en_US:en"
+
+export PATH="${HOME}/.cargo/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${PATH}"
+
+export ENHANCD_FILTER="fzy:peco:fzf:non-existing-filter"
+
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=$HISTSIZE
+
+export NVM_LAZY_LOAD=true
+
+setopt hist_ignore_dups # Do not enter command lines into the history list if they are duplicates of the previous event
+setopt hist_ignore_all_dups # remove older duplicate entries from history
+setopt hist_reduce_blanks # remove superfluous blanks from history items
+setopt inc_append_history # save history entries as soon as they are entered
+# setopt share_history # share history between different instances of the shell
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+export ZSH_AUTOSUGGEST_USE_ASYNC=true
+
+export ENHANCD_DOT_ARG="..."
+
+autoload -U zmv
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+#Install fzf - Needs to be first
+zinit light Aloxaf/fzf-tab
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-history-substring-search
+zinit light gradle/gradle-completion
+zinit light lukechilds/zsh-better-npm-completion
+zinit light zsh-users/zsh-completions
+zinit light 3v1n0/zsh-bash-completions-fallback
+#autoload -U compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+zinit light zsh-users/zsh-autosuggestions # Suggestions and completions before here
+zinit light Tarrasch/zsh-command-not-found
+zinit light ael-code/zsh-colored-man-pages
+zinit light MichaelAquilina/zsh-auto-notify
+zinit light lukechilds/zsh-nvm
+# Install exa
+zinit light zpm-zsh/ls
+# Install fzy
+zinit ice \
+  atclone'rm -rf conf.d; rm -rf functions; rm -f *.fish;' \
+  pick'init.sh' \
+  nocompile'!' \
+  wait'!0'
+zinit light b4b4r07/enhancd
+# Must be last
+zinit light zsh-users/zsh-syntax-highlighting
+
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
+grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'fi
