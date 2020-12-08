@@ -129,14 +129,14 @@ if installed "tilix";
 then
   echo "Tilix already installed"
 else
-  if question "tilix";
+  if questionInstall "tilix";
   then
-    doInstall tilix
-    if question "Tilix settings"
+    aptInstall tilix
+    if questionInstall "Tilix settings"
     then
       mkdir -p ~/.local/fonts/t
       cp ${scriptDir}/../fonts/* ~/.local/fonts/t
-      dconf load /com/gexperts/Tilix/ < ${scriptDir}/../tilix.dconf
+      dconf load /com/gexperts/Tilix/ < ${scriptDir}/../config/tilix.dconf
     fi
   fi
 fi

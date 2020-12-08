@@ -51,3 +51,4 @@ title "PPA - APT update"
 subtitle "Update system to be ready to use the new repositories"
 
 aptUpdate
+
