@@ -141,5 +141,13 @@ else
   fi
 fi
 
+ ############
+## On-board ##
+ ############
+title "Packages - On-board (optional)"
+subtitle "On-screen keyboard"
+
+installTool "onboard"
+
 kwriteconfig5 --file ~/.config/kwinrc --group ModifierOnlyShortcuts --key Meta "org.kde.plasmashell,/PlasmaShell,org.kde.PlasmaShell,activateLauncherMenu"
 qdbus org.kde.KWin /KWin reconfigure

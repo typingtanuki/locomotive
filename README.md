@@ -77,6 +77,8 @@ The different components can easily be swapped to equivalents based on availabil
     * A very complete font for terminals
 1. [ZSH](https://www.zsh.org)
     * A good shell, with very helpful autocomplete
+1. [On-board](https://launchpad.net/onboard)
+    * An on-screen keyboard
 
 ## Testing the parts
 
