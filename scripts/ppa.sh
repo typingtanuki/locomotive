@@ -4,6 +4,7 @@ set -e
 scriptDir=$(dirname "$(readlink -f $0)")
 source ${scriptDir}/common.sh
 parseArguments "$@"
+setupLogFile "ppa"
 
 welcome "This wizard will help you set up additional PPAs" "Repositories of packages and updates for the system"
 

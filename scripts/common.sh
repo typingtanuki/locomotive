@@ -1,8 +1,15 @@
+# Argument for hiding the welcome screens
 disableWelcome=0
+# Argument for answering "yes" to all questions
 allYes=0
 
 function parseArguments {
-  while [ ! -z "$1" ];
+  # Parse arguments
+  #
+  # Arguments:
+  #  All arguments to the main script
+
+  while [ -n "$1" ];
   do
     if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];
     then
@@ -25,11 +32,36 @@ function parseArguments {
 }
 
 function showUsage {
+  # Show the command line arguments
+  #
+  # Arguments: The exit code to use
+
   echo "Arguments:"
   echo "  --help -h: Show this help"
   echo "  --no-welcome -w: Hide the welcome page"
   echo "  --all-yes -y: Answer 'yes' to all questions"
-  exit $1
+  exit "$1"
+}
+
+
+# The folder into which to save the logs
+logFolder="${scriptDir}/../log"
+# Make sure the log folder exists
+mkdir -p "${logFolder}"
+# The default log file (Nothing should be written here if everything goes fine)
+logFile="${logFolder}/locomotive.log"
+
+function setupLogFile {
+  # Setup the log files for the current script
+  #
+  # Arguments:
+  # $1: The name of the script
+
+  logFile="${logFolder}/locomotive-${1}.log"
+  if [ -f "${logFile}" ];
+  then
+    mv "${logFile}" "${logFile}.old"
+  fi
 }
 
 function questionRaw {
@@ -104,8 +136,10 @@ function installed {
 
   if [[ $(type -P "$1") ]]
   then
+    echo "$1 is installed" >> "${logFile}"
     return 0;
   else
+    echo "$1 is not installed" >> "${logFile}"
     return 1;
   fi
 }
@@ -150,9 +184,9 @@ function aptInstall {
   # Arguments:
   # All packages to install (can also be arguments for "apt install" command)
 
-
+  echo "Installing $* with APT" >> "${logFile}"
   checkSudo
-  if [[ $(sudo apt install "$@" -y 2>&1) ]]
+  if [[ $(sudo apt install "$@" -y >> "${logFile}" 2>&1) ]]
   then
     echo "OK"
   else
@@ -167,18 +201,24 @@ function installedPpa {
   # $1: The PPA to check for existence
 
   ppa=$(echo "${1}" | cut -d ':' -f 2 | cut -d ' ' -f 1)
-  installedPpas=$(apt policy 2>&1)
+  installedPpas=$(apt policy  >> "${logFile}" 2>&1)
   installed=$(echo "${installedPpas}" | grep "$ppa")
 
   if [ -z "$installed" ]
   then
+    echo "PPA $1 is not installed" >> "${logFile}"
     return 1;
   else
+    echo "PPA $1 is installed" >> "${logFile}"
     return 0;
   fi
 }
 
 function checkSudo {
+  # Make sure sudo is enabled, before we start redirecting output to files
+  #
+  # Arguments: None
+
   sudo echo -n ""
 }
 
@@ -194,6 +234,7 @@ function ppaInstall {
   else
     if questionInstallPpa "$1";
     then
+      echo "Adding PPA $1" >> "${logFile}"
       checkSudo
       if [[ $(sudo apt-add-repository "$1" -y 2>&1) ]]
       then
@@ -289,8 +330,10 @@ function installedPpaKey {
 
   if [ -z "$installed" ]
   then
+    echo "PPA key $1 is not installed" >> "${logFile}" 2>&1
     return 1;
   else
+    echo "PPA key $1 is installed" >> "${logFile}" 2>&1
     return 0;
   fi
 }
@@ -308,6 +351,7 @@ function ppaAddKey {
   else
     if questionInstallKey "$1";
     then
+      echo "Adding PPA key $1" >> "${logFile}" 2>&1
       checkSudo
       if [[ $(wget -O - "${2}" | sudo apt-key add - 2>&1) ]]
       then
@@ -321,20 +365,24 @@ function ppaAddKey {
 
 function aptUpdate {
   # Update APT cache and upgrade system
+  #
+  # Arguments: None
+
+  echo "Update APT" >> "${logFile}" 2>&1
 
   echo "Fetching updates..."
   checkSudo
-  output=$(sudo apt update 2>&1)
+  sudo apt update >> "${logFile}" 2>&1
   echo "Upgrading step 1/2..."
   checkSudo
-  output=$(sudo apt upgrade -y -f 2>&1)
+  sudo apt upgrade -y -f >> "${logFile}" 2>&1
   echo "Upgrading step 2/2..."
   checkSudo
-  output=$(sudo apt dist-upgrade -y -f 2>&1)
+  sudo apt dist-upgrade -y -f >> "${logFile}" 2>&1
   echo "Removing old dependencies..."
   checkSudo
-  output=$(sudo apt autoremove -y 2>&1)
+  sudo apt autoremove -y >> "${logFile}" 2>&1
   echo "Cleaning up cache..."
   checkSudo
-  output=$(sudo apt autoclean -y 2>&1)
+  sudo apt autoclean -y >> "${logFile}" 2>&1
 }

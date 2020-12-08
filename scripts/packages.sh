@@ -4,6 +4,7 @@ set -e
 scriptDir=$(dirname "$(readlink -f $0)")
 source ${scriptDir}/common.sh
 parseArguments "$@"
+setupLogFile "packages"
 
 welcome "This wizard will help you install packages" "NOTE: Some packages are optional."
 
