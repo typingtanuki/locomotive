@@ -119,5 +119,27 @@ else
   fi
 fi
 
+ #########
+## Tilix ##
+ #########
+title "Packages - Tilix (optional)"
+subtitle "Improved terminal emulator"
+
+if installed "tilix";
+then
+  echo "Tilix already installed"
+else
+  if question "tilix";
+  then
+    doInstall tilix
+    if question "Tilix settings"
+    then
+      mkdir -p ~/.local/fonts/t
+      cp ${scriptDir}/../fonts/* ~/.local/fonts/t
+      dconf load /com/gexperts/Tilix/ < ${scriptDir}/../tilix.dconf
+    fi
+  fi
+fi
+
 kwriteconfig5 --file ~/.config/kwinrc --group ModifierOnlyShortcuts --key Meta "org.kde.plasmashell,/PlasmaShell,org.kde.PlasmaShell,activateLauncherMenu"
 qdbus org.kde.KWin /KWin reconfigure
