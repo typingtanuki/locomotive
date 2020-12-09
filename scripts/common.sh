@@ -253,7 +253,7 @@ function centerText {
   # $1 The string to print
 
   columns=$(tput cols)
-  titleLength=$(expr length "${1}")
+  titleLength=$(echo "${1}" | wc -l)
   padding=$(((columns - titleLength)/2))
   pad=$(printf "%-${padding}s" " ")
   echo "${pad}${1}"
