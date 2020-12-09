@@ -2,7 +2,7 @@
 set -e
 
 scriptDir=$(dirname "$(readlink -f $0)")
-source ${scriptDir}/common.sh
+source "${scriptDir}/common.sh"
 parseArguments "$@"
 setupLogFile "packages"
 
@@ -115,8 +115,16 @@ else
   then
     aptInstall zsh libnotify-bin fzf fzy peco cargo
     cargo install exa
-    chsh -s `which zsh`
-    ln -s ${scriptDir}/config/zshrc ${HOME}/.zshrc
+    chsh -s "$(which zsh)"
+    if [[ -h ${HOME}/.zshrc ]];
+    then
+      # Symbolic link
+      rm "${HOME}/.zshrc"
+    elif  [[ -h ${HOME}/.zshrc ]];
+    then
+      mv "${HOME}/.zshrc" "${HOME}/.zshrc.bak"
+    fi
+    ln -s "${scriptDir}/config/zshrc" "${HOME}/.zshrc"
   fi
 fi
 
@@ -136,8 +144,8 @@ else
     if questionInstall "Tilix settings"
     then
       mkdir -p ~/.local/fonts/t
-      cp ${scriptDir}/../fonts/* ~/.local/fonts/t
-      dconf load /com/gexperts/Tilix/ < ${scriptDir}/../config/tilix.dconf
+      cp "${scriptDir}/../fonts/*" ~/.local/fonts/t
+      dconf load /com/gexperts/Tilix/ < "${scriptDir}/../config/tilix.dconf"
     fi
   fi
 fi

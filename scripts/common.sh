@@ -62,6 +62,7 @@ function setupLogFile {
   then
     mv "${logFile}" "${logFile}.old"
   fi
+  datetime >> "${logFile}"
 }
 
 function questionRaw {

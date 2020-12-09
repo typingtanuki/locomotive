@@ -2,8 +2,9 @@
 set -e
 
 scriptDir=$(dirname "$(readlink -f $0)")
-source ${scriptDir}/common.sh
+source "${scriptDir}/common.sh"
 parseArguments "$@"
+setupLogFile "calibration"
 
 welcome "This wizard will help you calibrate your touch screen"
 
@@ -15,7 +16,7 @@ calibratorOutput="${scriptDir}/calibrator_output.txt.tmp"
 calibrationTmp="${scriptDir}/calibration.conf.tmp"
 
 # Run xinput-calibrator
-xinput_calibrator > "${calibratorOutput}"
+xinput_calibrator | tee "${calibratorOutput}" >> "${logFile}" 2>&1
 
 # Extract the "Section" ... "EndSection" part of the file
 output=$(grep -A 1000 "Section" "${calibratorOutput}" | grep -B 1000 "EndSection" | grep -v "MatchProduct")

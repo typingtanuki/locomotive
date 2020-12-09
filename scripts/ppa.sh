@@ -2,7 +2,7 @@
 set -e
 
 scriptDir=$(dirname "$(readlink -f $0)")
-source ${scriptDir}/common.sh
+source "${scriptDir}/common.sh"
 parseArguments "$@"
 setupLogFile "ppa"
 
