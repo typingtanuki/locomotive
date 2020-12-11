@@ -79,7 +79,9 @@ The different components can easily be swapped to equivalents based on availabil
     * A good shell, with very helpful autocomplete
 1. [On-board](https://launchpad.net/onboard)
     * An on-screen keyboard
-
+1. [Antimicrox](https://github.com/AntiMicroX/antimicroX)
+   * Bind gamepad controls to keyboard/mouse
+   
 ## Testing the parts
 
 Before starting to build, let's test and prepare the different parts
@@ -88,10 +90,10 @@ Before starting to build, let's test and prepare the different parts
    1. Plug the USB cable in the "Power + touch" port of the screen
    1. Plug the HDMI cable in the HDMI port of the screen
 1. LattePanda alpha
-   1. Plug both antennas (small wires) for bluetooth and wifi (see LattePanda Alpha documentation)
+   1. Plug both antennas (small wires) for bluetooth and Wi-Fi (see LattePanda Alpha documentation)
    1. Plug the other end of the HDMI cable in the HDMI port of the LattePanda Alpha
    1. Plug the other end of the screen's USB cable to the LattePanda Alpha
-   1. Make sure the LattePanda Alpha is flat and the fan is unobstructed
+   1. Make sure the LattePanda Alpha is flat, and the fan is unobstructed
 1. Powering up
    1. Plug the AC adapter to the electric plug
    1. Plug the USB type C cable to the LattePanda Alpha
@@ -100,7 +102,7 @@ Before starting to build, let's test and prepare the different parts
    1. Wait for the red light on the LattePanda to stay on and the blue light blinking at regular interval
    1. Press the power button for a few seconds, until the blue light turns and stays on
 
-NOTE: It may take a while for the screen and LattePanda to finish their handshake.
+> **NOTE**: It may take a while for the screen and LattePanda to finish their handshake.
 
 In the meanwhile you may see:
 
@@ -117,9 +119,9 @@ Now turn off your LattePanda by pressing the power button for a few seconds.
 
 ### Removing the original fan
 
-NOTE: Make sure to have unplugged the power from the LattePanda Alpha
+> **NOTE**: Make sure to have unplugged the power from the LattePanda Alpha
 
-NOTE: Skip this step if you are not going to install the aluminium heat sink. Do not start the LattePanda Alpha without any fan.
+> **NOTE**: Skip this step if you are not going to install the aluminium heat sink. Do not start the LattePanda Alpha without any fan.
 
 1. Follow the fan cable and unplug it. Make sure to remember where it was plugged
 1. Unscrew the 4 black screws on the back-side of the LattePanda
@@ -129,11 +131,11 @@ NOTE: Skip this step if you are not going to install the aluminium heat sink. Do
 
 ### Installing the SSD
 
-NOTE: This step is easier done before setting the aluminium cover as it blocks the back-side of the LattePanda. If you whish to add an SSD later or if you forgot this step, please refer to the section "Changing the SSD"
+> **NOTE**: This step is easier done before setting the aluminium cover as it blocks the back-side of the LattePanda. If you wish to add an SSD later or if you forgot this step, please refer to the section "Changing the SSD"
 
-NOTE: Make sure to have unplugged the power from the LattePanda Alpha
+> **NOTE**: Make sure to have unplugged the power from the LattePanda Alpha
 
-NOTE: There are several sizes of SSDs. Shorter ones will require an adaptator in order to be used with the LattePanda Alpha.
+> **NOTE**: There are several sizes of SSDs. Shorter ones will require an adapter in order to be used with the LattePanda Alpha.
 
 1. Unscrew the silver screw on the back of the LattePanda facing the SSD port
 2. Slide the SSD in the port
@@ -142,14 +144,14 @@ NOTE: There are several sizes of SSDs. Shorter ones will require an adaptator in
 
 ### Installing the aluminium armor
 
-NOTE: Make sure to have unplugged the power from the LattePanda Alpha
+> **NOTE**: Make sure to have unplugged the power from the LattePanda Alpha
 
 1. Put new thermal paste on the CPU of the LattePanda
-   * Using the seringe, put a small quantity of thermal paste on the CPU of the LattePanda, make sure not to put too much or it will spill when pressed
+   * Using the syringe, put a small quantity of thermal paste on the CPU of the LattePanda, make sure not to put too much or it will spill when pressed
 1. Place the copper piece on top of the thermal paste and press slightly
    * Fresh thermal paste is slippery, be careful when pressing
 1. Put new thermal paste on the copper piece
-   * Using the seringe, put a small quantity of thermal paste over the copper piece, make sure not to put too much or it will spill when pressed
+   * Using the syringe, put a small quantity of thermal paste over the copper piece, make sure not to put too much or it will spill when pressed
 1. Put the top aluminium cover
    * Make sure to check the position of the USB and ethernet ports correspond well
 1. Carefully turn over the LattePanda Alpha
@@ -162,7 +164,22 @@ NOTE: Make sure to have unplugged the power from the LattePanda Alpha
 1. Screw the 4 screws of the fan
 1. Plug the fan
    * Put it back in the same place you unplugged the original fan from
-   * NOTE: This plug does not have the words "SW" written on it
+   * > **NOTE**: This plug does not have the words "SW" written on it
+
+### Extracting the gamepad connector
+
+Get the bumper (the phone case) and:
+1. Unscrew the 3 screws holding each of the connector or either side of the bumper
+1. Remove the plastic covers (keep them)
+1. Carefully remove the tape from the inner side of the bumper to expose the ribbon-cable under
+1. On the side **without** the USB connector:
+   1. Find the connector linking the ribbon-cable you have just exposed to the gamepad connector
+   1. Open the connector by gently lifting the black part away from the PCB
+   1. Remove the connector
+1. Slide the other gamepad connector out of the bumper, with the ribbon-cable still attached
+1. Plug back the ribbon-cable into the connector and push back the black lift on the connector
+
+> **NOTE**: If the ribbon-cable is still sticky due to the glue of the bumper, stick it onto some piece of paper to avoid damaging the ribbon.
 
 ### Wiring it all up
 
