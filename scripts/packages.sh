@@ -53,6 +53,27 @@ else
   fi
 fi
 
+ ###########
+## Itch.io ##
+ ###########
+title "Packages - Itch.io (optional)"
+subtitle "The Itch.io client for linux"
+
+if installed "itch";
+then
+  echo "Itch.io already installed"
+else
+  if questionInstall "Itch.io";
+  then
+    mkdir -p "${scriptDir}/deb"
+    rm -f "${scriptDir}/deb/itch.sh"
+    download "https://itch.io/app/download?platform=linux" "${scriptDir}/deb/itch.sh"
+    chmod u+x "${scriptDir}/deb/itch.sh"
+    echo "Installing itch.io" >>"${logFile}" 2>&1
+    ${scriptDir}/deb/itch.sh  >>"${logFile}" 2>&1
+  fi
+fi
+
  ########
 ## Wine ##
  ########

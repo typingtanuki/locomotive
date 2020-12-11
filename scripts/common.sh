@@ -3,24 +3,20 @@ disableWelcome=0
 # Argument for answering "yes" to all questions
 allYes=0
 
-function parseArguments {
+function parseArguments() {
   # Parse arguments
   #
   # Arguments:
   #  All arguments to the main script
 
-  while [ -n "$1" ];
-  do
-    if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]];
-    then
+  while [ -n "$1" ]; do
+    if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
       showUsage 0
       shift
-    elif [[ "$1" == "--no-welcome" ]] || [[ "$1" == "-w" ]];
-    then
+    elif [[ "$1" == "--no-welcome" ]] || [[ "$1" == "-w" ]]; then
       disableWelcome=1
       shift
-    elif [[ "$1" == "--all-yes" ]] || [[ "$1" == "-y" ]];
-    then
+    elif [[ "$1" == "--all-yes" ]] || [[ "$1" == "-y" ]]; then
       allYes=1
       shift
     else
@@ -31,7 +27,7 @@ function parseArguments {
   done
 }
 
-function showUsage {
+function showUsage() {
   # Show the command line arguments
   #
   # Arguments: The exit code to use
@@ -43,7 +39,6 @@ function showUsage {
   exit "$1"
 }
 
-
 # The folder into which to save the logs
 logFolder="${scriptDir}/../log"
 # Make sure the log folder exists
@@ -51,101 +46,95 @@ mkdir -p "${logFolder}"
 # The default log file (Nothing should be written here if everything goes fine)
 logFile="${logFolder}/locomotive.log"
 
-function setupLogFile {
+function setupLogFile() {
   # Setup the log files for the current script
   #
   # Arguments:
   # $1: The name of the script
 
   logFile="${logFolder}/locomotive-${1}.log"
-  if [ -f "${logFile}" ];
-  then
+  if [ -f "${logFile}" ]; then
     mv "${logFile}" "${logFile}.old"
   fi
-  date >> "${logFile}"
+  date >>"${logFile}"
 }
 
-function questionRaw {
+function questionRaw() {
   # Utility to ask user a yes/no question
   #
   # Arguments:
   # $1: The question to ask
 
-  if [ "${allYes}" -eq "1" ];
-  then
-    return 0;
+  if [ "${allYes}" -eq "1" ]; then
+    return 0
   fi
 
   while true; do
     read -p "$1 ? ([y]es/[n]o): " yn
     case $yn in
-      [Yy]* ) return 0;;
-      "" ) return 0;;
-      [Nn]* ) return 1;;
-      * ) echo "Please answer [y]es or [n]o.";;
+    [Yy]*) return 0 ;;
+    "") return 0 ;;
+    [Nn]*) return 1 ;;
+    *) echo "Please answer [y]es or [n]o." ;;
     esac
   done
 }
 
-function questionInstall {
+function questionInstall() {
   # Ask user if they want to install a given library or not
   #
   # Arguments:
   # $1: The name of the package to ask about
 
-  if questionRaw "Do you wish to install $1";
-  then
+  if questionRaw "Do you wish to install $1"; then
     return 0
   else
     return 1
   fi
 }
 
-function questionInstallPpa {
+function questionInstallPpa() {
   # Ask user if they want to install a given PPA or not
   #
   # Arguments:
   # $1: The name of the PPA to ask about
 
-  if questionRaw "Do you wish to install PPA $1";
-  then
+  if questionRaw "Do you wish to install PPA $1"; then
     return 0
   else
     return 1
   fi
 }
 
-function questionInstallKey {
+function questionInstallKey() {
   # Ask user if they want to install a given PPA key or not
   #
   # Arguments:
   # $1: The name of the key to ask about
 
-  if questionRaw "Do you wish to install PPA key for $1";
-  then
+  if questionRaw "Do you wish to install PPA key for $1"; then
     return 0
   else
     return 1
   fi
 }
 
-function installed {
+function installed() {
   # Check if binary is available
   #
   # Arguments:
   # $1: The binary to check for existance
 
-  if [[ $(type -P "$1") ]]
-  then
-    echo "$1 is installed" >> "${logFile}"
-    return 0;
+  if [[ $(type -P "$1") ]]; then
+    echo "$1 is installed" >>"${logFile}"
+    return 0
   else
-    echo "$1 is not installed" >> "${logFile}"
-    return 1;
+    echo "$1 is not installed" >>"${logFile}"
+    return 1
   fi
 }
 
-function installTool {
+function installTool() {
   # Install package from APT if it is not already installed
   #
   # Arguments:
@@ -154,68 +143,62 @@ function installTool {
   # $3: Binary to check for package existence (optional)
 
   package=$1
-  if [ -z "$2" ]
-  then
+  if [ -z "$2" ]; then
     name=$1
   else
     name=$2
   fi
 
-  if [ -z "$3" ]
-  then
+  if [ -z "$3" ]; then
     binary=$1
   else
     binary=$3
   fi
 
-  if installed "$binary";
-  then
+  if installed "$binary"; then
     echo "$name already installed"
   else
-    if questionInstall "$name";
-    then
+    if questionInstall "$name"; then
       aptInstall "$package"
     fi
   fi
 }
 
-function aptInstall {
+function aptInstall() {
   # Install package(s) from APT
   #
   # Arguments:
   # All packages to install (can also be arguments for "apt install" command)
 
-  echo "Installing $* with APT" >> "${logFile}"
+  echo "Installing $* with APT" >>"${logFile}"
   checkSudo
-  if [[ $(sudo apt install "$@" -y >> "${logFile}" 2>&1) ]]
-  then
+  if [[ $(sudo apt install "$@" -y >>"${logFile}" 2>&1) ]]; then
     echo "OK"
   else
     echo "ERROR"
   fi
 }
 
-function installedPpa {
+function installedPpa() {
   # Check if PPA is already installed
   #
   # Arguments:
   # $1: The PPA to check for existence
 
   ppa=$(echo "${1}" | cut -d ':' -f 2 | cut -d ' ' -f 1)
-  installedPpas=$(apt policy  >> "${logFile}" 2>&1)
+  installedPpas=$(apt policy >>"${logFile}" 2>&1)
   installed=$(echo "${installedPpas}" | grep "$ppa")
 
-  if [ -z "$installed" ]
-  then
-    echo "PPA $1 is not installed" >> "${logFile}"
-    return 1;
+  if [ -z "$installed" ]; then
+    echo "PPA $1 is not installed" >>"${logFile}"
+    return 1
   else
-    echo "PPA $1 is installed" >> "${logFile}"
-    return 0;
+    echo "PPA $1 is installed" >>"${logFile}"
+    return 0
   fi
 }
 
-function checkSudo {
+function checkSudo() {
   # Make sure sudo is enabled, before we start redirecting output to files
   #
   # Arguments: None
@@ -223,22 +206,19 @@ function checkSudo {
   sudo echo -n ""
 }
 
-function ppaInstall {
+function ppaInstall() {
   # Add PPA to APT
   #
   # Arguments:
   # $1 the PPA to add
 
-  if installedPpa "$1";
-  then
+  if installedPpa "$1"; then
     echo "$1 already installed"
   else
-    if questionInstallPpa "$1";
-    then
-      echo "Adding PPA $1" >> "${logFile}"
+    if questionInstallPpa "$1"; then
+      echo "Adding PPA $1" >>"${logFile}"
       checkSudo
-      if [[ $(sudo apt-add-repository "$1" -y 2>&1) ]]
-      then
+      if [[ $(sudo apt-add-repository "$1" -y 2>&1) ]]; then
         echo "OK"
       else
         echo "ERROR"
@@ -247,7 +227,7 @@ function ppaInstall {
   fi
 }
 
-function centerText {
+function centerText() {
   # Prints the text in the center of the screen
   #
   # Arguments:
@@ -255,12 +235,12 @@ function centerText {
 
   columns=$(tput cols)
   titleLength=${#1}
-  padding=$(((columns - titleLength)/2))
+  padding=$(((columns - titleLength) / 2))
   pad=$(printf "%-${padding}s" " ")
   echo "${pad}${1}"
 }
 
-function drawLine {
+function drawLine() {
   # Draws a line covering the entire screen width
   #
   # Arguments:
@@ -270,38 +250,27 @@ function drawLine {
   printf "%-${columns}s" " " | tr ' ' "${1}"
 }
 
-function welcome {
-  if [ "${disableWelcome}" -eq "1" ];
-  then
-    return;
+function welcome() {
+  if [ "${disableWelcome}" -eq "1" ]; then
+    return
   fi
 
-  centered1=$(centerText ".____                                       __  .__              ")
-  centered2=$(centerText "|    |    ____   ____  ____   _____   _____/  |_|__|__  __ ____  ")
-  centered3=$(centerText "|    |   /  _ \\_/ ___\\/  _ \\ /     \\ /  _ \\   __\\  \\  \\/ // __ \\ ")
-  centered4=$(centerText "|    |__(  <_> )  \\__(  <_> )  Y Y  (  <_> )  | |  |\\   /\\  ___/ ")
-  centered5=$(centerText "|_______ \\____/ \\___  >____/|__|_|  /\\____/|__| |__| \\_/  \\___  >")
-  centered6=$(centerText "        \\/          \\/            \\/                          \\/ ")
-
-  centered7=$(centerText "${1}")
-  centered8=$(centerText "${2}")
   full=$(drawLine "=")
+  centered1=$(centerText "${1}")
+  centered2=$(centerText "${2}")
 
   echo "${full}"
+  while IFS= read -r line; do
+    centerText "${line}"
+  done <"${scriptDir}/logo.txt"
+  echo ""
   echo "${centered1}"
   echo "${centered2}"
-  echo "${centered3}"
-  echo "${centered4}"
-  echo "${centered5}"
-  echo "${centered6}"
-  echo ""
-  echo "${centered7}"
-  echo "${centered8}"
   echo "${full}"
   read -p "Press [ENTER] to start."
 }
 
-function title {
+function title() {
   # Prints a title
   #
   # Arguments:
@@ -315,7 +284,7 @@ function title {
   echo "${full}"
 }
 
-function subtitle {
+function subtitle() {
   # Prints a subtitle
   #
   # Arguments:
@@ -326,36 +295,32 @@ function subtitle {
   echo ""
 }
 
-function installedPpaKey {
+function installedPpaKey() {
   installed=$(apt-key list 2>/dev/null | grep "$1")
 
-  if [ -z "$installed" ]
-  then
-    echo "PPA key $1 is not installed" >> "${logFile}" 2>&1
-    return 1;
+  if [ -z "$installed" ]; then
+    echo "PPA key $1 is not installed" >>"${logFile}" 2>&1
+    return 1
   else
-    echo "PPA key $1 is installed" >> "${logFile}" 2>&1
-    return 0;
+    echo "PPA key $1 is installed" >>"${logFile}" 2>&1
+    return 0
   fi
 }
 
-function ppaAddKey {
+function ppaAddKey() {
   # Add key for PPA
   #
   # Arguments:
   # $1 The name of the key
   # $2 The key to import
 
-  if installedPpaKey "$1";
-  then
+  if installedPpaKey "$1"; then
     echo "Key for $1 already installed"
   else
-    if questionInstallKey "$1";
-    then
-      echo "Adding PPA key $1" >> "${logFile}" 2>&1
+    if questionInstallKey "$1"; then
+      echo "Adding PPA key $1" >>"${logFile}" 2>&1
       checkSudo
-      if [[ $(wget -O - "${2}" | sudo apt-key add - 2>&1) ]]
-      then
+      if [[ $(wget -O - "${2}" | sudo apt-key add - 2>&1) ]]; then
         echo "OK"
       else
         echo "ERROR"
@@ -364,31 +329,31 @@ function ppaAddKey {
   fi
 }
 
-function aptUpdate {
+function aptUpdate() {
   # Update APT cache and upgrade system
   #
   # Arguments: None
 
-  echo "Update APT" >> "${logFile}" 2>&1
+  echo "Update APT" >>"${logFile}" 2>&1
 
   echo "Fetching updates..."
   checkSudo
-  sudo apt update >> "${logFile}" 2>&1
+  sudo apt update >>"${logFile}" 2>&1
   echo "Upgrading step 1/2..."
   checkSudo
-  sudo apt upgrade -y -f >> "${logFile}" 2>&1
+  sudo apt upgrade -y -f >>"${logFile}" 2>&1
   echo "Upgrading step 2/2..."
   checkSudo
-  sudo apt dist-upgrade -y -f >> "${logFile}" 2>&1
+  sudo apt dist-upgrade -y -f >>"${logFile}" 2>&1
   echo "Removing old dependencies..."
   checkSudo
-  sudo apt autoremove -y >> "${logFile}" 2>&1
+  sudo apt autoremove -y >>"${logFile}" 2>&1
   echo "Cleaning up cache..."
   checkSudo
-  sudo apt autoclean -y >> "${logFile}" 2>&1
+  sudo apt autoclean -y >>"${logFile}" 2>&1
 }
 
-function githubDebinstall {
+function githubDebinstall() {
   # Install deb file from github repository
   #
   # Arguments:
@@ -397,32 +362,41 @@ function githubDebinstall {
 
   mkdir -p ${scriptDir}/deb
 
-  echo "Accessing github release page ${1}/${2}" >> "${logFile}" 2>&1
-  releasePage=$(curl -XGET -L -s "https://github.com/${1}/${2}/releases/latest" 2>> "${logFile}")
+  echo "Accessing github release page ${1}/${2}" >>"${logFile}" 2>&1
+  releasePage=$(curl -XGET -L -s "https://github.com/${1}/${2}/releases/latest" 2>>"${logFile}")
 
-  echo "Extracting .deb link for ${1}/${2}" >> "${logFile}" 2>&1
-  debLink=$(echo "${releasePage}" | grep "\.deb\"" | sed -e 's/.*<a href=["'"'"']//i' | cut -d '"' -f 1 2>> "${logFile}")
-  echo "Extracting .deb link for ${1}/${2}: ${debLink}" >> "${logFile}" 2>&1
+  echo "Extracting .deb link for ${1}/${2}" >>"${logFile}" 2>&1
+  debLink=$(echo "${releasePage}" | grep "\.deb\"" | sed -e 's/.*<a href=["'"'"']//i' | cut -d '"' -f 1 2>>"${logFile}")
+  echo "Extracting .deb link for ${1}/${2}: ${debLink}" >>"${logFile}" 2>&1
 
-  echo "Extracting .deb package for ${1}/${2}" >> "${logFile}" 2>&1
-  packageName=$(echo "${debLink}" | cut -d '/' -f 7 2>> "${logFile}")
-  echo "Extracting .deb package for ${1}/${2}: ${packageName}" >> "${logFile}" 2>&1
+  echo "Extracting .deb package for ${1}/${2}" >>"${logFile}" 2>&1
+  packageName=$(echo "${debLink}" | cut -d '/' -f 7 2>>"${logFile}")
+  echo "Extracting .deb package for ${1}/${2}: ${packageName}" >>"${logFile}" 2>&1
 
   fileName="${scriptDir}/deb/${packageName}"
-  if [[ -f "${fileName}" ]];
-  then
-    echo "Already downloaded"
-  else
-    echo "Downloading .deb package for ${1}/${2} in ${fileName}" >> "${logFile}" 2>&1
-    curl -XGET -L -s --output "${fileName}" "https://github.com/${debLink}"
-  fi
+  download "https://github.com/${debLink}" "${fileName}"
 
-  echo "Installing .deb package for ${1}/${2} from ${fileName}" >> "${logFile}" 2>&1
+  echo "Installing .deb package for ${1}/${2} from ${fileName}" >>"${logFile}" 2>&1
   checkSudo
-  if [[ $(sudo apt install "${fileName}" -y >> "${logFile}" 2>&1) ]]
-  then
+  if [[ $(sudo apt install "${fileName}" -y >>"${logFile}" 2>&1) ]]; then
     echo "OK"
   else
     echo "ERROR"
   fi
 }
+
+function download() {
+  # Download a file from the given URL
+  #
+  # Arguments:
+  # $1: The URL to download from
+  # $2: The file to save into
+
+  if [[ -f "${2}" ]]; then
+    echo "Already downloaded"
+  else
+    echo "Downloading ${1} in ${2}" >>"${logFile}" 2>&1
+    curl -XGET -L -s --output "${2}" "$1"
+  fi
+}
+
