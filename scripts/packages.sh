@@ -82,6 +82,9 @@ else
   if questionInstall "Retroarch and dependencies";
   then
       aptInstall retroarch "libretro-*"
+      mkdir -p "${HOME}/.config/retroarch/"
+      mkdir -p "${HOME}/BIOS"
+      ln -s "${HOME}/BIOS" "${HOME}/.config/retroarch/system"
   fi
 fi
 
@@ -120,8 +123,9 @@ else
     then
       # Symbolic link
       rm "${HOME}/.zshrc"
-    elif  [[ -h ${HOME}/.zshrc ]];
+    elif  [[ -f ${HOME}/.zshrc ]];
     then
+      # Normal config file
       mv "${HOME}/.zshrc" "${HOME}/.zshrc.bak"
     fi
     ln -s "${scriptDir}/config/zshrc" "${HOME}/.zshrc"
@@ -157,6 +161,23 @@ title "Packages - On-board (optional)"
 subtitle "On-screen keyboard"
 
 installTool "onboard"
+
+ ##############
+## Antimicrox ##
+ ##############
+title "Packages - Antimicrox (optional)"
+subtitle "Bind gamepad to keyboard/mouse"
+
+
+if installed "antimicrox";
+then
+  echo "Antimicrox already installed"
+else
+  if questionInstall "Antimicrox";
+  then
+    githubDebinstall "AntiMicroX" "antimicrox"
+  fi
+fi
 
 kwriteconfig5 --file ~/.config/kwinrc --group ModifierOnlyShortcuts --key Meta "org.kde.plasmashell,/PlasmaShell,org.kde.PlasmaShell,activateLauncherMenu"
 qdbus org.kde.KWin /KWin reconfigure

@@ -1,3 +1,4 @@
 .idea
 log
 scripts/*.tmp
+scripts/deb/

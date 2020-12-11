@@ -62,7 +62,7 @@ function setupLogFile {
   then
     mv "${logFile}" "${logFile}.old"
   fi
-  datetime >> "${logFile}"
+  date >> "${logFile}"
 }
 
 function questionRaw {
@@ -254,7 +254,7 @@ function centerText {
   # $1 The string to print
 
   columns=$(tput cols)
-  titleLength=$(echo "${1}" | wc -l)
+  titleLength=${#1}
   padding=$(((columns - titleLength)/2))
   pad=$(printf "%-${padding}s" " ")
   echo "${pad}${1}"
@@ -386,4 +386,43 @@ function aptUpdate {
   echo "Cleaning up cache..."
   checkSudo
   sudo apt autoclean -y >> "${logFile}" 2>&1
+}
+
+function githubDebinstall {
+  # Install deb file from github repository
+  #
+  # Arguments:
+  # $1: The maintainer
+  # $2: The repository
+
+  mkdir -p ${scriptDir}/deb
+
+  echo "Accessing github release page ${1}/${2}" >> "${logFile}" 2>&1
+  releasePage=$(curl -XGET -L -s "https://github.com/${1}/${2}/releases/latest" 2>> "${logFile}")
+
+  echo "Extracting .deb link for ${1}/${2}" >> "${logFile}" 2>&1
+  debLink=$(echo "${releasePage}" | grep "\.deb\"" | sed -e 's/.*<a href=["'"'"']//i' | cut -d '"' -f 1 2>> "${logFile}")
+  echo "Extracting .deb link for ${1}/${2}: ${debLink}" >> "${logFile}" 2>&1
+
+  echo "Extracting .deb package for ${1}/${2}" >> "${logFile}" 2>&1
+  packageName=$(echo "${debLink}" | cut -d '/' -f 7 2>> "${logFile}")
+  echo "Extracting .deb package for ${1}/${2}: ${packageName}" >> "${logFile}" 2>&1
+
+  fileName="${scriptDir}/deb/${packageName}"
+  if [[ -f "${fileName}" ]];
+  then
+    echo "Already downloaded"
+  else
+    echo "Downloading .deb package for ${1}/${2} in ${fileName}" >> "${logFile}" 2>&1
+    curl -XGET -L -s --output "${fileName}" "https://github.com/${debLink}"
+  fi
+
+  echo "Installing .deb package for ${1}/${2} from ${fileName}" >> "${logFile}" 2>&1
+  checkSudo
+  if [[ $(sudo apt install "${fileName}" -y >> "${logFile}" 2>&1) ]]
+  then
+    echo "OK"
+  else
+    echo "ERROR"
+  fi
 }
