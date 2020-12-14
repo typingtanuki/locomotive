@@ -1,12 +1,14 @@
 package com.github.typingtanuki.locomotive.ppa;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class Ppas {
     private static final List<Ppa> PPAS = new LinkedList<>();
-    static{
+
+    static {
         PPAS.add(new Ppa("multiverse"));
         PPAS.add(new Ppa("ppa:kubuntu-ppa/ppa"));
         PPAS.add(new Ppa("ppa:kubuntu-ppa/backports"));
@@ -24,14 +26,18 @@ public final class Ppas {
     }
 
     public static void checkPpas() throws IOException {
-        for(Ppa ppa:PPAS){
+        for (Ppa ppa : PPAS) {
             ppa.checkInstalled();
         }
     }
 
-    public static void printState(){
-        for(Ppa ppa:PPAS){
+    public static void printState() {
+        for (Ppa ppa : PPAS) {
             System.out.println(ppa);
         }
+    }
+
+    public static List<Ppa> ppas() {
+        return new ArrayList<>(PPAS);
     }
 }

@@ -1,14 +1,12 @@
 package com.github.typingtanuki.locomotive.controller;
 
-import com.github.typingtanuki.locomotive.settings.CommonSettings;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-public class WelcomePageController extends BorderPane {
-    public static final double WIDTH = 900d;
-    public static final double HEIGHT = 550d;
+public class WelcomePageController extends InstallerPage {
 
-    public WelcomePageController() {
-        setPrefSize(WIDTH, HEIGHT);
-        getStylesheets().add(CommonSettings.css());
+    public WelcomePageController(Stage stage) {
+        super();
+        setCenter(new WelcomeController());
+        setBottom(new FooterController(new Navigator(stage, new PpaOverviewPpaController(stage))).getView());
     }
 }

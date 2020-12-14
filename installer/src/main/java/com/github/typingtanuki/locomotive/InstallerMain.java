@@ -28,7 +28,7 @@ public class InstallerMain extends Application {
 
         ResourceBundle bundle = CommonSettings.bundle();
 
-        primaryStage.setScene(new Scene(new WelcomePageController()));
+        primaryStage.setScene(new Scene(new WelcomePageController(primaryStage)));
         primaryStage.setResizable(false);
         primaryStage.setTitle(bundle.getString("title"));
 //        primaryStage.getIcons().add(CommonSettings.loadImage("/favicon.png"));

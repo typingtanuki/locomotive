@@ -51,4 +51,8 @@ public class Ppa {
                 ", key='" + key + '\'' +
                 '}';
     }
+
+    public String getName() {
+        return ppa;
+    }
 }
