@@ -16,16 +16,15 @@ calibratorOutput="${scriptDir}/calibrator_output.txt.tmp"
 calibrationTmp="${scriptDir}/calibration.conf.tmp"
 
 # Run xinput-calibrator
-xinput_calibrator | tee "${calibratorOutput}" >> "${logFile}" 2>&1
+xinput_calibrator | tee "${calibratorOutput}" >>"${logFile}" 2>&1
 
 # Extract the "Section" ... "EndSection" part of the file
 output=$(grep -A 1000 "Section" "${calibratorOutput}" | grep -B 1000 "EndSection" | grep -v "MatchProduct")
 outputLength=$(echo "${output}" | wc -l)
 
-if [[ "${outputLength}" -gt 2 ]];
-then
+if [[ "${outputLength}" -gt 2 ]]; then
   # It seems to have worked, let's make the change persistent
-  echo "${output}" > "${calibrationTmp}"
+  echo "${output}" >"${calibrationTmp}"
   sudo mkdir -p /etc/X11/xorg.conf.d
   sudo chmod a+r "${calibrationTmp}"
   sudo mv "${calibrationTmp}" /etc/X11/xorg.conf.d/99-calibration.conf
