@@ -18,6 +18,6 @@ public final class ControllerBuilder {
         if (step instanceof AbstractPackageStep) {
             return new BinaryController(((AbstractPackageStep) step).getBinary());
         }
-        throw new IllegalStateException("Unknown type of step: " + step.getClass().getSimpleName());
+        return new BasicStepController(step);
     }
 }
