@@ -1,4 +1,4 @@
-package com.github.typingtanuki.locomotive.controller;
+package com.github.typingtanuki.locomotive.controller.common;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -1,7 +1,7 @@
 package com.github.typingtanuki.locomotive.ppa;
 
-import com.github.typingtanuki.locomotive.exec.Download;
-import com.github.typingtanuki.locomotive.exec.PackageTester;
+import com.github.typingtanuki.locomotive.utils.Download;
+import com.github.typingtanuki.locomotive.utils.PackageTester;
 
 import java.io.IOException;
 import java.nio.file.Path;

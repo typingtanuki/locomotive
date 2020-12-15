@@ -1,4 +1,4 @@
-package com.github.typingtanuki.locomotive.controller;
+package com.github.typingtanuki.locomotive.controller.welcome;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

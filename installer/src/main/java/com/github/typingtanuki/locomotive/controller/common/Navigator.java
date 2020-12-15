@@ -1,12 +1,12 @@
-package com.github.typingtanuki.locomotive.controller;
+package com.github.typingtanuki.locomotive.controller.common;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Navigator {
-    private Stage stage;
-    private Parent nextNode;
+    private final Stage stage;
+    private final Parent nextNode;
 
     public Navigator(Stage stage, Parent nextNode) {
         super();
@@ -21,5 +21,9 @@ public class Navigator {
                 stage.getScene().getWidth(),
                 stage.getScene().getHeight()));
         stage.show();
+    }
+
+    public boolean hasNext() {
+        return nextNode != null;
     }
 }

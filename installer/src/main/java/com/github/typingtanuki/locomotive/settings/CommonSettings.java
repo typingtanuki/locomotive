@@ -1,13 +1,24 @@
 package com.github.typingtanuki.locomotive.settings;
 
+import com.github.typingtanuki.locomotive.steps.games.GamesStepController;
+import com.github.typingtanuki.locomotive.steps.system.SystemStepController;
+import com.github.typingtanuki.locomotive.steps.tools.ToolsStepController;
 import javafx.scene.image.Image;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class CommonSettings {
+public final class CommonSettings {
     private static Locale currentLocale;
     private static ResourceBundle bundle;
+
+    public static final SystemStepController systemStepController = new SystemStepController();
+    public static final ToolsStepController toolsStepController = new ToolsStepController();
+    public static final GamesStepController gamesStepController = new GamesStepController();
+
+    private CommonSettings() {
+        super();
+    }
 
     public static Locale locale() {
         if (currentLocale != null) {

@@ -1,4 +1,4 @@
-package com.github.typingtanuki.locomotive.exec;
+package com.github.typingtanuki.locomotive.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,10 +1,10 @@
-package com.github.typingtanuki.locomotive.controller;
+package com.github.typingtanuki.locomotive.controller.common;
 
 import com.github.typingtanuki.locomotive.settings.CommonSettings;
 import javafx.scene.layout.BorderPane;
 
-import static com.github.typingtanuki.locomotive.controller.AbstractCenter.PAGE_HEIGHT;
-import static com.github.typingtanuki.locomotive.controller.AbstractCenter.PAGE_WIDTH;
+import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_HEIGHT;
+import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_WIDTH;
 
 public abstract class InstallerPage extends BorderPane {
     public InstallerPage() {

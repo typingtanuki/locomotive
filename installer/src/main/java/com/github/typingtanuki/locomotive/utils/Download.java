@@ -1,4 +1,4 @@
-package com.github.typingtanuki.locomotive.exec;
+package com.github.typingtanuki.locomotive.utils;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

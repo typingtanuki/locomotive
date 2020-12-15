@@ -2,3 +2,11 @@
     -fx-font-size: 20px;
     -fx-font-family: monospace;
 }
+
+.install-box.installed{
+    -fx-background-color: lightblue;
+}
+
+.install-box.error{
+    -fx-background-color: lightred;
+}

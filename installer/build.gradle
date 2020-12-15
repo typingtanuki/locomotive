@@ -23,15 +23,14 @@ dependencies {
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:29.0-jre'
-
     def javaFX = '11.0.2'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-web', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-media', version: javaFX, classifier: 'linux'
+    implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.3'
+    implementation group: 'org.webjars', name: 'font-awesome', version: '5.15.1'
 }
 
 application {
