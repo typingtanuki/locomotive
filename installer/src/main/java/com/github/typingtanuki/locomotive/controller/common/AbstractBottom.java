@@ -2,7 +2,6 @@ package com.github.typingtanuki.locomotive.controller.common;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -58,7 +57,8 @@ public class AbstractBottom extends GridPane {
         rightButtonArea.getChildren().add(rightButton);
     }
 
-    public final Parent getView() {
-        return this;
+    public void clearButtons() {
+        navigationButtonsArea.getChildren().clear();
+        rightButtonArea.getChildren().clear();
     }
 }

@@ -3,10 +3,11 @@ package com.github.typingtanuki.locomotive.settings;
 import com.github.typingtanuki.locomotive.steps.games.GamesStepController;
 import com.github.typingtanuki.locomotive.steps.system.SystemStepController;
 import com.github.typingtanuki.locomotive.steps.tools.ToolsStepController;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public final class CommonSettings {
     private static Locale currentLocale;
@@ -15,6 +16,8 @@ public final class CommonSettings {
     public static final SystemStepController systemStepController = new SystemStepController();
     public static final ToolsStepController toolsStepController = new ToolsStepController();
     public static final GamesStepController gamesStepController = new GamesStepController();
+    private static Stage stage;
+
 
     private CommonSettings() {
         super();
@@ -40,6 +43,9 @@ public final class CommonSettings {
     }
 
     public static ResourceBundle bundle() {
+        if(bundle!=null){
+            return bundle;
+        }
         bundle = ResourceBundle.getBundle("installer", CommonSettings.locale());
         return bundle;
     }
@@ -50,5 +56,13 @@ public final class CommonSettings {
 
     public static String css() {
         return CommonSettings.class.getResource("/style.css").toExternalForm();
+    }
+
+    public static void setStage(Stage stage) {
+        CommonSettings.stage = stage;
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 }

@@ -41,8 +41,14 @@ public abstract class AbstractPackageStep implements Step {
             e.printStackTrace(System.err);
             return false;
         }
-        if (!binary.isInstalled()) {
-            binary.install();
+        try {
+            if (!binary.isInstalled()) {
+                return binary.install();
+            }
+        } catch (IOException e) {
+            System.err.println("Could not install package " + binary.getTitle());
+            e.printStackTrace(System.err);
+            return false;
         }
         return true;
     }
@@ -57,5 +63,9 @@ public abstract class AbstractPackageStep implements Step {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public Binary getBinary() {
+        return binary;
     }
 }

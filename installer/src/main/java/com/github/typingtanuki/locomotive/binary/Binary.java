@@ -2,6 +2,8 @@ package com.github.typingtanuki.locomotive.binary;
 
 import com.github.typingtanuki.locomotive.utils.PackageTester;
 
+import java.io.IOException;
+
 public abstract class Binary {
     private final String binary;
     private String title;
@@ -35,7 +37,7 @@ public abstract class Binary {
         return PackageTester.isBinaryOnPath(binary);
     }
 
-    public abstract void install();
+    public abstract boolean install() throws IOException;
 
     public String getTitle() {
         return title;

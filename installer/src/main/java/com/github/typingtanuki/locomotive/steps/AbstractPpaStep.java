@@ -43,4 +43,8 @@ public abstract class AbstractPpaStep implements Step {
             return false;
         }
     }
+
+    public Ppa getPpa() {
+        return ppa;
+    }
 }

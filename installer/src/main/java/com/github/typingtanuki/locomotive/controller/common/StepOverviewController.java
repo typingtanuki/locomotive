@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.controller.common;
 
+import com.github.typingtanuki.locomotive.settings.CommonSettings;
 import com.github.typingtanuki.locomotive.steps.AbstractStepController;
 import com.github.typingtanuki.locomotive.steps.Step;
 import com.github.typingtanuki.locomotive.utils.IconUtils;
@@ -8,12 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
 import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_WIDTH;
 
-public class StepOverviewController extends GridPane {
+public class StepOverviewController extends AbstractOverviewController {
 
     public StepOverviewController(AbstractStepController stepController) {
         getChildren().clear();
@@ -26,19 +28,23 @@ public class StepOverviewController extends GridPane {
         getChildren().add(stepArea);
 
         for (Step step : stepController.baseSteps()) {
-            stepArea.getChildren().add(createView(step));
+            boolean isDone = step.isDone();
+            if (!isDone) {
+                addSubPage(ControllerBuilder.forStep(step));
+            }
+            stepArea.getChildren().add(createView(step, isDone));
         }
     }
 
-    private Node createView(Step step) {
+    private Node createView(Step step, boolean isDone) {
         Pane pane = new Pane();
         pane.setPrefWidth(PAGE_WIDTH);
         pane.getStyleClass().add("nav-step");
-        pane.getChildren().add(createTextNode(step));
+        pane.getChildren().add(createTextNode(step, isDone));
         return pane;
     }
 
-    private Node createTextNode(Step step) {
+    private Node createTextNode(Step step, boolean isDone) {
         HBox card = new HBox();
         VBox box = new VBox();
         box.setPrefWidth(PAGE_WIDTH);
@@ -55,7 +61,7 @@ public class StepOverviewController extends GridPane {
         box.getChildren().add(subtitle);
 
         Glyph icon = IconUtils.getIcon(FontAwesome.Glyph.TIMES_CIRCLE, Color.ORANGE);
-        if (step.isDone()) {
+        if (isDone) {
             box.getStyleClass().add("installed");
             icon = IconUtils.getIcon(FontAwesome.Glyph.CHECK_CIRCLE, Color.GREEN);
         }
