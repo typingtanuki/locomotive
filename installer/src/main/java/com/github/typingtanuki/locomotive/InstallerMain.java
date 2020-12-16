@@ -34,7 +34,7 @@ public class InstallerMain extends Application {
         welcomePageController.activated();
 
         primaryStage.setScene(new Scene(welcomePageController));
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.setTitle(bundle.getString("title"));
 //        primaryStage.getIcons().add(CommonSettings.loadImage("/favicon.png"));
 

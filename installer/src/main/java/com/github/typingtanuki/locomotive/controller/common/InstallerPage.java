@@ -15,6 +15,7 @@ public abstract class InstallerPage extends BorderPane {
 
         this.footer = new Footer();
         setPrefSize(PAGE_WIDTH, PAGE_HEIGHT);
+        setStyle("-fx-base:black");
         getStylesheets().add(CommonSettings.css());
     }
 
