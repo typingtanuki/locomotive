@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+xorgConf="/usr/share/X11/xorg.conf.d/"
+
 scriptDir=$(dirname "$(readlink -f $0)")
 source "${scriptDir}/common.sh"
 parseArguments "$@"
@@ -24,10 +26,10 @@ outputLength=$(echo "${output}" | wc -l)
 
 if [[ "${outputLength}" -gt 2 ]]; then
   # It seems to have worked, let's make the change persistent
-  echo "${output}" >"${calibrationTmp}"
-  sudo mkdir -p /etc/X11/xorg.conf.d
+  echo "${output}" > "${calibrationTmp}"
+  sudo mkdir -p "${xorgConf}"
   sudo chmod a+r "${calibrationTmp}"
-  sudo mv "${calibrationTmp}" /etc/X11/xorg.conf.d/99-calibration.conf
+  sudo mv "${calibrationTmp}" "${xorgConf}/99-calibration.conf"
 else
   # It seems to have failed, let's also fail
   echo "Calibration failed, output is invalid"
