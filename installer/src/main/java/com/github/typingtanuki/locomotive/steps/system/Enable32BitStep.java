@@ -1,21 +1,11 @@
 package com.github.typingtanuki.locomotive.steps.system;
 
+import com.github.typingtanuki.locomotive.steps.AbstractStep;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
-import com.github.typingtanuki.locomotive.steps.Step;
 
 import java.io.IOException;
 
-public class Enable32BitStep implements Step {
-    @Override
-    public String description() {
-        return "Enable 32bit support to be able to run non 64bits software.";
-    }
-
-    @Override
-    public String title() {
-        return "32bit compatibility.";
-    }
-
+public class Enable32BitStep extends AbstractStep {
     @Override
     public boolean execute() {
         ProcessExec exec = new ProcessExec("dpkg");

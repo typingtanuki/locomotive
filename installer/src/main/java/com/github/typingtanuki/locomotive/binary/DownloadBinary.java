@@ -20,4 +20,9 @@ public class DownloadBinary extends Binary {
         // TBD
         return false;
     }
+
+    @Override
+    public InstallType getType() {
+        return InstallType.DOWNLOAD;
+    }
 }

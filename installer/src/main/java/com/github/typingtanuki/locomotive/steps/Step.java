@@ -5,6 +5,10 @@ public interface Step {
 
     String title();
 
+    String[] descriptionArgs();
+
+    String[] titleArgs();
+
     boolean execute();
 
     boolean isDone();

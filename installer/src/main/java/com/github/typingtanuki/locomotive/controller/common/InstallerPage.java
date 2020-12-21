@@ -1,8 +1,8 @@
 package com.github.typingtanuki.locomotive.controller.common;
 
+import com.github.typingtanuki.locomotive.controller.component.Footer;
 import com.github.typingtanuki.locomotive.settings.CommonSettings;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
 import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_HEIGHT;
 import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_WIDTH;

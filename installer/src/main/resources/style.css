@@ -1,12 +1,12 @@
-.title{
+.title {
     -fx-font-size: 20px;
     -fx-font-family: monospace;
 }
 
-.install-box.installed{
+.install-box.installed {
     -fx-background-color: #006f00;
 }
 
-.install-box.error{
+.install-box.error {
     -fx-background-color: #7b0000;
 }

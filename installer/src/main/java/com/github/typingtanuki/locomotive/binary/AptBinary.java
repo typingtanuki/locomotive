@@ -38,6 +38,11 @@ public class AptBinary extends Binary {
         return processExec.getExit() == 0;
     }
 
+    @Override
+    public InstallType getType() {
+        return InstallType.APT;
+    }
+
     public Binary extraPackages(String... extra) {
         packages.addAll(Arrays.asList(extra));
         return this;

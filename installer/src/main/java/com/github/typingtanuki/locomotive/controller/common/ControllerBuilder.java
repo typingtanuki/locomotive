@@ -13,10 +13,10 @@ public final class ControllerBuilder {
 
     public static InstallerPage forStep(Step step) {
         if (step instanceof AbstractPpaStep) {
-            return new PpaController(((AbstractPpaStep) step).getPpa());
+            return new PpaController((AbstractPpaStep) step);
         }
         if (step instanceof AbstractPackageStep) {
-            return new BinaryController(((AbstractPackageStep) step).getBinary());
+            return new BinaryController((AbstractPackageStep) step);
         }
         return new BasicStepController(step);
     }

@@ -53,8 +53,8 @@ public class ProcessExec {
             stderrFuture.get();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        } catch (ExecutionException e){
-            throw  new IOException("Could not read output of process",e);
+        } catch (ExecutionException e) {
+            throw new IOException("Could not read output of process", e);
         }
 
         if (!stdoutReaderReader.isFinished() || !stderrReaderReader.isFinished()) {
@@ -75,10 +75,10 @@ public class ProcessExec {
     }
 
     public void checkSuccess() {
-        if(exit==0){
+        if (exit == 0) {
             return;
         }
-        System.err.println("Process "+binary+" failed:");
+        System.err.println("Process " + binary + " failed:");
         System.err.println(getStderr());
     }
 }

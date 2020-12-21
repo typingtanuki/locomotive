@@ -46,4 +46,6 @@ public abstract class Binary {
     public String getDescription() {
         return description;
     }
+
+    public abstract InstallType getType();
 }

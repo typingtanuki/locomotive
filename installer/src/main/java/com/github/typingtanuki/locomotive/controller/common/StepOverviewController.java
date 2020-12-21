@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
@@ -50,12 +49,12 @@ public class StepOverviewController extends AbstractOverviewController {
         box.setPrefWidth(PAGE_WIDTH);
         box.getStyleClass().add("install-box");
 
-        Label title = new Label(step.title());
+        Label title = new Label(CommonSettings.bundle(step.title(), (Object[]) step.titleArgs()));
         title.getStyleClass().add("nav-title");
         VBox.setMargin(title, new Insets(0, 0, 0, 15));
         box.getChildren().add(title);
 
-        Label subtitle = new Label(step.description());
+        Label subtitle = new Label(CommonSettings.bundle(step.description(), (Object[]) step.descriptionArgs()));
         subtitle.getStyleClass().add("nav-subtitle");
         VBox.setMargin(subtitle, new Insets(0, 0, 0, 30));
         box.getChildren().add(subtitle);

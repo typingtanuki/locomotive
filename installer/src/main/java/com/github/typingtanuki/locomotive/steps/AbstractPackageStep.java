@@ -5,7 +5,7 @@ import com.github.typingtanuki.locomotive.ppa.Ppa;
 
 import java.io.IOException;
 
-public abstract class AbstractPackageStep implements Step {
+public abstract class AbstractPackageStep extends AbstractStep {
     private final Binary binary;
     private final Ppa ppa;
 
@@ -22,13 +22,24 @@ public abstract class AbstractPackageStep implements Step {
 
     @Override
     public String description() {
-        return binary.getDescription();
+        return "step.package.description";
+    }
+
+    @Override
+    public String[] descriptionArgs() {
+        return new String[]{binary.getDescription()};
     }
 
     @Override
     public String title() {
-        return binary.getTitle();
+        return "step.package.title";
     }
+
+    @Override
+    public String[] titleArgs() {
+        return new String[]{binary.getTitle()};
+    }
+
 
     @Override
     public boolean execute() {
@@ -67,5 +78,9 @@ public abstract class AbstractPackageStep implements Step {
 
     public Binary getBinary() {
         return binary;
+    }
+
+    public Ppa getPpa() {
+        return ppa;
     }
 }

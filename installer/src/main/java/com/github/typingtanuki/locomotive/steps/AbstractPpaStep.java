@@ -4,7 +4,7 @@ import com.github.typingtanuki.locomotive.ppa.Ppa;
 
 import java.io.IOException;
 
-public abstract class AbstractPpaStep implements Step {
+public abstract class AbstractPpaStep extends AbstractStep {
     private final Ppa ppa;
 
     public AbstractPpaStep(Ppa ppa) {
@@ -13,14 +13,25 @@ public abstract class AbstractPpaStep implements Step {
         this.ppa = ppa;
     }
 
+
     @Override
     public String description() {
-        return ppa.getDescription();
+        return "step.ppa.title";
+    }
+
+    @Override
+    public String[] descriptionArgs() {
+        return new String[]{ppa.getTitle()};
     }
 
     @Override
     public String title() {
-        return "Repository: " + ppa.getTitle();
+        return "step.ppa.description";
+    }
+
+    @Override
+    public String[] titleArgs() {
+        return new String[]{ppa.getTitle()};
     }
 
     @Override

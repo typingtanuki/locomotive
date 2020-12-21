@@ -25,4 +25,9 @@ public class GithubBinary extends Binary {
         // TBD
         return false;
     }
+
+    @Override
+    public InstallType getType() {
+        return InstallType.GITHUB;
+    }
 }

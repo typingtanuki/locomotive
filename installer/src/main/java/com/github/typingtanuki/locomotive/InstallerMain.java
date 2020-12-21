@@ -10,8 +10,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ResourceBundle;
-
 public class InstallerMain extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -20,8 +18,6 @@ public class InstallerMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         CommonSettings.setStage(primaryStage);
-        ResourceBundle bundle = CommonSettings.bundle();
-
         Navigator.addPage(new SystemOverviewPpaController());
 
         ToolsOverviewPpaController toolsOverviewPpaController = new ToolsOverviewPpaController();
@@ -35,7 +31,7 @@ public class InstallerMain extends Application {
 
         primaryStage.setScene(new Scene(welcomePageController));
         primaryStage.setResizable(true);
-        primaryStage.setTitle(bundle.getString("title"));
+        primaryStage.setTitle(CommonSettings.bundle("title"));
 //        primaryStage.getIcons().add(CommonSettings.loadImage("/favicon.png"));
 
         primaryStage.show();

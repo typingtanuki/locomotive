@@ -1,5 +1,7 @@
-package com.github.typingtanuki.locomotive.controller.common;
+package com.github.typingtanuki.locomotive.controller.component;
 
+import com.github.typingtanuki.locomotive.controller.common.AbstractBottom;
+import com.github.typingtanuki.locomotive.controller.common.Navigator;
 import com.github.typingtanuki.locomotive.utils.IconUtils;
 import javafx.application.Platform;
 import javafx.scene.control.Button;

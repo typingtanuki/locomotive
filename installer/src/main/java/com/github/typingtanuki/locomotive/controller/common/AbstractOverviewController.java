@@ -1,6 +1,5 @@
 package com.github.typingtanuki.locomotive.controller.common;
 
-import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
