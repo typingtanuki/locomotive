@@ -11,10 +11,11 @@ import javafx.scene.layout.VBox;
 
 public class PpaInstallController extends BorderPane {
     private final VBox stepArea;
-    private Ppa ppa;
+    private final Ppa ppa;
 
     public PpaInstallController(Ppa ppa) {
         this.ppa = ppa;
+
         getChildren().clear();
 
         stepArea = new VBox();

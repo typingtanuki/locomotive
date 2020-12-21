@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.steps;
 
+import java.io.IOException;
+
 public interface Step {
     String description();
 
@@ -9,7 +11,7 @@ public interface Step {
 
     String[] titleArgs();
 
-    boolean execute();
+    void execute() throws IOException;
 
-    boolean isDone();
+    boolean isDone() throws IOException;
 }

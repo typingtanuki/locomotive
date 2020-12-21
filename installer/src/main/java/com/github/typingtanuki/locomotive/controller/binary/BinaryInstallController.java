@@ -1,13 +1,10 @@
 package com.github.typingtanuki.locomotive.controller.binary;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
-import com.github.typingtanuki.locomotive.controller.component.AptInstall;
-import com.github.typingtanuki.locomotive.controller.component.DownloadInstall;
-import com.github.typingtanuki.locomotive.controller.component.GithubInstall;
-import com.github.typingtanuki.locomotive.controller.component.PpaInstall;
+import com.github.typingtanuki.locomotive.controller.component.*;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
+import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -36,13 +33,15 @@ public class BinaryInstallController extends GridPane {
 
     public void activated() {
         try {
+            boolean canContinue = true;
             if (ppa != null && !ppa.isInstalled()) {
                 // Need to install ppa first
                 stepArea.getChildren().add(new Label("Must setup PPA"));
                 stepArea.getChildren().add(new PpaInstall(ppa));
+                canContinue = false;
             }
 
-            Node sub;
+            InstallComponent sub;
             switch (binary.getType()) {
                 case APT:
                     sub = new AptInstall(binary);
@@ -56,9 +55,10 @@ public class BinaryInstallController extends GridPane {
                 default:
                     throw new IllegalStateException("Unknown install type: " + binary.getType());
             }
+            sub.setEnabled(canContinue);
             stepArea.getChildren().add(sub);
         } catch (IOException e) {
-            // TBD
+            DialogUtils.showErrorDialog(e);
         }
     }
 }

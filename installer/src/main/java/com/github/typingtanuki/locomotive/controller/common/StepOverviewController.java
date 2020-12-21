@@ -12,7 +12,10 @@ import javafx.scene.paint.Color;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
+import java.io.IOException;
+
 import static com.github.typingtanuki.locomotive.controller.common.AbstractCenter.PAGE_WIDTH;
+import static com.github.typingtanuki.locomotive.utils.DialogUtils.showErrorDialog;
 
 public class StepOverviewController extends AbstractOverviewController {
 
@@ -26,12 +29,16 @@ public class StepOverviewController extends AbstractOverviewController {
         GridPane.setMargin(stepArea, new Insets(10, 0, 0, 0));
         getChildren().add(stepArea);
 
-        for (Step step : stepController.baseSteps()) {
-            boolean isDone = step.isDone();
-            if (!isDone) {
-                addSubPage(ControllerBuilder.forStep(step));
+        try {
+            for (Step step : stepController.baseSteps()) {
+                boolean isDone = step.isDone();
+                if (!isDone) {
+                    addSubPage(ControllerBuilder.forStep(step));
+                }
+                stepArea.getChildren().add(createView(step, isDone));
             }
-            stepArea.getChildren().add(createView(step, isDone));
+        } catch (IOException e) {
+            showErrorDialog(e);
         }
     }
 

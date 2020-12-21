@@ -43,7 +43,7 @@ public class ProcessExec {
         BufferedReader stderrReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
         ReaderReader stdoutReaderReader = new ReaderReader(stdoutReader, stdout);
-        ReaderReader stderrReaderReader = new ReaderReader(stderrReader, stdout);
+        ReaderReader stderrReaderReader = new ReaderReader(stderrReader, stderr);
         Future<Void> stdoutFuture = EXECUTORS.submit(stdoutReaderReader);
         Future<Void> stderrFuture = EXECUTORS.submit(stderrReaderReader);
 
@@ -53,6 +53,7 @@ public class ProcessExec {
             stderrFuture.get();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            throw new IOException("Process was interrupted", e);
         } catch (ExecutionException e) {
             throw new IOException("Could not read output of process", e);
         }
@@ -60,6 +61,8 @@ public class ProcessExec {
         if (!stdoutReaderReader.isFinished() || !stderrReaderReader.isFinished()) {
             throw new IOException("Command finished, but stream is not");
         }
+
+        checkSuccess();
     }
 
     public String getStdout() {
@@ -74,11 +77,13 @@ public class ProcessExec {
         return exit;
     }
 
-    public void checkSuccess() {
+    public void checkSuccess() throws IOException {
         if (exit == 0) {
             return;
         }
-        System.err.println("Process " + binary + " failed:");
-        System.err.println(getStderr());
+
+        throw new IOException("Process " + binary + " exited with code: " + exit +
+                "\r\nStdout:\r\n" + getStdout() +
+                "\r\nStderr:\r\n" + getStderr());
     }
 }

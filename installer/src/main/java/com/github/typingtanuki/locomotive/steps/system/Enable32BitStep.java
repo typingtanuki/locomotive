@@ -7,28 +7,15 @@ import java.io.IOException;
 
 public class Enable32BitStep extends AbstractStep {
     @Override
-    public boolean execute() {
+    public void execute() throws IOException {
         ProcessExec exec = new ProcessExec("dpkg");
-        try {
-            exec.exec("--add-architecture", "i386");
-        } catch (IOException e) {
-            System.err.println("Could not enable 32bit architecture");
-            e.printStackTrace(System.err);
-            return false;
-        }
-        return isDone();
+        exec.exec("--add-architecture", "i386");
     }
 
     @Override
-    public boolean isDone() {
+    public boolean isDone() throws IOException {
         ProcessExec exec = new ProcessExec("dpkg");
-        try {
-            exec.exec("--print-foreign-architectures");
-        } catch (IOException e) {
-            System.err.println("Could not check for 32bit architecture");
-            e.printStackTrace(System.err);
-            return false;
-        }
+        exec.exec("--print-foreign-architectures");
         return exec.getStdout().contains("i386");
     }
 }

@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.ppa;
 
 import com.github.typingtanuki.locomotive.utils.PackageTester;
+import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
 import java.io.IOException;
 
@@ -48,7 +49,9 @@ public class Ppa {
             }
         }
 
-        // TBD install ppa
+        ProcessExec exec = new ProcessExec("apt-add-repository");
+        exec.exec(ppa, "-y");
+        exec.checkSuccess();
     }
 
     public void checkInstalled() throws IOException {

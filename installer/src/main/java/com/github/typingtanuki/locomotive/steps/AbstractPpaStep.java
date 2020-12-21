@@ -35,24 +35,13 @@ public abstract class AbstractPpaStep extends AbstractStep {
     }
 
     @Override
-    public boolean execute() {
-        try {
-            ppa.install();
-        } catch (IOException e) {
-            System.err.println("Could not install ppa " + ppa.getTitle());
-            e.printStackTrace(System.err);
-            return false;
-        }
-        return true;
+    public void execute() throws IOException {
+        ppa.install();
     }
 
     @Override
-    public boolean isDone() {
-        try {
-            return ppa.isInstalled();
-        } catch (IOException e) {
-            return false;
-        }
+    public boolean isDone() throws IOException {
+        return ppa.isInstalled();
     }
 
     public Ppa getPpa() {

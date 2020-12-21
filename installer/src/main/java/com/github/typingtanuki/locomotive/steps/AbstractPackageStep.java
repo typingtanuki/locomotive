@@ -42,26 +42,13 @@ public abstract class AbstractPackageStep extends AbstractStep {
 
 
     @Override
-    public boolean execute() {
-        try {
-            if (ppa != null && !ppa.isInstalled()) {
-                ppa.install();
-            }
-        } catch (IOException e) {
-            System.err.println("Could not install ppa " + ppa.getTitle());
-            e.printStackTrace(System.err);
-            return false;
+    public void execute() throws IOException {
+        if (ppa != null && !ppa.isInstalled()) {
+            ppa.install();
         }
-        try {
-            if (!binary.isInstalled()) {
-                return binary.install();
-            }
-        } catch (IOException e) {
-            System.err.println("Could not install package " + binary.getTitle());
-            e.printStackTrace(System.err);
-            return false;
+        if (!binary.isInstalled()) {
+            binary.install();
         }
-        return true;
     }
 
     @Override

@@ -17,10 +17,6 @@ public class PpaKey {
         this.key = key;
     }
 
-    public String getKeyName() {
-        return keyName;
-    }
-
     @Override
     public String toString() {
         return "PpaKey{" +
@@ -34,6 +30,6 @@ public class PpaKey {
 
     public void install() throws IOException {
         Path keyBytes = Download.inTempFile(key);
-
+        // TBD
     }
 }

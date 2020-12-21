@@ -31,6 +31,12 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-media', version: javaFX, classifier: 'linux'
     implementation group: 'org.controlsfx', name: 'controlsfx', version: '11.0.3'
     implementation group: 'org.webjars', name: 'font-awesome', version: '5.15.1'
+    def slf4j = '1.7.30'
+    implementation group: "org.slf4j", name: "slf4j-api", version: slf4j
+    implementation group: "org.slf4j", name: "jul-to-slf4j", version: slf4j
+    implementation group: "org.slf4j", name: "jcl-over-slf4j", version: slf4j
+    implementation group: "org.slf4j", name: "log4j-over-slf4j", version: slf4j
+    implementation group: "ch.qos.logback", name: "logback-classic", version: '1.2.3'
 }
 
 application {

@@ -1,7 +1,7 @@
 package com.github.typingtanuki.locomotive.controller.ppa;
 
-import com.github.typingtanuki.locomotive.controller.component.Header;
 import com.github.typingtanuki.locomotive.controller.common.InstallerPage;
+import com.github.typingtanuki.locomotive.controller.component.Header;
 import com.github.typingtanuki.locomotive.steps.AbstractPpaStep;
 
 public class PpaController extends InstallerPage {
@@ -17,6 +17,7 @@ public class PpaController extends InstallerPage {
         setBottom(getFooter());
     }
 
+    @Override
     public void activated() {
         super.activated();
         controller.activated();
