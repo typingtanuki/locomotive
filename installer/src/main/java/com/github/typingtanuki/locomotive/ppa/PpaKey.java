@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.ppa;
 
+import com.github.typingtanuki.locomotive.controller.monitor.DownloadMonitor;
 import com.github.typingtanuki.locomotive.utils.Download;
 import com.github.typingtanuki.locomotive.utils.PackageTester;
 
@@ -28,8 +29,8 @@ public class PpaKey {
         return PackageTester.isPpaKeyActivated(keyName);
     }
 
-    public void install() throws IOException {
-        Path keyBytes = Download.inTempFile(key);
+    public void install(DownloadMonitor monitor) throws IOException {
+        Path keyBytes = Download.inTempFile(key, monitor);
         // TBD
     }
 }

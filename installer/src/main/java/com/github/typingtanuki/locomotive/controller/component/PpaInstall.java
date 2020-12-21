@@ -4,6 +4,7 @@ import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.utils.IconUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import org.controlsfx.glyphfont.FontAwesome;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class PpaInstall extends InstallComponent {
 
     public PpaInstall(Ppa ppa) {
         super(
-                new Label("PPA " + ppa.getTitle()),
+                new VBox(new Label("PPA " + ppa.getTitle())),
                 new Button("Install PPA!", IconUtils.getIcon(FontAwesome.Glyph.INBOX)));
         this.ppa = ppa;
     }

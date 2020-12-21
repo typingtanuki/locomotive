@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.controller.component;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -11,11 +12,14 @@ import static com.github.typingtanuki.locomotive.utils.DialogUtils.showErrorDial
 
 public abstract class InstallComponent extends BorderPane {
     private final Button action;
+    private final VBox body;
 
-    public InstallComponent(Node description, Button action) {
+    public InstallComponent(VBox body, Button action) {
         this.action = action;
+        this.body = body;
+        this.body.setPrefWidth(PAGE_WIDTH);
 
-        setCenter(description);
+        setCenter(body);
         setBottom(action);
         action.setOnAction(e -> {
             System.out.println("Executing step");
@@ -37,4 +41,8 @@ public abstract class InstallComponent extends BorderPane {
     }
 
     protected abstract StepState execute();
+
+    protected VBox getBody() {
+        return body;
+    }
 }

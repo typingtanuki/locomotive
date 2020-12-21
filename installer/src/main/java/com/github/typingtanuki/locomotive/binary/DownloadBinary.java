@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import com.github.typingtanuki.locomotive.controller.monitor.DownloadMonitor;
 import com.github.typingtanuki.locomotive.utils.Download;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
@@ -28,8 +29,10 @@ public class DownloadBinary extends Binary {
 
     @Override
     public boolean install() throws IOException {
+        DownloadMonitor monitor = monitor(DownloadMonitor.class);
+
         Path installer = Paths.get("./cache/").resolve(binary + "-installer");
-        Download.inFile(url, installer);
+        Download.inFile(url, installer, monitor);
         Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(installer);
         permissions.add(PosixFilePermission.OTHERS_READ);
         permissions.add(PosixFilePermission.OTHERS_WRITE);
