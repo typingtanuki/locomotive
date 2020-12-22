@@ -11,6 +11,7 @@ import static com.github.typingtanuki.locomotive.controller.common.AbstractCente
 import static com.github.typingtanuki.locomotive.utils.Style.withClass;
 
 public class Header extends GridPane {
+    @SuppressWarnings("RedundantCast")
     public Header(String title, String[] titleArgs,
                   String description, String[] descriptionArgs) {
         super();

@@ -1,19 +1,16 @@
 package com.github.typingtanuki.locomotive.ppa;
 
+import com.github.typingtanuki.locomotive.binary.Monitorable;
 import com.github.typingtanuki.locomotive.controller.monitor.DownloadMonitor;
-import com.github.typingtanuki.locomotive.controller.monitor.Monitor;
 import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
 import com.github.typingtanuki.locomotive.utils.PackageTester;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Ppa {
+public class Ppa extends Monitorable {
     private final String ppa;
     private final PpaKey key;
-    private final List<Monitor> monitors = new ArrayList<>();
 
     private Boolean installed = null;
     private String title;
@@ -57,9 +54,10 @@ public class Ppa {
         }
 
         ProcessMonitor monitor = monitor(ProcessMonitor.class);
-        ProcessExec exec = new ProcessExec("apt-add-repository", monitor);
-        exec.exec(ppa, "-y");
-        exec.checkSuccess();
+        ProcessExec processExec = new ProcessExec("apt-add-repository", monitor);
+        processExec.asAdmin();
+        processExec.exec(ppa, "-y");
+        processExec.checkSuccess();
     }
 
     public void checkInstalled() throws IOException {
@@ -84,18 +82,5 @@ public class Ppa {
 
     public String getDescription() {
         return description;
-    }
-
-    public void addMonitor(Monitor monitor) {
-        monitors.add(monitor);
-    }
-
-    public <T extends Monitor> T monitor(Class<? extends T> clazz) {
-        for (Monitor monitor : monitors) {
-            if (clazz.isAssignableFrom(monitor.getClass())) {
-                return (T) monitor;
-            }
-        }
-        throw new IllegalStateException("Could not find monitor of class " + clazz.getSimpleName());
     }
 }

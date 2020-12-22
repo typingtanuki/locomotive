@@ -12,8 +12,9 @@ public class Enable32BitStep extends AbstractStep {
     public StepState doExecute() {
         try {
             ProcessMonitor monitor = monitor(ProcessMonitor.class);
-            ProcessExec exec = new ProcessExec("dpkg", monitor);
-            exec.exec("--add-architecture", "i386");
+            ProcessExec processExec = new ProcessExec("dpkg", monitor);
+            processExec.asAdmin();
+            processExec.exec("--add-architecture", "i386");
             return StepState.success();
         } catch (IOException e) {
             return new StepState(e);
@@ -22,8 +23,8 @@ public class Enable32BitStep extends AbstractStep {
 
     @Override
     public boolean isDone() throws IOException {
-        ProcessExec exec = new ProcessExec("dpkg", null);
-        exec.exec("--print-foreign-architectures");
-        return exec.getStdout().contains("i386");
+        ProcessExec processExec = new ProcessExec("dpkg", null);
+        processExec.exec("--print-foreign-architectures");
+        return processExec.getStdout().contains("i386");
     }
 }

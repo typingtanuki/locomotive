@@ -1,6 +1,8 @@
 package com.github.typingtanuki.locomotive.controller.component;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
+import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
+import com.github.typingtanuki.locomotive.settings.CommonSettings;
 import com.github.typingtanuki.locomotive.utils.IconUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,6 +23,12 @@ public class AptInstall extends InstallComponent {
 
     @Override
     protected StepState execute() {
+        ProcessMonitor processMonitor = new ProcessMonitor("Installing packages for " + binary.getTitle());
+        CommonSettings.runInGui(() -> {
+            getBody().getChildren().add(processMonitor.getLayout());
+        });
+        binary.addMonitor(processMonitor);
+
         try {
             binary.install();
         } catch (IOException e) {

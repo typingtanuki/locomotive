@@ -1,6 +1,8 @@
 package com.github.typingtanuki.locomotive.utils;
 
 import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class ProcessExec {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessExec.class);
+
     private static final ExecutorService EXECUTORS = new ThreadPoolExecutor(
             5,
             5,
@@ -24,6 +28,7 @@ public class ProcessExec {
     private final ProcessMonitor monitor;
 
     private Integer exit = null;
+    private boolean isAdmin = false;
 
     public ProcessExec(String binary, ProcessMonitor monitor) {
         super();
@@ -37,11 +42,14 @@ public class ProcessExec {
     public void exec(String... args) throws IOException {
         exit = -1;
 
-        List<String> allArgs = new ArrayList<>(args.length + 1);
+        List<String> allArgs = new ArrayList<>(args.length + 2);
+        if (isAdmin) {
+            allArgs.add("pkexec");
+        }
         allArgs.add(binary);
         allArgs.addAll(Arrays.asList(args));
 
-        System.out.println("Running " + String.join(" ", allArgs));
+        LOGGER.info("Running " + String.join(" ", allArgs));
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(allArgs);
         Process process = builder.start();
@@ -61,6 +69,7 @@ public class ProcessExec {
             }
             stdoutFuture.get();
             stderrFuture.get();
+            LOGGER.info("Process finished with exit " + exit);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IOException("Process was interrupted", e);
@@ -101,5 +110,9 @@ public class ProcessExec {
         throw new IOException("Process " + binary + " exited with code: " + exit +
                 "\r\nStdout:\r\n" + getStdout() +
                 "\r\nStderr:\r\n" + getStderr());
+    }
+
+    public void asAdmin() {
+        isAdmin = true;
     }
 }

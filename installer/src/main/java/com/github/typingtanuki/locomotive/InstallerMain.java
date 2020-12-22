@@ -6,6 +6,7 @@ import com.github.typingtanuki.locomotive.controller.system.SystemOverviewPpaCon
 import com.github.typingtanuki.locomotive.controller.tools.ToolsOverviewPpaController;
 import com.github.typingtanuki.locomotive.controller.welcome.WelcomePageController;
 import com.github.typingtanuki.locomotive.settings.CommonSettings;
+import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,6 +23,9 @@ public class InstallerMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Thread.setDefaultUncaughtExceptionHandler(
+                (t, e) -> DialogUtils.showErrorDialog(e));
+
         CommonSettings.setStage(primaryStage);
         ExecutorService executor = new ThreadPoolExecutor(
                 10,

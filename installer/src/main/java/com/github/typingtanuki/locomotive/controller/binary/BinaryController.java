@@ -1,7 +1,7 @@
 package com.github.typingtanuki.locomotive.controller.binary;
 
-import com.github.typingtanuki.locomotive.controller.component.Header;
 import com.github.typingtanuki.locomotive.controller.common.InstallerPage;
+import com.github.typingtanuki.locomotive.controller.component.Header;
 import com.github.typingtanuki.locomotive.steps.AbstractPackageStep;
 
 public class BinaryController extends InstallerPage {

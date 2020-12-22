@@ -50,6 +50,7 @@ public class StepOverviewController extends AbstractOverviewController {
         return pane;
     }
 
+    @SuppressWarnings("RedundantCast")
     private Node createTextNode(Step step, boolean isDone) {
         HBox card = new HBox();
         VBox box = new VBox();

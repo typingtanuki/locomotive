@@ -31,11 +31,13 @@ public class AptBinary extends Binary {
     @Override
     public boolean install() throws IOException {
         List<String> allArgs = new ArrayList<>();
+        allArgs.add("install");
         allArgs.addAll(flags);
         allArgs.addAll(packages);
         allArgs.add("-y");
         ProcessMonitor monitor = monitor(ProcessMonitor.class);
         ProcessExec processExec = new ProcessExec("apt", monitor);
+        processExec.asAdmin();
         processExec.exec(allArgs.toArray(new String[0]));
         return processExec.getExit() == 0;
     }
