@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.utils;
 
+import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -7,13 +9,17 @@ import java.util.concurrent.Callable;
 public class ReaderReader implements Callable<Void> {
     private final BufferedReader reader;
     private final StringBuilder builder;
+    private final ProcessMonitor monitor;
 
     private boolean finished = false;
     private Exception failure;
 
-    public ReaderReader(BufferedReader reader, StringBuilder builder) {
+    public ReaderReader(BufferedReader reader,
+                        StringBuilder builder,
+                        ProcessMonitor monitor) {
         super();
 
+        this.monitor = monitor;
         this.reader = reader;
         this.builder = builder;
     }
@@ -23,6 +29,9 @@ public class ReaderReader implements Callable<Void> {
         String line;
         try {
             while ((line = reader.readLine()) != null) {
+                if (monitor != null) {
+                    monitor.appendOutput(line + "\r\n");
+                }
                 builder.append(line);
                 builder.append(System.getProperty("line.separator"));
             }

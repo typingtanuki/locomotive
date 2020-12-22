@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
 import java.io.IOException;
@@ -33,7 +34,8 @@ public class AptBinary extends Binary {
         allArgs.addAll(flags);
         allArgs.addAll(packages);
         allArgs.add("-y");
-        ProcessExec processExec = new ProcessExec("apt");
+        ProcessMonitor monitor = monitor(ProcessMonitor.class);
+        ProcessExec processExec = new ProcessExec("apt", monitor);
         processExec.exec(allArgs.toArray(new String[0]));
         return processExec.getExit() == 0;
     }

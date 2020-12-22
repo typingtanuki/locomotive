@@ -1,6 +1,9 @@
 package com.github.typingtanuki.locomotive.steps;
 
+import com.github.typingtanuki.locomotive.controller.component.StepState;
+
 import java.io.IOException;
+import java.util.concurrent.Future;
 
 public interface Step {
     String description();
@@ -11,7 +14,7 @@ public interface Step {
 
     String[] titleArgs();
 
-    void execute() throws IOException;
+    Future<StepState> execute();
 
     boolean isDone() throws IOException;
 }

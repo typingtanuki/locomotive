@@ -2,9 +2,9 @@ package com.github.typingtanuki.locomotive.ppa;
 
 import com.github.typingtanuki.locomotive.controller.monitor.DownloadMonitor;
 import com.github.typingtanuki.locomotive.controller.monitor.Monitor;
+import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
 import com.github.typingtanuki.locomotive.utils.PackageTester;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
-import com.sun.glass.ui.Clipboard;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +56,8 @@ public class Ppa {
             }
         }
 
-        ProcessExec exec = new ProcessExec("apt-add-repository");
+        ProcessMonitor monitor = monitor(ProcessMonitor.class);
+        ProcessExec exec = new ProcessExec("apt-add-repository", monitor);
         exec.exec(ppa, "-y");
         exec.checkSuccess();
     }

@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.steps;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
+import com.github.typingtanuki.locomotive.controller.component.StepState;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 
 import java.io.IOException;
@@ -42,12 +43,17 @@ public abstract class AbstractPackageStep extends AbstractStep {
 
 
     @Override
-    public void execute() throws IOException {
-        if (ppa != null && !ppa.isInstalled()) {
-            ppa.install();
-        }
-        if (!binary.isInstalled()) {
-            binary.install();
+    public StepState doExecute() {
+        try {
+            if (ppa != null && !ppa.isInstalled()) {
+                ppa.install();
+            }
+            if (!binary.isInstalled()) {
+                binary.install();
+            }
+            return StepState.success();
+        } catch (IOException e) {
+            return new StepState(e);
         }
     }
 

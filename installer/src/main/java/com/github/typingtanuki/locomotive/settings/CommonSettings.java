@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.settings;
 import com.github.typingtanuki.locomotive.steps.games.GamesStepController;
 import com.github.typingtanuki.locomotive.steps.system.SystemStepController;
 import com.github.typingtanuki.locomotive.steps.tools.ToolsStepController;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -10,6 +11,9 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public final class CommonSettings {
     public static final SystemStepController systemStepController = new SystemStepController();
@@ -18,6 +22,7 @@ public final class CommonSettings {
     private static Locale currentLocale;
     private static ResourceBundle bundle;
     private static Stage stage;
+    private static ExecutorService executor;
 
 
     private CommonSettings() {
@@ -77,5 +82,17 @@ public final class CommonSettings {
 
     public static void setStage(Stage stage) {
         CommonSettings.stage = stage;
+    }
+
+    public static void setExecutor(ExecutorService executor) {
+        CommonSettings.executor = executor;
+    }
+
+    public static <T> Future<T> submitTask(Callable<T> callable) {
+        return executor.submit(callable);
+    }
+
+    public static void runInGui(Runnable callable) {
+        Platform.runLater(callable);
     }
 }

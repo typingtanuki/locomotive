@@ -54,7 +54,7 @@ public final class PackageTester {
         if (!PPAS.isEmpty()) {
             return PPAS;
         }
-        ProcessExec exec = new ProcessExec("apt");
+        ProcessExec exec = new ProcessExec("apt", null);
         exec.exec("policy");
         exec.checkSuccess();
         for (String s : exec.getStdout().split("\\n")) {
@@ -75,7 +75,7 @@ public final class PackageTester {
         if (!PPA_KEYS.isEmpty()) {
             return PPAS;
         }
-        ProcessExec exec = new ProcessExec("apt-key");
+        ProcessExec exec = new ProcessExec("apt-key", null);
         exec.exec("list");
         exec.checkSuccess();
         for (String s : exec.getStdout().split("\\n")) {

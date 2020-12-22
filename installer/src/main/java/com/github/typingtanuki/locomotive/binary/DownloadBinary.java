@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.binary;
 
 import com.github.typingtanuki.locomotive.controller.monitor.DownloadMonitor;
+import com.github.typingtanuki.locomotive.controller.monitor.ProcessMonitor;
 import com.github.typingtanuki.locomotive.utils.Download;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
@@ -29,18 +30,30 @@ public class DownloadBinary extends Binary {
 
     @Override
     public boolean install() throws IOException {
-        DownloadMonitor monitor = monitor(DownloadMonitor.class);
+        DownloadMonitor downloadMonitor = monitor(DownloadMonitor.class);
 
         Path installer = Paths.get("./cache/").resolve(binary + "-installer");
-        Download.inFile(url, installer, monitor);
+        System.out.println("Downloading to " + installer);
+        Download.inFile(url, installer, downloadMonitor);
+        System.out.println("Downloading to " + installer + ": OK");
+        System.out.println("Changing permissions of " + installer);
         Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(installer);
-        permissions.add(PosixFilePermission.OTHERS_READ);
-        permissions.add(PosixFilePermission.OTHERS_WRITE);
+        permissions.add(PosixFilePermission.OWNER_EXECUTE);
+        permissions.add(PosixFilePermission.GROUP_EXECUTE);
         permissions.add(PosixFilePermission.OTHERS_EXECUTE);
         Files.setPosixFilePermissions(installer, permissions);
+        System.out.println("Changing permissions of " + installer + ": OK");
 
-        ProcessExec processExec = new ProcessExec(installer.toAbsolutePath().toString());
-        return processExec.getExit() == 0 && isInstalled();
+
+        ProcessMonitor processMonitor = monitor(ProcessMonitor.class);
+        System.out.println("Starting process");
+        try {
+            ProcessExec processExec = new ProcessExec(installer.toAbsolutePath().toString(), processMonitor);
+            processExec.exec();
+            return processExec.getExit() == 0 && isInstalled();
+        } finally {
+            System.out.println("Process finished");
+        }
     }
 
     @Override
