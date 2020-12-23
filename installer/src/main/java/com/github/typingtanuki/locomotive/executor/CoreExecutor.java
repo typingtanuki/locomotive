@@ -23,4 +23,8 @@ public final class CoreExecutor {
                 TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(20));
     }
+
+    public static void execute(Runnable runnable) {
+        executor.submit(runnable);
+    }
 }

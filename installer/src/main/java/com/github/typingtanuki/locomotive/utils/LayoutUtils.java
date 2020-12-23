@@ -52,4 +52,10 @@ public final class LayoutUtils {
         out.setCenter(vertical(new Label(title), new Label(description)));
         return out;
     }
+
+
+    public static <T extends Node> T disabled(T element) {
+        element.setDisable(true);
+        return element;
+    }
 }
