@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.pages;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
+import com.github.typingtanuki.locomotive.ppa.Ppas;
 import com.github.typingtanuki.locomotive.widgets.support.ArchitectureSupportWidget;
 import com.github.typingtanuki.locomotive.widgets.support.PpaSupportWidget;
 import javafx.application.Platform;
@@ -36,9 +37,9 @@ public class SystemOverviewPage extends InstallerPage {
         CoreExecutor.execute(this::waitForLatch);
         return vertical(
                 new ArchitectureSupportWidget(latch, architecture),
-                new PpaSupportWidget("multiverse", latch, ppaMultiverse),
-                new PpaSupportWidget("ppa:kubuntu-ppa/ppa", latch, ppaKubuntu),
-                new PpaSupportWidget("ppa:kubuntu-ppa/backports", latch, ppaBackports)
+                new PpaSupportWidget(Ppas.multiverse(), latch, ppaMultiverse),
+                new PpaSupportWidget(Ppas.kubuntuUpdates(), latch, ppaKubuntu),
+                new PpaSupportWidget(Ppas.kubuntuBackport(), latch, ppaBackports)
         );
     }
 
@@ -47,16 +48,16 @@ public class SystemOverviewPage extends InstallerPage {
             latch.await();
             System.out.println("Latches are done");
             nextPages.clear();
-            if (architecture.get()) {
+            if (!architecture.get()) {
                 nextPages.add(new Enable32BitPage(nextPages));
             }
-            if (ppaMultiverse.get()) {
+            if (!ppaMultiverse.get()) {
                 nextPages.add(new AddPpaPage("multiverse", nextPages));
             }
-            if (ppaKubuntu.get()) {
+            if (!ppaKubuntu.get()) {
                 nextPages.add(new AddPpaPage("ppa:kubuntu-ppa/ppa", nextPages));
             }
-            if (ppaBackports.get()) {
+            if (!ppaBackports.get()) {
                 nextPages.add(new AddPpaPage("ppa:kubuntu-ppa/backports", nextPages));
             }
             nextPages.add(new RecommendedPackagePage(nextPages));
