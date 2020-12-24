@@ -34,7 +34,7 @@ public final class PackageInstaller {
     private static void installDownloadBinary(DownloadBinary binary, TerminalComponent terminal) throws IOException {
         Path installer = Paths.get("./cache/").resolve(binary.getBinary() + "-installer");
         LOGGER.info("Downloading to " + installer);
-        Download.inFile(binary.getUrl(), installer);
+        DownloadUtils.inFile(binary.getUrl(), installer);
         LOGGER.info("Downloading to " + installer + ": OK");
         LOGGER.info("Changing permissions of " + installer);
         Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(installer);

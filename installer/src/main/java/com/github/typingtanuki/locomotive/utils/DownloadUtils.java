@@ -8,9 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.Set;
 
-public final class Download {
-    private Download() {
+public final class DownloadUtils {
+    private DownloadUtils() {
         super();
     }
 
@@ -54,5 +56,13 @@ public final class Download {
         try (OutputStream outputStream = Files.newOutputStream(target)) {
             inStream(url, outputStream);
         }
+    }
+
+    public static void makeExecutable(Path target) throws IOException {
+        Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(target);
+        permissions.add(PosixFilePermission.OWNER_EXECUTE);
+        permissions.add(PosixFilePermission.GROUP_EXECUTE);
+        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+        Files.setPosixFilePermissions(target, permissions);
     }
 }

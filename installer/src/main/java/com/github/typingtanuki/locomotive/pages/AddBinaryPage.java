@@ -3,9 +3,10 @@ package com.github.typingtanuki.locomotive.pages;
 import com.github.typingtanuki.locomotive.binary.AptBinary;
 import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.binary.DownloadBinary;
+import com.github.typingtanuki.locomotive.binary.GithubBinary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
-import com.github.typingtanuki.locomotive.widgets.binaries.AptInstallerWidget;
+import com.github.typingtanuki.locomotive.widgets.binaries.*;
 import com.github.typingtanuki.locomotive.widgets.ppa.PpaInstallerWidget;
 import com.github.typingtanuki.locomotive.widgets.ppa.PpaKeyInstallerWidget;
 import javafx.application.Platform;
@@ -38,11 +39,50 @@ public class AddBinaryPage extends InstallerPage {
         if (binary instanceof DownloadBinary) {
             return downloadBinaryContent((DownloadBinary) binary);
         }
+        if (binary instanceof GithubBinary) {
+            return githubContent((GithubBinary) binary);
+        }
         return new Label("Unknown binary type " + binary.getClass().getSimpleName());
     }
 
+    private Node githubContent(GithubBinary binary) {
+        DebInstallerWidget debInstallerWidget = new DebInstallerWidget(
+                binary,
+                this::installStarts,
+                this::installFinished);
+        DownloadWidget downloadWidget = new DownloadWidget(
+                binary,
+                debInstallerWidget,
+                this::installStarts,
+                debInstallerWidget::downloadFinished);
+        GithubWidget resolveRelease = new GithubWidget(
+                binary,
+                downloadWidget,
+                this::installStarts,
+                downloadWidget::urlResolved);
+
+        return vertical(
+                resolveRelease,
+                downloadWidget,
+                debInstallerWidget);
+    }
+
     private Node downloadBinaryContent(DownloadBinary binary) {
-        return null;
+        BinaryInstallerWidget binaryInstallerWidget = new BinaryInstallerWidget(
+                binary,
+                this::installStarts,
+                this::installFinished);
+        DownloadWidget downloadWidget = new DownloadWidget(
+                binary,
+                binaryInstallerWidget,
+                this::installStarts,
+                binaryInstallerWidget::downloadFinished);
+        downloadWidget.setUrlTarget(binary.getUrl());
+        downloadWidget.urlResolved();
+
+        return vertical(
+                downloadWidget,
+                binaryInstallerWidget);
     }
 
     private Node aptBinaryContent(AptBinary binary) {

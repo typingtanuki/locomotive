@@ -21,7 +21,7 @@ public final class PpaInstaller {
     }
 
     public static void installKey(PpaKey key, TerminalComponent terminal) throws IOException {
-        Path keyFile = Download.inTempFile(key.getKey()).toAbsolutePath();
+        Path keyFile = DownloadUtils.inTempFile(key.getKey()).toAbsolutePath();
         ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
         processExec.checkSuccess();
         Files.deleteIfExists(keyFile);
