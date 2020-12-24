@@ -18,7 +18,9 @@ public class AptBinary extends Binary {
      * Extra flags to pass to the apt process
      */
     private final Set<String> flags = new HashSet<>();
-
+    /**
+     * The PPA from which the package is from (null if default)
+     */
     private final Ppa ppa;
 
     public AptBinary(String binary, String packageName, Ppa ppa) {
@@ -39,11 +41,17 @@ public class AptBinary extends Binary {
         this(binary, binary, null);
     }
 
+    /**
+     * Adds extra packages to be installed together with
+     */
     public Binary extraPackages(String... extra) {
         packages.addAll(Arrays.asList(extra));
         return this;
     }
 
+    /**
+     * Set flags for APT
+     */
     public Binary aptFlags(String... flags) {
         this.flags.addAll(Arrays.asList(flags));
         return this;

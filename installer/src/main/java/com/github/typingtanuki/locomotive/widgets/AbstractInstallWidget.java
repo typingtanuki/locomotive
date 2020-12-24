@@ -58,6 +58,7 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
     }
 
     private void install() {
+        setState(WidgetState.PROCESSING);
         if (installButton != null) {
             installButton.setDisable(true);
         }

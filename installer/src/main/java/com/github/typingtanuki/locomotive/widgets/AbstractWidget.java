@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
 
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.*;
@@ -17,7 +18,7 @@ public abstract class AbstractWidget extends BorderPane {
 
     public AbstractWidget(String title, String description) {
         super();
-        setState(WidgetState.UNKNOWN);
+        setState(WidgetState.PROCESSING);
         layout = vertical(
                 withClass(new Label(title), CLASS_TITLE),
                 withClass(new Label(description), CLASS_SUB_TITLE));
@@ -32,18 +33,24 @@ public abstract class AbstractWidget extends BorderPane {
         this.state = state;
 
         Platform.runLater(() -> {
+            Glyph icon;
             switch (state) {
                 case INSTALLED:
-                    setLeft(IconUtils.getIcon(FontAwesome.Glyph.CHECK));
+                    icon = IconUtils.getIcon(FontAwesome.Glyph.CHECK);
                     break;
                 case MISSING:
-                    setLeft(IconUtils.getIcon(FontAwesome.Glyph.TIMES));
+                    icon = IconUtils.getIcon(FontAwesome.Glyph.TIMES);
+                    break;
+                case PROCESSING:
+                    icon = IconUtils.getIcon(FontAwesome.Glyph.SPINNER);
                     break;
                 case UNKNOWN:
                 default:
-                    setLeft(IconUtils.getIcon(FontAwesome.Glyph.QUESTION));
+                    icon = IconUtils.getIcon(FontAwesome.Glyph.QUESTION);
                     break;
             }
+            this.getStyleClass().add(state.name());
+            setLeft(icon);
         });
     }
 
