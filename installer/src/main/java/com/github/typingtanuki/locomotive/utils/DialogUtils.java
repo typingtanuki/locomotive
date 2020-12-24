@@ -18,5 +18,6 @@ public final class DialogUtils {
         dialog.setResizable(true);
         dialog.showAndWait();
         Platform.exit();
+        System.exit(10);
     }
 }

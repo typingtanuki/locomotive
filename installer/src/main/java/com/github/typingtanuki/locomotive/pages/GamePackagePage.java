@@ -17,15 +17,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class RecommendedPackagePage extends InstallerPage {
-    private final CountDownLatch latch = new CountDownLatch(3);
+public class GamePackagePage extends InstallerPage {
+    private final CountDownLatch latch = new CountDownLatch(4);
 
-    private final AtomicBoolean wine = new AtomicBoolean(false);
-    private final AtomicBoolean onBoard = new AtomicBoolean(false);
-    private final AtomicBoolean antiMicroX = new AtomicBoolean(false);
-    private final AtomicBoolean kodi = new AtomicBoolean(false);
+    private final AtomicBoolean steam = new AtomicBoolean(false);
+    private final AtomicBoolean gamehub = new AtomicBoolean(false);
+    private final AtomicBoolean itch = new AtomicBoolean(false);
+    private final AtomicBoolean retroarch = new AtomicBoolean(false);
 
-    public RecommendedPackagePage(Deque<InstallerPage> nextPages) {
+    public GamePackagePage(Deque<InstallerPage> nextPages) {
         super(nextPages);
     }
 
@@ -34,10 +34,10 @@ public class RecommendedPackagePage extends InstallerPage {
     protected Node makeContent() {
         CoreExecutor.execute(this::waitForLatch);
         return vertical(
-                new BinarySupportWidget(Binaries.wine(), latch, wine),
-                new BinarySupportWidget(Binaries.onBoard(), latch, onBoard),
-                new BinarySupportWidget(Binaries.antimicroX(), latch, antiMicroX),
-                new BinarySupportWidget(Binaries.kodi(), latch, kodi)
+                new BinarySupportWidget(Binaries.steam(), latch, steam),
+                new BinarySupportWidget(Binaries.gamehub(), latch, gamehub),
+                new BinarySupportWidget(Binaries.itch(), latch, itch),
+                new BinarySupportWidget(Binaries.retroarch(), latch, retroarch)
         );
     }
 
@@ -45,19 +45,19 @@ public class RecommendedPackagePage extends InstallerPage {
         try {
             latch.await();
             clearPages();
-            if (!wine.get()) {
-                addPage(new AddBinaryPage(Binaries.wine(), getNextPages()));
+            if (!steam.get()) {
+                addPage(new AddBinaryPage(Binaries.steam(), getNextPages()));
             }
-            if (!onBoard.get()) {
-                addPage(new AddBinaryPage(Binaries.onBoard(), getNextPages()));
+            if (!gamehub.get()) {
+                addPage(new AddBinaryPage(Binaries.gamehub(), getNextPages()));
             }
-            if (!antiMicroX.get()) {
-                addPage(new AddBinaryPage(Binaries.antimicroX(), getNextPages()));
+            if (!itch.get()) {
+                addPage(new AddBinaryPage(Binaries.itch(), getNextPages()));
             }
-            if (!kodi.get()) {
-                addPage(new AddBinaryPage(Binaries.kodi(), getNextPages()));
+            if (!retroarch.get()) {
+                addPage(new AddBinaryPage(Binaries.retroarch(), getNextPages()));
             }
-            addPage(new GamePackagePage(getNextPages()));
+            addPage(new SetupToolsPage(getNextPages()));
             Platform.runLater(() -> getNextButton().setDisable(false));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -67,9 +67,9 @@ public class RecommendedPackagePage extends InstallerPage {
     @Override
     protected Pane makeHeader() {
         return header(
-                I18n.get("recommendedPackages.title"),
-                I18n.get("recommendedPackages.description"),
-                FontAwesome.Glyph.ARCHIVE);
+                I18n.get("gamePackages.title"),
+                I18n.get("gamePackages.description"),
+                FontAwesome.Glyph.GAMEPAD);
     }
 
     @Override

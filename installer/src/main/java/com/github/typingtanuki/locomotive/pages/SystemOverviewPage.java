@@ -1,36 +1,37 @@
 package com.github.typingtanuki.locomotive.pages;
 
+import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.navigation.NavigationCore;
 import com.github.typingtanuki.locomotive.ppa.Ppas;
 import com.github.typingtanuki.locomotive.widgets.support.ArchitectureSupportWidget;
+import com.github.typingtanuki.locomotive.widgets.support.BinarySupportWidget;
 import com.github.typingtanuki.locomotive.widgets.support.PpaSupportWidget;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.glyphfont.FontAwesome;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
-import static com.github.typingtanuki.locomotive.utils.LayoutUtils.*;
+import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
+import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
 public class SystemOverviewPage extends InstallerPage {
-    private final CountDownLatch latch = new CountDownLatch(4);
-    private final Deque<InstallerPage> nextPages = new ArrayDeque<>();
+    private final CountDownLatch latch = new CountDownLatch(5);
 
-    private Button nextButton;
     private final AtomicBoolean architecture = new AtomicBoolean(false);
     private final AtomicBoolean ppaMultiverse = new AtomicBoolean(false);
     private final AtomicBoolean ppaKubuntu = new AtomicBoolean(false);
     private final AtomicBoolean ppaBackports = new AtomicBoolean(false);
+    private final AtomicBoolean buildEssentials = new AtomicBoolean(false);
+
+    public SystemOverviewPage(Deque<InstallerPage> nextPages) {
+        super(nextPages);
+    }
 
     @Override
     protected Node makeContent() {
@@ -39,29 +40,32 @@ public class SystemOverviewPage extends InstallerPage {
                 new ArchitectureSupportWidget(latch, architecture),
                 new PpaSupportWidget(Ppas.multiverse(), latch, ppaMultiverse),
                 new PpaSupportWidget(Ppas.kubuntuUpdates(), latch, ppaKubuntu),
-                new PpaSupportWidget(Ppas.kubuntuBackport(), latch, ppaBackports)
+                new PpaSupportWidget(Ppas.kubuntuBackport(), latch, ppaBackports),
+                new BinarySupportWidget(Binaries.buildEssentials(), latch, buildEssentials)
         );
     }
 
     private void waitForLatch() {
         try {
             latch.await();
-            System.out.println("Latches are done");
-            nextPages.clear();
+            clearPages();
             if (!architecture.get()) {
-                nextPages.add(new Enable32BitPage(nextPages));
+                addPage(new Enable32BitPage(getNextPages()));
             }
             if (!ppaMultiverse.get()) {
-                nextPages.add(new AddPpaPage("multiverse", nextPages));
+                addPage(new AddPpaPage(Ppas.multiverse(), getNextPages()));
             }
             if (!ppaKubuntu.get()) {
-                nextPages.add(new AddPpaPage("ppa:kubuntu-ppa/ppa", nextPages));
+                addPage(new AddPpaPage(Ppas.kubuntuUpdates(), getNextPages()));
             }
             if (!ppaBackports.get()) {
-                nextPages.add(new AddPpaPage("ppa:kubuntu-ppa/backports", nextPages));
+                addPage(new AddPpaPage(Ppas.kubuntuBackport(), getNextPages()));
             }
-            nextPages.add(new RecommendedPackagePage(nextPages));
-            Platform.runLater(() -> nextButton.setDisable(false));
+            if (!buildEssentials.get()) {
+                addPage(new AddBinaryPage(Binaries.buildEssentials(), getNextPages()));
+            }
+            addPage(new RecommendedPackagePage(getNextPages()));
+            Platform.runLater(() -> getNextButton().setDisable(false));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -77,14 +81,6 @@ public class SystemOverviewPage extends InstallerPage {
 
     @Override
     protected HBox makeFooter() {
-        nextButton = disabled(button("next", FontAwesome.Glyph.ARROW_RIGHT, this::doNext));
-        return horizontal(
-                nextButton,
-                exitButton());
-    }
-
-    private void doNext() {
-        InstallerPage next = nextPages.pollFirst();
-        NavigationCore.changePage(next);
+        return basicFooter(true);
     }
 }

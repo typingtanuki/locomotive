@@ -1,28 +1,34 @@
 package com.github.typingtanuki.locomotive.utils;
 
+import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.ppa.PpaKey;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public final class PpaInstaller {
     private PpaInstaller() {
         super();
     }
 
-    public static void installPpa(Ppa ppa) throws IOException {
-        PpaKey key = ppa.getKey();
-        if (key != null) {
-            if (!PpaTester.isPpaKeyActivated(key.getKey())) {
-                installKey(key);
-            }
-        }
-
-        ProcessExec processExec = ProcessExec.sudoExec("apt-add-repository", ppa.getUrl(), "-y");
+    public static void installPpa(Ppa ppa, TerminalComponent terminal) throws IOException {
+        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
         processExec.checkSuccess();
+
+        updateRepositories(terminal);
     }
 
-    private static void installKey(PpaKey key) {
-        // TBD
+    public static void installKey(PpaKey key, TerminalComponent terminal) throws IOException {
+        Path keyFile = Download.inTempFile(key.getKey()).toAbsolutePath();
+        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
+        processExec.checkSuccess();
+        Files.deleteIfExists(keyFile);
+    }
+
+    private static void updateRepositories(TerminalComponent terminal) throws IOException {
+        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt", "update", "-y");
+        processExec.checkSuccess();
     }
 }

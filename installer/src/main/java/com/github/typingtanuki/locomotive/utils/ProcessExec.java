@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.utils;
 
+import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,25 +23,25 @@ public class ProcessExec {
             new LinkedBlockingQueue<>());
 
     private final StringBuilder stdout = new StringBuilder();
-    ;
     private final StringBuilder stderr = new StringBuilder();
-    ;
+    private final TerminalComponent terminal;
 
     private Integer exit = null;
     private boolean isAdmin = false;
 
-    private ProcessExec() {
+    private ProcessExec(TerminalComponent terminal) {
         super();
+        this.terminal = terminal;
     }
 
-    public static ProcessExec exec(String binary, String... args) throws IOException {
-        ProcessExec pe = new ProcessExec();
+    public static ProcessExec exec(TerminalComponent terminal, String binary, String... args) throws IOException {
+        ProcessExec pe = new ProcessExec(terminal);
         pe.execute(binary, args);
         return pe;
     }
 
-    public static ProcessExec sudoExec(String binary, String... args) throws IOException {
-        ProcessExec pe = new ProcessExec();
+    public static ProcessExec sudoExec(TerminalComponent terminal, String binary, String... args) throws IOException {
+        ProcessExec pe = new ProcessExec(terminal);
         pe.isAdmin = true;
         pe.execute(binary, args);
         return pe;
@@ -64,8 +65,8 @@ public class ProcessExec {
         BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader stderrReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-        ReaderReader stdoutReaderReader = new ReaderReader(stdoutReader, stdout);
-        ReaderReader stderrReaderReader = new ReaderReader(stderrReader, stderr);
+        ReaderReader stdoutReaderReader = new ReaderReader(stdoutReader, stdout, terminal);
+        ReaderReader stderrReaderReader = new ReaderReader(stderrReader, stderr, terminal);
         Future<Void> stdoutFuture = EXECUTORS.submit(stdoutReaderReader);
         Future<Void> stderrFuture = EXECUTORS.submit(stderrReaderReader);
 

@@ -3,30 +3,22 @@ package com.github.typingtanuki.locomotive.ppa;
 public class Ppa {
     private final String ppa;
     private final PpaKey key;
+    private final String title;
+    private final String description;
 
     private Boolean installed = null;
-    private String title;
-    private String description;
 
-    public Ppa(String ppa, PpaKey key) {
+    public Ppa(String ppa, String title, String description) {
+        this(ppa, title, description, null);
+    }
+
+    public Ppa(String ppa, String title, String description, PpaKey key) {
         super();
 
         this.ppa = ppa;
         this.key = key;
-    }
-
-    public Ppa(String ppa) {
-        this(ppa, null);
-    }
-
-    public Ppa title(String title) {
         this.title = title;
-        return this;
-    }
-
-    public Ppa description(String description) {
         this.description = description;
-        return this;
     }
 
     @Override

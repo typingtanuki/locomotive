@@ -1,55 +1,59 @@
 package com.github.typingtanuki.locomotive.pages;
 
-import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.navigation.NavigationCore;
+import com.github.typingtanuki.locomotive.ppa.Ppa;
+import com.github.typingtanuki.locomotive.widgets.ppa.PpaInstallerWidget;
+import com.github.typingtanuki.locomotive.widgets.ppa.PpaKeyInstallerWidget;
+import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.glyphfont.FontAwesome;
 
 import java.util.Deque;
 
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
-import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
+import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
 public class AddPpaPage extends InstallerPage {
-    private final String ppa;
-    private final Deque<InstallerPage> nextPages;
-    private Button nextButton;
+    private final Ppa ppa;
 
-    public AddPpaPage(String ppa, Deque<InstallerPage> nextPages) {
-        super();
+    public AddPpaPage(Ppa ppa, Deque<InstallerPage> nextPages) {
+        super(nextPages);
 
         this.ppa = ppa;
-        this.nextPages = nextPages;
     }
 
     @Override
     protected Node makeContent() {
-        return null;
+        PpaInstallerWidget ppaInstallerWidget = new PpaInstallerWidget(
+                ppa,
+                this::installStarts,
+                this::installFinished);
+        PpaKeyInstallerWidget ppaKeyInstallerWidget = new PpaKeyInstallerWidget(
+                ppa.getKey(),
+                this::installStarts,
+                ppaInstallerWidget::keyIsReady);
+        return vertical(ppaKeyInstallerWidget, ppaInstallerWidget);
     }
 
     @Override
     protected Pane makeHeader() {
         return header(
-                I18n.get("setupPpa.title"),
-                I18n.get("setupPpa.description"),
+                ppa.getTitle(),
+                ppa.getDescription(),
                 FontAwesome.Glyph.GEARS);
     }
 
     @Override
     protected HBox makeFooter() {
-        nextButton = button("next", FontAwesome.Glyph.ARROW_RIGHT, this::doNext);
-        return horizontal(
-                nextButton,
-                exitButton());
+        return basicFooter(false);
     }
 
-    private void doNext() {
-        InstallerPage next = nextPages.pollFirst();
-        NavigationCore.changePage(next);
+    public void installStarts() {
+        Platform.runLater(() -> getNextButton().setDisable(true));
+    }
+
+    public void installFinished() {
+        Platform.runLater(() -> getNextButton().setDisable(false));
     }
 }

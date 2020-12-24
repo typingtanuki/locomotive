@@ -2,7 +2,9 @@ package com.github.typingtanuki.locomotive.widgets.support;
 
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
+import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PpaTester;
+import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -16,9 +18,10 @@ public class PpaSupportWidget extends AbstractWidget {
     public PpaSupportWidget(Ppa ppa, CountDownLatch latch, AtomicBoolean isInstalled) {
         super(ppa.getTitle(), ppa.getDescription());
         this.ppa = ppa;
-        CoreExecutor.execute(this::checkState);
         this.latch = latch;
         this.isInstalled = isInstalled;
+
+        CoreExecutor.execute(this::checkState);
     }
 
     private void checkState() {
@@ -31,7 +34,7 @@ public class PpaSupportWidget extends AbstractWidget {
                 isInstalled.set(false);
             }
         } catch (IOException e) {
-            //TBD
+            DialogUtils.showErrorDialog(e);
         }
         latch.countDown();
     }

@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.utils;
 
+import com.github.typingtanuki.locomotive.binary.Binary;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,12 +17,12 @@ public final class PackageTester {
         super();
     }
 
-    public static boolean isBinaryOnPath(String binaryName) {
+    public static boolean isBinaryOnPath(Binary binary) {
         Set<String> paths = resolvePath();
         for (String path : paths) {
-            Path binary = Paths.get(path).resolve(binaryName);
-            if (Files.exists(binary)  /* Binary does not exists in this path */ &&
-                    Files.isExecutable(binary) /* Binary exists, but is not executable */) {
+            Path binaryPath = Paths.get(path).resolve(binary.getBinary());
+            if (Files.exists(binaryPath)  /* Binary does not exists in this path */ &&
+                    Files.isExecutable(binaryPath) /* Binary exists, but is not executable */) {
                 return true;
             }
         }

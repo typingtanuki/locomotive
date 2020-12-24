@@ -34,7 +34,7 @@ public final class NavigationCore {
         System.exit(status);
     }
 
-    public static void changePage(InstallerPage page){
+    public static void changePage(InstallerPage page) {
         controller.changePage(page);
     }
 }

@@ -16,6 +16,7 @@ public final class I18n {
     private I18n() {
         super();
     }
+
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public static void init() {
         if (bundle != null) {
