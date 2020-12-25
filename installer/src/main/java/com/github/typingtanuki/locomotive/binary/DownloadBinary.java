@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 /**
  * A binary where the installer comes from a download link
  */
@@ -16,5 +18,10 @@ public class DownloadBinary extends Binary {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public FontAwesome.Glyph icon() {
+        return FontAwesome.Glyph.DOWNLOAD;
     }
 }

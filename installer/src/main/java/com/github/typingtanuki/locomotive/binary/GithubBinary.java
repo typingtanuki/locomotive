@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 /**
  * A binary installer downloaded from github releases
  */
@@ -22,5 +24,10 @@ public class GithubBinary extends Binary {
 
     public String getRepoPath() {
         return user + "/" + repository;
+    }
+
+    @Override
+    public FontAwesome.Glyph icon() {
+        return FontAwesome.Glyph.GITHUB;
     }
 }

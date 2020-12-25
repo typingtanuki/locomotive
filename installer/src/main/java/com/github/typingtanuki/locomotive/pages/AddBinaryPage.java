@@ -116,7 +116,7 @@ public class AddBinaryPage extends InstallerPage {
         return header(
                 binary.getTitle(),
                 binary.getDescription(),
-                FontAwesome.Glyph.FILE_CODE_ALT);
+                binary.icon());
     }
 
     @Override

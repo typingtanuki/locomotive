@@ -68,4 +68,10 @@ public final class Binaries {
                 .title("Retroarch")
                 .description("Emulator manager and emulators (libretro based)");
     }
+
+    public static Binary xinputCalibrator() {
+        return new AptBinary("xinput_calibrator", "xinput-calibrator")
+                .title("Xinput Calibrator")
+                .description("Calibration tool of the touch screen");
+    }
 }

@@ -64,7 +64,7 @@ public class SystemOverviewPage extends InstallerPage {
             if (!buildEssentials.get()) {
                 addPage(new AddBinaryPage(Binaries.buildEssentials(), getNextPages()));
             }
-            addPage(new RecommendedPackagePage(getNextPages()));
+            addPage(new DriverOverviewPage(getNextPages()));
             Platform.runLater(() -> getNextButton().setDisable(false));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

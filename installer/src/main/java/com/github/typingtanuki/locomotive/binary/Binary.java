@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import org.controlsfx.glyphfont.FontAwesome;
+
 /**
  * Represents a binary and its way of installation
  */
@@ -49,5 +51,9 @@ public abstract class Binary {
 
     public String getBinary() {
         return binary;
+    }
+
+    public FontAwesome.Glyph icon() {
+        return FontAwesome.Glyph.FILE_CODE_ALT;
     }
 }

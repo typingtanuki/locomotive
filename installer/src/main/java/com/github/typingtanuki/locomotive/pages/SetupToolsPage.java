@@ -1,29 +1,43 @@
 package com.github.typingtanuki.locomotive.pages;
 
+import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.i18n.I18n;
+import com.github.typingtanuki.locomotive.widgets.tools.ToolWidget;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.glyphfont.FontAwesome;
 
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.*;
 
 public class SetupToolsPage extends InstallerPage {
+    private final List<ToolWidget> tools = new ArrayList<>();
+
     public SetupToolsPage(Deque<InstallerPage> nextPages) {
         super(nextPages);
     }
 
-
     @Override
     protected Node makeContent() {
-        return vertical(
-                new Label("Update system"), // TBD
-                new Label("Screen calibration")  // TBD
-        );
+        tools.clear();
+        tools.add(new ToolWidget(
+                I18n.get("update.title"),
+                I18n.get("update.description"),
+                "scripts/update",
+                null,
+                this));
+        tools.add(new ToolWidget(
+                I18n.get("calibrate.title"),
+                I18n.get("calibrate.description"),
+                null,
+                Binaries.xinputCalibrator(),
+                this));
+        return vertical(tools.toArray(new ToolWidget[0]));
     }
 
     @Override
@@ -37,5 +51,17 @@ public class SetupToolsPage extends InstallerPage {
     @Override
     protected HBox makeFooter() {
         return horizontal(exitButton());
+    }
+
+    public void toolStarted() {
+        for (ToolWidget tool : tools) {
+            tool.started(true);
+        }
+    }
+
+    public void toolFinished() {
+        for (ToolWidget tool : tools) {
+            tool.started(false);
+        }
     }
 }
