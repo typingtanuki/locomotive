@@ -2,7 +2,10 @@ package com.github.typingtanuki.locomotive.widgets.binaries;
 
 import com.github.typingtanuki.locomotive.binary.AptBinary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
-import com.github.typingtanuki.locomotive.utils.*;
+import com.github.typingtanuki.locomotive.i18n.I18n;
+import com.github.typingtanuki.locomotive.utils.DialogUtils;
+import com.github.typingtanuki.locomotive.utils.PackageInstaller;
+import com.github.typingtanuki.locomotive.utils.PackageTester;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
@@ -12,7 +15,10 @@ public class AptInstallerWidget extends AbstractInstallWidget {
     private final AptBinary aptBinary;
 
     public AptInstallerWidget(AptBinary aptBinary, Runnable installStarts, Runnable installFinished) {
-        super(aptBinary.getTitle(), aptBinary.getDescription(), installStarts, installFinished);
+        super(I18n.get("aptInstaller.title"),
+                I18n.get("aptInstaller.description"),
+                installStarts,
+                installFinished);
         this.aptBinary = aptBinary;
     }
 

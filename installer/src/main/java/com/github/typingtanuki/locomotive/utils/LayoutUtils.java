@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import org.controlsfx.glyphfont.FontAwesome;
 
+import static com.github.typingtanuki.locomotive.utils.StyleUtils.*;
+
 public final class LayoutUtils {
     private static final double PAGE_WIDTH = 600;
     private static final double PAGE_HEIGHT = 400;
@@ -51,15 +53,15 @@ public final class LayoutUtils {
     }
 
     public static Pane header(String title, String description, FontAwesome.Glyph icon) {
-        BorderPane out = new BorderPane();
-        out.setLeft(IconUtils.getIcon(icon));
-        out.setCenter(vertical(new Label(title), new Label(description)));
+        BorderPane out = withClass(new BorderPane(), "header");
+        out.setLeft(withClass(IconUtils.getIcon(icon), "icon"));
+        out.setCenter(vertical(
+                withClass(new Label(title), CLASS_TITLE),
+                withClass(new Label(description), CLASS_SUB_TITLE)));
         return out;
     }
 
-
-    public static <T extends Node> T disabled(T element) {
-        element.setDisable(true);
-        return element;
+    public static String css() {
+        return LayoutUtils.class.getResource("/style.css").toExternalForm();
     }
 }

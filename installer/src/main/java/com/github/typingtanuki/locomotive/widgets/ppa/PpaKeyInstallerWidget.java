@@ -30,16 +30,16 @@ public class PpaKeyInstallerWidget extends AbstractInstallWidget {
 
     private static String keyTitle(PpaKey key) {
         if (key == null) {
-            return I18n.get("ppa.key.none.title");
+            return I18n.get("ppaKeyInstaller.none.title");
         }
-        return I18n.get("ppa.key.title", key.getKeyName());
+        return I18n.get("ppaKeyInstaller.title", key.getKeyName());
     }
 
     private static String keyDescription(PpaKey key) {
         if (key == null) {
-            return I18n.get("ppa.key.none.description");
+            return I18n.get("ppaKeyInstaller.none.description");
         }
-        return I18n.get("ppa.key.description");
+        return I18n.get("ppaKeyInstaller.description");
     }
 
     private void checkKey() {

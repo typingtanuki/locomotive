@@ -1,8 +1,6 @@
 package com.github.typingtanuki.locomotive.pages;
 
-import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.widgets.support.BinarySupportWidget;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -33,7 +31,7 @@ public class SetupToolsPage extends InstallerPage {
         return header(
                 I18n.get("setuptools.title"),
                 I18n.get("setuptools.description"),
-                FontAwesome.Glyph.GAMEPAD);
+                FontAwesome.Glyph.WRENCH);
     }
 
     @Override

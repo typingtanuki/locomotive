@@ -1,20 +1,54 @@
-.title {
-    -fx-font-size: 20px;
+.welcome {
+    -fx-font-size: 30px;
     -fx-font-family: monospace;
 }
 
-.install-box.installed {
-    -fx-background-color: #006f00;
+.title {
+    -fx-font-size: 20px;
 }
 
-.install-box.error {
-    -fx-background-color: #7b0000;
+.subtitle {
+    -fx-font-size: 16px;
 }
 
-.INSTALLED {
-    -fx-background-color: green;
+.icon.INSTALLED {
+    -fx-text-fill: #006f00;
 }
 
-.PROCESSING {
-    -fx-background-color: blue;
+.icon.MISSING {
+    -fx-text-fill: #cd700d;
+}
+
+.icon.PROCESSING {
+    -fx-text-fill: #0762d9;
+}
+
+.icon.UNKNOWN {
+    -fx-text-fill: #7b0000;
+}
+
+.icon {
+    -fx-font-size: 30px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-padding: 0px 0px 0px 7px;
+}
+
+.widget-title {
+    -fx-font-weight: bold;
+}
+
+.header {
+    -fx-padding: 10px;
+}
+
+.header .icon {
+    -fx-font-size: 50px;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
+    -fx-min-width: 60px;
+    -fx-max-width: 60px;
+    -fx-padding: 0px 0px 0px 7px;
 }

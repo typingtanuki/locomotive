@@ -20,8 +20,8 @@ public abstract class AbstractWidget extends BorderPane {
         super();
         setState(WidgetState.PROCESSING);
         layout = vertical(
-                withClass(new Label(title), CLASS_TITLE),
-                withClass(new Label(description), CLASS_SUB_TITLE));
+                withClass(new Label(title), CLASS_WIDGET_TITLE),
+                withClass(new Label(description), CLASS_WIDGET_SUB_TITLE));
         setCenter(layout);
     }
 
@@ -49,7 +49,8 @@ public abstract class AbstractWidget extends BorderPane {
                     icon = IconUtils.getIcon(FontAwesome.Glyph.QUESTION);
                     break;
             }
-            this.getStyleClass().add(state.name());
+            withClass(icon, "icon", state.name());
+            withClass(this, "widget", state.name());
             setLeft(icon);
         });
     }

@@ -13,6 +13,8 @@ import java.util.ArrayDeque;
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
+import static com.github.typingtanuki.locomotive.utils.StyleUtils.CLASS_WELCOME;
+import static com.github.typingtanuki.locomotive.utils.StyleUtils.withClass;
 
 public class WelcomePage extends InstallerPage {
     public WelcomePage() {
@@ -21,7 +23,7 @@ public class WelcomePage extends InstallerPage {
 
     @Override
     protected Node makeContent() {
-        return new Label(I18n.get("welcome"));
+        return withClass(new Label(I18n.get("welcome")), CLASS_WELCOME);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.navigation;
 
 import com.github.typingtanuki.locomotive.pages.InstallerPage;
 import com.github.typingtanuki.locomotive.pages.WelcomePage;
+import com.github.typingtanuki.locomotive.utils.LayoutUtils;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
@@ -11,6 +12,7 @@ public class NavigationController extends Pane {
     public NavigationController() {
         setSize(this);
         setStyle("-fx-base:black");
+        getStylesheets().add(LayoutUtils.css());
     }
 
     public void welcome() {

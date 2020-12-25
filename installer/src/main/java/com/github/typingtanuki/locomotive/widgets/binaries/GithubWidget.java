@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.widgets.binaries;
 
 import com.github.typingtanuki.locomotive.binary.GithubBinary;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 
 public class GithubWidget extends AbstractInstallWidget {
@@ -10,7 +11,10 @@ public class GithubWidget extends AbstractInstallWidget {
                         UrlTargetWidget urlTargetWidget,
                         Runnable installStarts,
                         Runnable installFinished) {
-        super(binary.getTitle(), binary.getDescription(), installStarts, installFinished);
+        super(I18n.get("githubInstaller.title"),
+                I18n.get("githubInstaller.description"),
+                installStarts,
+                installFinished);
 
         this.urlTargetWidget = urlTargetWidget;
         showInstallButton();

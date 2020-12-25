@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.widgets.ppa;
 
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PpaInstaller;
@@ -16,8 +17,8 @@ public class PpaInstallerWidget extends AbstractInstallWidget {
     public PpaInstallerWidget(Ppa ppa,
                               Runnable installStarts,
                               Runnable ppaIsInstalled) {
-        super(ppa.getTitle(),
-                ppa.getDescription(),
+        super(I18n.get("ppaInstaller.title"),
+                I18n.get("ppaInstaller.description"),
                 installStarts,
                 ppaIsInstalled);
 

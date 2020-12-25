@@ -47,11 +47,11 @@ public class AddBinaryPage extends InstallerPage {
 
     private Node githubContent(GithubBinary binary) {
         DebInstallerWidget debInstallerWidget = new DebInstallerWidget(
-                binary,
                 this::installStarts,
                 this::installFinished);
         DownloadWidget downloadWidget = new DownloadWidget(
                 binary,
+                "deb",
                 debInstallerWidget,
                 this::installStarts,
                 debInstallerWidget::downloadFinished);
@@ -69,11 +69,11 @@ public class AddBinaryPage extends InstallerPage {
 
     private Node downloadBinaryContent(DownloadBinary binary) {
         BinaryInstallerWidget binaryInstallerWidget = new BinaryInstallerWidget(
-                binary,
                 this::installStarts,
                 this::installFinished);
         DownloadWidget downloadWidget = new DownloadWidget(
                 binary,
+                "run",
                 binaryInstallerWidget,
                 this::installStarts,
                 binaryInstallerWidget::downloadFinished);

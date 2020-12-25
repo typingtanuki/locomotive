@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.widgets.binaries;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
@@ -15,11 +16,10 @@ public class DebInstallerWidget extends AbstractInstallWidget implements FileTar
     private Path fileTarget;
 
     public DebInstallerWidget(
-            Binary binary,
             Runnable installStarts,
             Runnable installFinished) {
-        super(binary.getTitle(),
-                binary.getDescription(),
+        super(I18n.get("debInstaller.title"),
+                I18n.get("debInstaller.description"),
                 installStarts,
                 installFinished);
     }

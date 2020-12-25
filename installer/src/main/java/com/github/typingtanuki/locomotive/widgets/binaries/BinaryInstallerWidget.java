@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.widgets.binaries;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
@@ -15,11 +16,10 @@ public class BinaryInstallerWidget extends AbstractInstallWidget implements File
     private Path fileTarget;
 
     public BinaryInstallerWidget(
-            Binary binary,
             Runnable installStarts,
             Runnable installFinished) {
-        super(binary.getTitle(),
-                binary.getDescription(),
+        super(I18n.get("binaryInstaller.title"),
+                I18n.get("binaryInstaller.description"),
                 installStarts,
                 installFinished);
     }
