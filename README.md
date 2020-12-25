@@ -178,7 +178,7 @@ git clone --recursive git@github.com:typingtanuki/locomotive.git .locomotive
 3. Start the setup wizard
 
 ```bash
-~/.locomotive/install.sh
+~/.locomotive/release/install.sh
 ```
 
 ## Maintenance
@@ -199,5 +199,5 @@ git pull --rebase
 2. Re-run the installer
 
 ```bash
-~/.locomotive/install.sh
+~/.locomotive/release/install.sh
 ```
