@@ -33,7 +33,8 @@
     -fx-max-height: 40px;
     -fx-min-width: 40px;
     -fx-max-width: 40px;
-    -fx-padding: 0px 0px 0px 7px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
 .widget-title {

@@ -13,10 +13,4 @@ public final class IconUtils {
     public static Glyph getIcon(FontAwesome.Glyph name) {
         return new Glyph("FontAwesome", name);
     }
-
-    public static Glyph getIcon(FontAwesome.Glyph name, Color color) {
-        Glyph glyph = getIcon(name);
-        glyph.setColor(color);
-        return glyph;
-    }
 }
