@@ -28,10 +28,10 @@ public class ReaderReader implements Callable<Void> {
         String line;
         try {
             while ((line = reader.readLine()) != null) {
-                builder.append(line);
+                String toAppend = line + "\n";
+                builder.append(toAppend);
                 if (terminal != null) {
-                    String toAppend = line;
-                    Platform.runLater(() -> terminal.appendText(toAppend + "\r\n"));
+                    Platform.runLater(() -> terminal.appendText(toAppend));
                 }
                 builder.append(System.getProperty("line.separator"));
             }

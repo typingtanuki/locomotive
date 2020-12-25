@@ -25,6 +25,7 @@ public class AptBinary extends Binary {
 
     public AptBinary(String binary, String packageName, Ppa ppa) {
         super(binary);
+
         packages.add(packageName);
         this.ppa = ppa;
     }

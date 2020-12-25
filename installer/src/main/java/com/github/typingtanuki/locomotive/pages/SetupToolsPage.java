@@ -2,7 +2,9 @@ package com.github.typingtanuki.locomotive.pages;
 
 import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.widgets.tools.ToolWidget;
+import com.github.typingtanuki.locomotive.widgets.tools.CalibratorToolWidget;
+import com.github.typingtanuki.locomotive.widgets.tools.AbstractToolWidget;
+import com.github.typingtanuki.locomotive.widgets.tools.ScriptToolWidget;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -16,7 +18,7 @@ import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.*;
 
 public class SetupToolsPage extends InstallerPage {
-    private final List<ToolWidget> tools = new ArrayList<>();
+    private final List<AbstractToolWidget> tools = new ArrayList<>();
 
     public SetupToolsPage(Deque<InstallerPage> nextPages) {
         super(nextPages);
@@ -25,19 +27,16 @@ public class SetupToolsPage extends InstallerPage {
     @Override
     protected Node makeContent() {
         tools.clear();
-        tools.add(new ToolWidget(
+        tools.add(new ScriptToolWidget(
                 I18n.get("update.title"),
                 I18n.get("update.description"),
                 "scripts/update",
-                null,
                 this));
-        tools.add(new ToolWidget(
+        tools.add(new CalibratorToolWidget(
                 I18n.get("calibrate.title"),
                 I18n.get("calibrate.description"),
-                null,
-                Binaries.xinputCalibrator(),
                 this));
-        return vertical(tools.toArray(new ToolWidget[0]));
+        return vertical(tools.toArray(new AbstractToolWidget[0]));
     }
 
     @Override
@@ -54,13 +53,13 @@ public class SetupToolsPage extends InstallerPage {
     }
 
     public void toolStarted() {
-        for (ToolWidget tool : tools) {
+        for (AbstractToolWidget tool : tools) {
             tool.started(true);
         }
     }
 
     public void toolFinished() {
-        for (ToolWidget tool : tools) {
+        for (AbstractToolWidget tool : tools) {
             tool.started(false);
         }
     }

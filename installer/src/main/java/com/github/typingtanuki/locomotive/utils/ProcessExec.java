@@ -59,6 +59,8 @@ public class ProcessExec {
 
         LOGGER.info("Running " + String.join(" ", allArgs));
         ProcessBuilder builder = new ProcessBuilder();
+        builder.environment().put("LANG", "en_US.UTF-8");
+        builder.environment().put("LANGUAGE", "en_US:en");
         builder.command(allArgs);
         Process process = builder.start();
 
