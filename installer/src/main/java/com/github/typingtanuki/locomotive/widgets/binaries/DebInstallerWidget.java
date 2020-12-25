@@ -36,7 +36,7 @@ public class DebInstallerWidget extends AbstractInstallWidget implements FileTar
     @Override
     protected void doInstall() {
         try {
-            ProcessExec.exec(getTerminal(), "apt", "install", fileTarget.toString());
+            ProcessExec.sudoExec(getTerminal(), "apt", "install", fileTarget.toString());
             Files.deleteIfExists(fileTarget);
             setState(WidgetState.INSTALLED);
         } catch (IOException e) {

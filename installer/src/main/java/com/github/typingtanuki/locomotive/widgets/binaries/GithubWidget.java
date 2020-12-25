@@ -2,10 +2,18 @@ package com.github.typingtanuki.locomotive.widgets.binaries;
 
 import com.github.typingtanuki.locomotive.binary.GithubBinary;
 import com.github.typingtanuki.locomotive.i18n.I18n;
+import com.github.typingtanuki.locomotive.utils.DialogUtils;
+import com.github.typingtanuki.locomotive.utils.DownloadUtils;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
+import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GithubWidget extends AbstractInstallWidget {
-    private UrlTargetWidget urlTargetWidget;
+    private final GithubBinary binary;
+    private final UrlTargetWidget urlTargetWidget;
 
     public GithubWidget(GithubBinary binary,
                         UrlTargetWidget urlTargetWidget,
@@ -16,25 +24,43 @@ public class GithubWidget extends AbstractInstallWidget {
                 installStarts,
                 installFinished);
 
+        this.binary = binary;
         this.urlTargetWidget = urlTargetWidget;
         showInstallButton();
     }
 
     @Override
+    protected String actionButtonName() {
+        return I18n.get("searchRelease");
+    }
+
+    @Override
     protected void doInstall() {
-        // TBD
-        /*
-          echo "Accessing github release page ${1}/${2}" >>"${logFile}" 2>&1
-  releasePage=$(curl -XGET -L -s "https://github.com/${1}/${2}/releases/latest" 2>>"${logFile}")
+        try {
+            // Accessing the page
+            String fullPage = DownloadUtils.inString(
+                    "https://github.com/" + binary.getUser() + "/" + binary.getRepository() + "/releases/latest");
 
-  echo "Extracting .deb link for ${1}/${2}" >>"${logFile}" 2>&1
-  debLink=$(echo "${releasePage}" | grep "\.deb\"" | sed -e 's/.*<a href=["'"'"']//i' | cut -d '"' -f 1 2>>"${logFile}")
-  echo "Extracting .deb link for ${1}/${2}: ${debLink}" >>"${logFile}" 2>&1
+            // Searching for the .deb link
+            String debPackage = null;
+            Pattern DEB_PATTERN = Pattern.compile(".*<a href=\"([^\"]+\\.deb)\".*");
+            for (String line : fullPage.split("[\r\n]")) {
+                Matcher debMatcher = DEB_PATTERN.matcher(line);
+                if (debMatcher.matches()) {
+                    debPackage = debMatcher.group(1);
+                }
+            }
+            if (debPackage == null) {
+                DialogUtils.showErrorDialog(new IllegalStateException(
+                        "Could not find deb package on release page " +
+                                binary.getUser() + "/" + binary.getRepository()));
+            }
 
-  echo "Extracting .deb package for ${1}/${2}" >>"${logFile}" 2>&1
-  packageName=$(echo "${debLink}" | cut -d '/' -f 7 2>>"${logFile}")
-  echo "Extracting .deb package for ${1}/${2}: ${packageName}" >>"${logFile}" 2>&1
-
-         */
+            // Pass the link to the downloader
+            urlTargetWidget.setUrlTarget("https://www.github.com" + debPackage);
+            setState(WidgetState.INSTALLED);
+        } catch (IOException e) {
+            DialogUtils.showErrorDialog(e);
+        }
     }
 }

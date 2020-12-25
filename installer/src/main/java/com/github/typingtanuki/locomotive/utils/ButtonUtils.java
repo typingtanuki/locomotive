@@ -11,12 +11,12 @@ public final class ButtonUtils {
     }
 
     public static Button button(String key, FontAwesome.Glyph icon, Runnable action) {
-        Button out = new Button(I18n.get(key), IconUtils.getIcon(icon));
+        Button out = new Button(key, IconUtils.getIcon(icon));
         out.setOnAction((e) -> action.run());
         return out;
     }
 
     public static Button exitButton() {
-        return button("exit", FontAwesome.Glyph.TIMES, () -> NavigationCore.doExit(0));
+        return button(I18n.get("exit"), FontAwesome.Glyph.TIMES, () -> NavigationCore.doExit(0));
     }
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
@@ -64,5 +65,10 @@ public final class DownloadUtils {
         permissions.add(PosixFilePermission.GROUP_EXECUTE);
         permissions.add(PosixFilePermission.OTHERS_EXECUTE);
         Files.setPosixFilePermissions(target, permissions);
+    }
+
+    public static String inString(String url) throws IOException {
+        byte[] bytes = inMemory(url);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

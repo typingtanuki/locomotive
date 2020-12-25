@@ -34,6 +34,11 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     }
 
     @Override
+    protected String actionButtonName() {
+        return I18n.get("download");
+    }
+
+    @Override
     protected void doInstall() {
         try {
             Path target = Paths.get("cache").resolve(binary.getBinary() + "-installer." + extension);

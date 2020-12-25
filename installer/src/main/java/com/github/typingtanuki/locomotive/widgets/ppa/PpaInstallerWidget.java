@@ -25,6 +25,10 @@ public class PpaInstallerWidget extends AbstractInstallWidget {
         this.ppa = ppa;
     }
 
+    @Override
+    protected String actionButtonName() {
+        return I18n.get("addPpa");
+    }
 
     public void keyIsReady() {
         CoreExecutor.execute(this::updateState);

@@ -28,6 +28,12 @@ public class PpaKeyInstallerWidget extends AbstractInstallWidget {
         }
     }
 
+    @Override
+    protected String actionButtonName() {
+        return I18n.get("addPpaKey");
+    }
+
+
     private static String keyTitle(PpaKey key) {
         if (key == null) {
             return I18n.get("ppaKeyInstaller.none.title");

@@ -19,4 +19,12 @@ public class GithubBinary extends Binary {
         this.user = user;
         this.repository = repository;
     }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
 }

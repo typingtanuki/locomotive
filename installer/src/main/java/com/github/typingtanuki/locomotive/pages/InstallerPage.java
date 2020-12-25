@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.pages;
 
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -32,7 +33,7 @@ public abstract class InstallerPage extends BorderPane {
     }
 
     protected HBox basicFooter(boolean nextDisabled) {
-        nextButton = button("next", FontAwesome.Glyph.ARROW_RIGHT, this::doNext);
+        nextButton = button(I18n.get("next"), FontAwesome.Glyph.ARROW_RIGHT, this::doNext);
         nextButton.setDisable(nextDisabled);
 
         return horizontal(

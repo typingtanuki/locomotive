@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.widgets;
 
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -30,11 +31,15 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
     protected void showInstallButton() {
         Platform.runLater(() -> {
             installButton = button(
-                    "install",
+                    actionButtonName(),
                     FontAwesome.Glyph.DOWNLOAD,
                     this::install);
             getLayout().getChildren().add(installButton);
         });
+    }
+
+    protected String actionButtonName() {
+        return I18n.get("install");
     }
 
     @Override

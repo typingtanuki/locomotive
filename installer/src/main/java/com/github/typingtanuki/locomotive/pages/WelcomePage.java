@@ -34,7 +34,7 @@ public class WelcomePage extends InstallerPage {
     @Override
     protected Pane makeFooter() {
         return horizontal(
-                button("start", FontAwesome.Glyph.CHECK, this::doStart),
+                button(I18n.get("start"), FontAwesome.Glyph.CHECK, this::doStart),
                 exitButton());
     }
 
