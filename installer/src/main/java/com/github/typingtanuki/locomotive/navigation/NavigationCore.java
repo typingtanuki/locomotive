@@ -18,7 +18,7 @@ public final class NavigationCore {
     public static void init(Stage primaryStage) {
         NavigationCore.primaryStage = primaryStage;
         controller = new NavigationController();
-        ;
+
         primaryStage.setScene(new Scene(controller));
         primaryStage.setResizable(true);
         primaryStage.setTitle(I18n.get("title"));

@@ -8,10 +8,21 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ * Internationalization library
+ */
 public final class I18n {
     private static final Logger LOGGER = LoggerFactory.getLogger(I18n.class);
 
+    /**
+     * The resource bundle for the given locale
+     */
     private static ResourceBundle bundle;
+    /**
+     * A fallback bundle for partial translations
+     */
+    private static ResourceBundle fallback;
+    private static Locale locale;
 
     private I18n() {
         super();
@@ -23,7 +34,7 @@ public final class I18n {
             return;
         }
 
-        Locale locale = Locale.getDefault();
+        locale = Locale.getDefault();
 
         switch (locale.getLanguage()) {
             case "en":
@@ -35,15 +46,29 @@ public final class I18n {
         }
 
         bundle = ResourceBundle.getBundle("installer", locale);
+        fallback = ResourceBundle.getBundle("installer", Locale.ENGLISH);
     }
 
     public static String get(String key, Object... args) {
+        String pattern = getFrom(bundle, key);
+        if (pattern == null) {
+            pattern = getFrom(fallback, key);
+            if (pattern == null) {
+                LOGGER.error("Need to ressourcify: {}", key);
+                return key;
+            } else {
+                LOGGER.error("Missing {} in locale {}, falling back to {}", key, locale, pattern);
+            }
+        }
+
+        return MessageFormat.format(pattern, args);
+    }
+
+    private static String getFrom(ResourceBundle bundle, String key) {
         try {
-            String pattern = bundle.getString(key);
-            return MessageFormat.format(pattern, args);
+            return bundle.getString(key);
         } catch (MissingResourceException e) {
-            LOGGER.error("Need to ressourcify: {}", key);
-            return key;
+            return null;
         }
     }
 }

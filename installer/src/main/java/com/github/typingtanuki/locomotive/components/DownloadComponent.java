@@ -26,6 +26,12 @@ public class DownloadComponent extends VBox {
         getChildren().add(progress);
     }
 
+    /**
+     * Update the label and the progess bar
+     *
+     * @param current The number of bytes downloaded so far
+     * @param total   The number of bytes total
+     */
     public void updateProgress(int current, int total) {
         Platform.runLater(() -> {
             label.setText(I18n.get(
@@ -42,6 +48,9 @@ public class DownloadComponent extends VBox {
         return null;
     }
 
+    /**
+     * Convert bytes to human readable SI units
+     */
     public static String humanReadableBytes(long bytes) {
         long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
         if (absB < 1024) {
