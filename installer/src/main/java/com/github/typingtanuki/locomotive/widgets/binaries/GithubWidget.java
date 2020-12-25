@@ -39,7 +39,8 @@ public class GithubWidget extends AbstractInstallWidget {
         try {
             // Accessing the page
             String fullPage = DownloadUtils.inString(
-                    "https://github.com/" + binary.getUser() + "/" + binary.getRepository() + "/releases/latest");
+                    "https://github.com/" + binary.getRepoPath() + "/releases/latest",
+                    getDownload());
 
             // Searching for the .deb link
             String debPackage = null;
@@ -52,8 +53,7 @@ public class GithubWidget extends AbstractInstallWidget {
             }
             if (debPackage == null) {
                 DialogUtils.showErrorDialog(new IllegalStateException(
-                        "Could not find deb package on release page " +
-                                binary.getUser() + "/" + binary.getRepository()));
+                        "Could not find deb package on release page " + binary.getRepoPath()));
             }
 
             // Pass the link to the downloader

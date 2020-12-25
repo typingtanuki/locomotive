@@ -38,7 +38,7 @@ public class AptInstallerWidget extends AbstractInstallWidget {
     @Override
     protected void doInstall() {
         try {
-            PackageInstaller.installBinary(aptBinary, getTerminal());
+            PackageInstaller.installBinary(aptBinary, getTerminal(), getDownload());
             setState(WidgetState.INSTALLED);
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);

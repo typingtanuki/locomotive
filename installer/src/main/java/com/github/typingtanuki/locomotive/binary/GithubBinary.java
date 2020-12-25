@@ -20,11 +20,7 @@ public class GithubBinary extends Binary {
         this.repository = repository;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public String getRepository() {
-        return repository;
+    public String getRepoPath() {
+        return user + "/" + repository;
     }
 }

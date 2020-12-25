@@ -1,8 +1,20 @@
 package com.github.typingtanuki.locomotive.binary;
 
+/**
+ * Represents a binary and its way of installation
+ */
 public abstract class Binary {
+    /**
+     * The command to run this binary (used for detection)
+     */
     private final String binary;
+    /**
+     * The name of this binary (often same as the binary itself)
+     */
     private String title;
+    /**
+     * A description of this binary for the user to understand what it does
+     */
     private String description;
 
     public Binary(String binary) {

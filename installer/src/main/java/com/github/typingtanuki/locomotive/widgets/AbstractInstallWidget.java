@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.widgets;
 
+import com.github.typingtanuki.locomotive.components.DownloadComponent;
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
@@ -16,6 +17,7 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
     private Button installButton;
 
     private TerminalComponent terminal;
+    private DownloadComponent download;
 
 
     public AbstractInstallWidget(String title,
@@ -38,6 +40,33 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
         });
     }
 
+    private void hideInstallButton() {
+        if (installButton == null) {
+            return;
+        }
+        Button toRemove = installButton;
+        installButton = null;
+        Platform.runLater(() -> getLayout().getChildren().remove(toRemove));
+    }
+
+    private void hideTerminal() {
+        if (terminal == null) {
+            return;
+        }
+        TerminalComponent toRemove = terminal;
+        terminal = null;
+        Platform.runLater(() -> getLayout().getChildren().remove(toRemove));
+    }
+
+    private void hideDownload() {
+        if (download == null) {
+            return;
+        }
+        DownloadComponent toRemove = download;
+        download = null;
+        Platform.runLater(() -> getLayout().getChildren().remove(toRemove));
+    }
+
     protected String actionButtonName() {
         return I18n.get("install");
     }
@@ -57,9 +86,9 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
     protected void installIsDone() {
         setState(WidgetState.INSTALLED);
         CoreExecutor.execute(this.installFinished);
-        if (installButton != null) {
-            installButton.setDisable(true);
-        }
+        hideInstallButton();
+        hideTerminal();
+        hideDownload();
     }
 
     private void install() {
@@ -79,5 +108,13 @@ public abstract class AbstractInstallWidget extends AbstractWidget {
             Platform.runLater(() -> getLayout().getChildren().add(terminal));
         }
         return terminal;
+    }
+
+    protected DownloadComponent getDownload() {
+        if (download == null) {
+            download = new DownloadComponent();
+            Platform.runLater(() -> getLayout().getChildren().add(download));
+        }
+        return download;
     }
 }

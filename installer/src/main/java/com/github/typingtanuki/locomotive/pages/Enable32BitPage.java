@@ -1,8 +1,6 @@
 package com.github.typingtanuki.locomotive.pages;
 
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.widgets.ppa.PpaInstallerWidget;
-import com.github.typingtanuki.locomotive.widgets.ppa.PpaKeyInstallerWidget;
 import com.github.typingtanuki.locomotive.widgets.tools.Enable32BitWidget;
 import javafx.application.Platform;
 import javafx.scene.Node;

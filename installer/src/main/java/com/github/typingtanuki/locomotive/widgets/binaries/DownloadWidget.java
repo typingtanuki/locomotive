@@ -42,7 +42,7 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     protected void doInstall() {
         try {
             Path target = Paths.get("cache").resolve(binary.getBinary() + "-installer." + extension);
-            DownloadUtils.inFile(url, target);
+            DownloadUtils.inFile(url, target, getDownload());
             DownloadUtils.makeExecutable(target);
             fileTargetWidget.setFileTarget(target);
             setState(WidgetState.INSTALLED);

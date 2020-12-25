@@ -2,6 +2,9 @@ package com.github.typingtanuki.locomotive.binary;
 
 import com.github.typingtanuki.locomotive.ppa.Ppas;
 
+/**
+ * All the binaries installable through the wizard
+ */
 public final class Binaries {
     private Binaries() {
         super();

@@ -10,14 +10,12 @@ import org.controlsfx.glyphfont.FontAwesome;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.*;
 
 public final class LayoutUtils {
-    private static final double PAGE_WIDTH = 600;
-    private static final double PAGE_HEIGHT = 400;
-
-    private static final double SPACING = 10;
-    private static final double MARGIN_SIZE = 20;
-
     public static final double TERMINAL_WIDTH = 500;
     public static final double TERMINAL_HEIGHT = 100;
+    private static final double PAGE_WIDTH = 600;
+    private static final double PAGE_HEIGHT = 400;
+    private static final double SPACING = 10;
+    private static final double MARGIN_SIZE = 20;
 
     private LayoutUtils() {
         super();

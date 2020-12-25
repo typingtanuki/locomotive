@@ -1,6 +1,5 @@
 package com.github.typingtanuki.locomotive.widgets.binaries;
 
-import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
