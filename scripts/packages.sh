@@ -8,9 +8,9 @@ setupLogFile "packages"
 
 welcome "This wizard will help you install packages" "NOTE: Some packages are optional."
 
- ############
+############
 ## Required ##
- ############
+############
 title "Packages - Required packages"
 subtitle "Useful packages required by the tools"
 
@@ -21,131 +21,115 @@ installTool "wget"
 installTool "build-essentials" "Build essentials" "gcc"
 installTool "dos2unix"
 
- ###########
+###########
 ## GameHub ##
- ###########
+###########
 title "Packages - GameHub (recommend)"
 subtitle "Game library for managing steam, GOG, ... and emulators in a single GUI"
 
-if installed "gamehub";
-then
+if installed "gamehub"; then
   echo "Gamehub already installed"
 else
-  if questionInstall "Gamehub";
-  then
+  if questionInstall "Gamehub"; then
     aptInstall xcb icoutils gamehub
   fi
 fi
 
- #########
+#########
 ## Steam ##
- #########
+#########
 title "Packages - Steam (recommend)"
 subtitle "The Steam client for linux"
 
-if installed "steam";
-then
+if installed "steam"; then
   echo "Steam already installed"
 else
-  if questionInstall "Steam";
-  then
+  if questionInstall "Steam"; then
     aptInstall steam libgtk2.0-0:i386 libxtst6:i386
   fi
 fi
 
- ###########
+###########
 ## Itch.io ##
- ###########
+###########
 title "Packages - Itch.io (optional)"
 subtitle "The Itch.io client for linux"
 
-if installed "itch";
-then
+if installed "itch"; then
   echo "Itch.io already installed"
 else
-  if questionInstall "Itch.io";
-  then
+  if questionInstall "Itch.io"; then
     mkdir -p "${scriptDir}/deb"
     rm -f "${scriptDir}/deb/itch.sh"
     download "https://itch.io/app/download?platform=linux" "${scriptDir}/deb/itch.sh"
     chmod u+x "${scriptDir}/deb/itch.sh"
     echo "Installing itch.io" >>"${logFile}" 2>&1
-    ${scriptDir}/deb/itch.sh  >>"${logFile}" 2>&1
+    ${scriptDir}/deb/itch.sh >>"${logFile}" 2>&1
   fi
 fi
 
- ########
+########
 ## Wine ##
- ########
+########
 title "Packages - Wine (recommend)"
 subtitle "Allows running Windows software, games, ..."
 
-if installed "wine";
-then
+if installed "wine"; then
   echo "Wine already installed"
 else
-  if questionInstall "Wine";
-  then
+  if questionInstall "Wine"; then
     aptInstall --install-recommends winehq-staging
   fi
 fi
 
- #############
+#############
 ## Retroarch ##
- #############
+#############
 title "Packages - Retroarch (optional)"
 subtitle "Emulator manager and emulators (libretro based)"
 
-if installed "retroarch";
-then
+if installed "retroarch"; then
   echo "Retroarch already installed"
 else
-  if questionInstall "Retroarch and dependencies";
-  then
-      aptInstall retroarch "libretro-*"
-      mkdir -p "${HOME}/.config/retroarch/"
-      mkdir -p "${HOME}/BIOS"
-      ln -s "${HOME}/BIOS" "${HOME}/.config/retroarch/system"
+  if questionInstall "Retroarch and dependencies"; then
+    aptInstall retroarch "libretro-*"
+    mkdir -p "${HOME}/.config/retroarch/"
+    mkdir -p "${HOME}/BIOS"
+    ln -s "${HOME}/BIOS" "${HOME}/.config/retroarch/system"
   fi
 fi
 
- ########
+########
 ## Kodi ##
- ########
+########
 title "Packages - Kodi (optional)"
 subtitle "Movie library and player"
 
-if installed "kodi";
-then
+if installed "kodi"; then
   echo "Kodi already installed"
 else
-  if questionInstall "Kodi";
-  then
+  if questionInstall "Kodi"; then
     aptInstall kodi python3 python3-dbus
   fi
 fi
 
- #######
+#######
 ## ZSH ##
- #######
+#######
 title "Packages - ZSH (optional)"
 subtitle "Improved command line environment"
 
-if installed "zsh";
-then
+if installed "zsh"; then
   echo "ZSH already installed"
 else
-  if questionInstall "ZSH and dependencies";
-  then
+  if questionInstall "ZSH and dependencies"; then
     aptInstall zsh libnotify-bin fzf fzy peco cargo
     cargo install exa
     chsh -s "$(which zsh)"
-    if [[ -h ${HOME}/.zshrc ]];
-    then
+    if [[ -L ${HOME}/.zshrc ]]; then
       # Symbolic link
       rm "${HOME}/.zshrc"
-    elif  [[ -f ${HOME}/.zshrc ]];
-    then
+    elif [[ -f ${HOME}/.zshrc ]]; then
       # Normal config file
       mv "${HOME}/.zshrc" "${HOME}/.zshrc.bak"
     fi
@@ -153,49 +137,43 @@ else
   fi
 fi
 
- #########
+#########
 ## Tilix ##
- #########
+#########
 title "Packages - Tilix (optional)"
 subtitle "Improved terminal emulator"
 
-if installed "tilix";
-then
+if installed "tilix"; then
   echo "Tilix already installed"
 else
-  if questionInstall "tilix";
-  then
+  if questionInstall "tilix"; then
     aptInstall tilix
-    if questionInstall "Tilix settings"
-    then
+    if questionInstall "Tilix settings"; then
       mkdir -p ~/.local/fonts/t
       cp "${scriptDir}/../fonts/*" ~/.local/fonts/t
-      dconf load /com/gexperts/Tilix/ < "${scriptDir}/../config/tilix.dconf"
+      dconf load /com/gexperts/Tilix/ <"${scriptDir}/../config/tilix.dconf"
     fi
   fi
 fi
 
- ############
+############
 ## On-board ##
- ############
+############
 title "Packages - On-board (optional)"
 subtitle "On-screen keyboard"
 
 installTool "onboard"
 
- ##############
+##############
 ## Antimicrox ##
- ##############
+##############
 title "Packages - Antimicrox (optional)"
 subtitle "Bind gamepad to keyboard/mouse"
 
-
-if installed "antimicrox";
-then
+if installed "antimicrox"; then
   echo "Antimicrox already installed"
 else
-  if questionInstall "Antimicrox";
-  then
+  if questionInstall "Antimicrox"; then
     githubDebinstall "AntiMicroX" "antimicrox"
   fi
 fi

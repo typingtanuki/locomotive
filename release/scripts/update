@@ -1,0 +1,6 @@
+#!/bin/bash
+apt update
+apt upgrade -y -f
+apt dist-upgrade -y -f
+apt autoremove -y
+apt autoclean -y

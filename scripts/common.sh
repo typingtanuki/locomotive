@@ -399,4 +399,3 @@ function download() {
     curl -XGET -L -s --output "${2}" "$1"
   fi
 }
-
