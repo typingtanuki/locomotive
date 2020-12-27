@@ -1,9 +1,9 @@
 package com.github.typingtanuki.locomotive.pages;
 
+import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -23,7 +23,7 @@ public class WelcomePage extends InstallerPage {
 
     @Override
     protected Node makeContent() {
-        return withClass(new Label(I18n.get("welcome")), CLASS_WELCOME);
+        return withClass(new GlitchLabel(I18n.get("welcome")), CLASS_WELCOME);
     }
 
     @Override
