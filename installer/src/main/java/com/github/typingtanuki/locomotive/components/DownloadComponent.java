@@ -27,21 +27,6 @@ public class DownloadComponent extends VBox {
     }
 
     /**
-     * Update the label and the progess bar
-     *
-     * @param current The number of bytes downloaded so far
-     * @param total   The number of bytes total
-     */
-    public void updateProgress(int current, int total) {
-        Platform.runLater(() -> {
-            label.setText(I18n.get(
-                    "download.progress",
-                    humanReadableBytes(current), humanReadableBytes(total)));
-            progress.setProgress(((double) current) / total);
-        });
-    }
-
-    /**
      * A more explicit way of expressing "no download progress"
      */
     public static DownloadComponent nullDownload() {
@@ -64,5 +49,20 @@ public class DownloadComponent extends VBox {
         }
         value *= Long.signum(bytes);
         return String.format("%.1f %ciB", value / 1024.0, ci.current());
+    }
+
+    /**
+     * Update the label and the progess bar
+     *
+     * @param current The number of bytes downloaded so far
+     * @param total   The number of bytes total
+     */
+    public void updateProgress(int current, int total) {
+        Platform.runLater(() -> {
+            label.setText(I18n.get(
+                    "download.progress",
+                    humanReadableBytes(current), humanReadableBytes(total)));
+            progress.setProgress(((double) current) / total);
+        });
     }
 }

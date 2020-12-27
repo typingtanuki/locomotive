@@ -1,7 +1,6 @@
 package com.github.typingtanuki.locomotive.utils;
 
 
-import javafx.scene.paint.Color;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 

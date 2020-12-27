@@ -6,7 +6,7 @@ public class Ppa {
     private final String title;
     private final String description;
 
-    private Boolean installed = null;
+    private final Boolean installed = null;
 
     public Ppa(String ppa, String title, String description) {
         this(ppa, title, description, null);

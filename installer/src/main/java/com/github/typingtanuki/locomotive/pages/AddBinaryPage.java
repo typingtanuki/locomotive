@@ -13,7 +13,6 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import org.controlsfx.glyphfont.FontAwesome;
 
 import java.util.ArrayList;
 import java.util.Collections;

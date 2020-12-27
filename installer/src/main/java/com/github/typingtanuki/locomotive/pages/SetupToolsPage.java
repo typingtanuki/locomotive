@@ -1,9 +1,8 @@
 package com.github.typingtanuki.locomotive.pages;
 
-import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.widgets.tools.CalibratorToolWidget;
 import com.github.typingtanuki.locomotive.widgets.tools.AbstractToolWidget;
+import com.github.typingtanuki.locomotive.widgets.tools.CalibratorToolWidget;
 import com.github.typingtanuki.locomotive.widgets.tools.ScriptToolWidget;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;

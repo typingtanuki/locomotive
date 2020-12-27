@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ScriptToolWidget extends AbstractToolWidget {
-    private String script;
+    private final String script;
     private String fullCommand;
 
     public ScriptToolWidget(String title,

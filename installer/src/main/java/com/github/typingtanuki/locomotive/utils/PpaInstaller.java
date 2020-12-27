@@ -1,6 +1,5 @@
 package com.github.typingtanuki.locomotive.utils;
 
-import com.github.typingtanuki.locomotive.components.DownloadComponent;
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.ppa.PpaKey;
