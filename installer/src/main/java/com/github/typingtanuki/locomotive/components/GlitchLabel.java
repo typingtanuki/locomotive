@@ -32,7 +32,7 @@ public class GlitchLabel extends Label {
                     StringBuilder out = new StringBuilder();
                     for (int i = 0; i < text.length(); i++) {
                         char c = text.charAt(i);
-                        switch (RANDOM.nextInt(5)) {
+                        switch (RANDOM.nextInt(10)) {
                             case 0:
                                 out.append(c);
                                 break;
@@ -70,47 +70,47 @@ public class GlitchLabel extends Label {
         String s = String.valueOf(c).toLowerCase(Locale.ENGLISH);
         switch (s) {
             case "a":
-                return new char[]{'▲', '△'};
+                return new char[]{'▲', '△', '@', '^', 'ª'};
             case "b":
-                return new char[]{'3', 'd'};
+                return new char[]{'3', 'd', 'ß'};
             case "c":
-                return new char[]{'○', '❍'};
+                return new char[]{'○', '❍', '(', '¢', '©'};
             case "d":
-                return new char[]{'D', 'b'};
+                return new char[]{'D', 'b', ')'};
             case "e":
-                return new char[]{'3', 'Σ'};
+                return new char[]{'3', 'Σ', '&', '€'};
             case "f":
-                return new char[]{'F'};
+                return new char[]{'F', 'ƒ'};
             case "g":
-                return new char[]{'G', 'g'};
+                return new char[]{'G', 'g', '%'};
             case "h":
-                return new char[]{'‖'};
+                return new char[]{'‖', '‡'};
             case "i":
-                return new char[]{'|'};
+                return new char[]{'|', ';', ':', '¡', '¦'};
             case "j":
-                return new char[]{'|'};
+                return new char[]{'|', ';', '¦'};
             case "k":
-                return new char[]{'◁', '◀'};
+                return new char[]{'◁', '◀', '‡', '«'};
             case "l":
-                return new char[]{'|', '1'};
+                return new char[]{'|', '1', '£'};
             case "m":
                 return new char[]{'W'};
             case "n":
-                return new char[]{'N'};
+                return new char[]{'N', 'ñ'};
             case "o":
-                return new char[]{'0', '◎', '●'};
+                return new char[]{'0', '◎', '●', '*', '¤'};
             case "p":
-                return new char[]{'`', 'q', 'Q'};
+                return new char[]{'`', 'q', 'Q', '%', '&', '¶', 'Þ'};
             case "q":
-                return new char[]{'p', '|', 'P'};
+                return new char[]{'p', '|', 'P', '%', '&', '¶'};
             case "r":
-                return new char[]{'K'};
+                return new char[]{'K', '®'};
             case "s":
-                return new char[]{'$', '2'};
+                return new char[]{'$', '2', 'Š', 'š', '§'};
             case "t":
-                return new char[]{'|', '7'};
+                return new char[]{'|', '7', '+', '†'};
             case "u":
-                return new char[]{'v', 'V'};
+                return new char[]{'v', 'V', 'µ'};
             case "v":
                 return new char[]{'U', 'u'};
             case "w":
@@ -118,13 +118,13 @@ public class GlitchLabel extends Label {
             case "x":
                 return new char[]{'>', '<'};
             case "y":
-                return new char[]{'|'};
+                return new char[]{'|', 'Ÿ', '¥'};
             case "z":
-                return new char[]{'2'};
+                return new char[]{'2', 'Ž', 'ž'};
             case " ":
             case "-":
             case "_":
-                return new char[]{'_', '-'};
+                return new char[]{'_', '-', '~', '¯'};
         }
         return new char[]{c};
     }

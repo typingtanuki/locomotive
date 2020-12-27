@@ -31,6 +31,7 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
         this.binary = binary;
         this.extension = extension;
         this.fileTargetWidget = fileTargetWidget;
+        setState(WidgetState.MISSING);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class DebInstallerWidget extends AbstractInstallWidget implements FileTar
                 I18n.get("debInstaller.description"),
                 installStarts,
                 installFinished);
+        setState(WidgetState.MISSING);
     }
 
     public void downloadFinished() {

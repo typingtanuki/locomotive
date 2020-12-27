@@ -27,6 +27,7 @@ public class GithubWidget extends AbstractInstallWidget {
         this.binary = binary;
         this.urlTargetWidget = urlTargetWidget;
         showInstallButton();
+        setState(WidgetState.MISSING);
     }
 
     @Override

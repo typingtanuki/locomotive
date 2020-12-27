@@ -20,6 +20,7 @@ public class AptInstallerWidget extends AbstractInstallWidget {
                 installStarts,
                 installFinished);
         this.aptBinary = aptBinary;
+        setState(WidgetState.MISSING);
     }
 
     public void ppaIsReady() {

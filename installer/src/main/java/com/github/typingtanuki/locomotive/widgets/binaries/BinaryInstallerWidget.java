@@ -21,6 +21,7 @@ public class BinaryInstallerWidget extends AbstractInstallWidget implements File
                 I18n.get("binaryInstaller.description"),
                 installStarts,
                 installFinished);
+        setState(WidgetState.MISSING);
     }
 
     public void downloadFinished() {
