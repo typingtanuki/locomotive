@@ -73,6 +73,10 @@ public class ProcessExec {
         builder.command(allArgs);
         Process process = builder.start();
 
+        if (terminal != null) {
+            terminal.setInput(process.getOutputStream());
+        }
+
         BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader stderrReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
