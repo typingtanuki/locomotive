@@ -14,13 +14,16 @@ public class InstallerMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Show a modal on uncaught exceptions
         Thread.setDefaultUncaughtExceptionHandler(
                 (t, e) -> DialogUtils.showErrorDialog(e));
 
+        // Initialize base classes
         I18n.init();
         CoreExecutor.init();
-
         NavigationCore.init(primaryStage);
+
+        // Start
         NavigationCore.start();
     }
 }

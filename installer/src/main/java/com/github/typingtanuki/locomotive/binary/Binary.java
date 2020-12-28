@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.binary;
 
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import org.controlsfx.glyphfont.FontAwesome;
 
 /**
@@ -13,27 +14,18 @@ public abstract class Binary {
     /**
      * The name of this binary (often same as the binary itself)
      */
-    private String title;
+    private final String title;
     /**
      * A description of this binary for the user to understand what it does
      */
-    private String description;
+    private final String description;
 
     public Binary(String binary) {
         super();
 
         this.binary = binary;
-        this.title = binary;
-    }
-
-    public Binary title(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public Binary description(String description) {
-        this.description = description;
-        return this;
+        this.title = I18n.get("binary." + binary + ".title");
+        this.description = I18n.get("binary." + binary + ".description");
     }
 
     @Override

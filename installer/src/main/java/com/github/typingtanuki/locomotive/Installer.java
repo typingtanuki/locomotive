@@ -3,6 +3,9 @@
  */
 package com.github.typingtanuki.locomotive;
 
+/**
+ * Main class to bypass the javafx checks
+ */
 public class Installer {
     public static void main(String[] args) {
         InstallerMain.main(args);

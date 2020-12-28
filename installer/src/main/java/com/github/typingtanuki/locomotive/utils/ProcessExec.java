@@ -22,9 +22,12 @@ public class ProcessExec {
             TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>());
 
+    private static int SEQUENCE = 0;
+
     private final StringBuilder stdout = new StringBuilder();
     private final StringBuilder stderr = new StringBuilder();
     private final TerminalComponent terminal;
+    private final String processId;
 
     private Integer exit = null;
     private boolean isAdmin = false;
@@ -32,6 +35,12 @@ public class ProcessExec {
     private ProcessExec(TerminalComponent terminal) {
         super();
         this.terminal = terminal;
+        this.processId = makeId();
+    }
+
+    private static synchronized String makeId() {
+        SEQUENCE++;
+        return "P-" + SEQUENCE;
     }
 
     public static ProcessExec exec(TerminalComponent terminal, String binary, String... args) throws IOException {
@@ -57,7 +66,7 @@ public class ProcessExec {
         allArgs.add(binary);
         allArgs.addAll(Arrays.asList(args));
 
-        LOGGER.info("Running " + String.join(" ", allArgs));
+        LOGGER.info("{} Running {}", processId, String.join(" ", allArgs));
         ProcessBuilder builder = new ProcessBuilder();
         builder.environment().put("LANG", "en_US.UTF-8");
         builder.environment().put("LANGUAGE", "en_US:en");
@@ -76,7 +85,7 @@ public class ProcessExec {
             exit = process.waitFor();
             stdoutFuture.get();
             stderrFuture.get();
-            LOGGER.info("Process finished with exit " + exit);
+            LOGGER.info("{} Process finished with exit {}", processId, exit);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IOException("Process was interrupted", e);
@@ -99,14 +108,7 @@ public class ProcessExec {
         return stderr.toString();
     }
 
-    public int getExit() {
-        if (exit == null) {
-            throw new IllegalStateException("Process was not started");
-        }
-        return exit;
-    }
-
-    public void checkSuccess() throws IOException {
+    private void checkSuccess() throws IOException {
         if (exit == null) {
             throw new IllegalStateException("Process was not started");
         }

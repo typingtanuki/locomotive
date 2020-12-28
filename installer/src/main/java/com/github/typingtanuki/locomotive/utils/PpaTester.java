@@ -46,7 +46,6 @@ public final class PpaTester {
                 return PPAS;
             }
             ProcessExec exec = ProcessExec.exec(nullTerminal(), "apt", "policy");
-            exec.checkSuccess();
             for (String s : exec.getStdout().split("\\n")) {
                 PPAS.add(s.strip().toLowerCase(Locale.ENGLISH));
             }
@@ -63,7 +62,6 @@ public final class PpaTester {
                 return PPA_KEYS;
             }
             ProcessExec exec = ProcessExec.exec(nullTerminal(), "apt-key", "list");
-            exec.checkSuccess();
             for (String s : exec.getStdout().split("\\n")) {
                 if (s.contains("uid")) {
                     PPA_KEYS.add(s.strip().toLowerCase(Locale.ENGLISH));

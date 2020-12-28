@@ -16,8 +16,19 @@ import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.*;
 import static javafx.animation.Animation.INDEFINITE;
 
+/**
+ * Base class for a widget
+ * <p>
+ * Has title, description and an icon
+ */
 public abstract class AbstractWidget extends BorderPane {
+    /**
+     * The body of the widget
+     */
     private final VBox layout;
+    /**
+     * The state of the widget
+     */
     private WidgetState state;
 
     public AbstractWidget(String title, String description) {
@@ -33,6 +44,9 @@ public abstract class AbstractWidget extends BorderPane {
         return state;
     }
 
+    /**
+     * Update the state of the widget, update icon, ...
+     */
     protected void setState(WidgetState state) {
         this.state = state;
 
@@ -57,6 +71,7 @@ public abstract class AbstractWidget extends BorderPane {
             }
 
             if (spin) {
+                // Make spinners spin
                 RotateTransition rotate = new RotateTransition();
                 rotate.setAxis(Rotate.Z_AXIS);
                 rotate.setByAngle(360);

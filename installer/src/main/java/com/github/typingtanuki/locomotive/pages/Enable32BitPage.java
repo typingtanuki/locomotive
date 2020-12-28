@@ -13,9 +13,12 @@ import java.util.Deque;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class Enable32BitPage extends InstallerPage {
+/**
+ * The page for enabling 32bit compatibility
+ */
+public class Enable32BitPage extends AbstractInstallerPage {
 
-    public Enable32BitPage(Deque<InstallerPage> nextPages) {
+    public Enable32BitPage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

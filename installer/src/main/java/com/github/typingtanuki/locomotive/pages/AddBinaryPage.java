@@ -21,10 +21,13 @@ import java.util.Deque;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class AddBinaryPage extends InstallerPage {
+/**
+ * The page for installing a new binary package
+ */
+public class AddBinaryPage extends AbstractInstallerPage {
     private final Binary binary;
 
-    public AddBinaryPage(Binary binary, Deque<InstallerPage> nextPages) {
+    public AddBinaryPage(Binary binary, Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
 
         this.binary = binary;

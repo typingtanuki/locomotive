@@ -35,7 +35,6 @@ public class CalibratorToolWidget extends AbstractToolWidget {
 
         try {
             ProcessExec processExec = ProcessExec.exec(getTerminal(), command, "--list");
-            processExec.checkSuccess();
             Pattern pattern = Pattern.compile("$Device\\s\"([^\"]+)\"\\sid=(\\d+)^");
             for (String line : processExec.getStdout().split("[\r\n]]")) {
                 Matcher matcher = pattern.matcher(line);

@@ -20,7 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class SystemOverviewPage extends InstallerPage {
+/**
+ * Overview page with the state of teh core PPAs
+ */
+public class SystemOverviewPage extends AbstractInstallerPage {
     private final CountDownLatch latch = new CountDownLatch(5);
 
     private final AtomicBoolean architecture = new AtomicBoolean(false);
@@ -29,7 +32,7 @@ public class SystemOverviewPage extends InstallerPage {
     private final AtomicBoolean ppaBackports = new AtomicBoolean(false);
     private final AtomicBoolean buildEssentials = new AtomicBoolean(false);
 
-    public SystemOverviewPage(Deque<InstallerPage> nextPages) {
+    public SystemOverviewPage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

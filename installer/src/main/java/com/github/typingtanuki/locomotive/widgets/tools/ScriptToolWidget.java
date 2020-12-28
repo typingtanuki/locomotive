@@ -35,8 +35,7 @@ public class ScriptToolWidget extends AbstractToolWidget {
     @Override
     protected void start() {
         try {
-            ProcessExec processExec = ProcessExec.sudoExec(getTerminal(), fullCommand);
-            processExec.checkSuccess();
+            ProcessExec.sudoExec(getTerminal(), fullCommand);
             finished();
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);

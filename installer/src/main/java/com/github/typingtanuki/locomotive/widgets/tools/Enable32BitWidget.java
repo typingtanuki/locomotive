@@ -23,12 +23,11 @@ public class Enable32BitWidget extends AbstractInstallWidget {
     @Override
     protected void doInstall() {
         try {
-            ProcessExec processExec = ProcessExec.sudoExec(
+            ProcessExec.sudoExec(
                     getTerminal(),
                     "dpkg",
                     "--add-architecture",
                     "i386");
-            processExec.checkSuccess();
             installIsDone();
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);

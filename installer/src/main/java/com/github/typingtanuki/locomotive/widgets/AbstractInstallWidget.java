@@ -11,12 +11,30 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
 
+/**
+ * Base for widgets with an install button and action
+ */
 public abstract class AbstractInstallWidget extends AbstractWidget {
+    /**
+     * A callback to say that the install will start
+     */
     private final Runnable installStarts;
+    /**
+     * A callback to say that the install has finished successfully
+     */
     private final Runnable installFinished;
+    /**
+     * The install button (or null, if not enabled)
+     */
     private Button installButton;
 
+    /**
+     * A text area to show command output during install
+     */
     private TerminalComponent terminal;
+    /**
+     * A progressbar for downloads
+     */
     private DownloadComponent download;
 
 

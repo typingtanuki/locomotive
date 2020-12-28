@@ -16,12 +16,15 @@ import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.setSize;
 
-public abstract class InstallerPage extends BorderPane {
-    private final Deque<InstallerPage> nextPages;
+/**
+ * The base page
+ */
+public abstract class AbstractInstallerPage extends BorderPane {
+    private final Deque<AbstractInstallerPage> nextPages;
 
     private Button nextButton;
 
-    public InstallerPage(Deque<InstallerPage> nextPages) {
+    public AbstractInstallerPage(Deque<AbstractInstallerPage> nextPages) {
         this.nextPages = nextPages;
         setSize(this);
     }
@@ -32,6 +35,9 @@ public abstract class InstallerPage extends BorderPane {
         setBottom(makeFooter());
     }
 
+    /**
+     * A default footer with next/exit
+     */
     protected HBox basicFooter(boolean nextDisabled) {
         nextButton = button(I18n.get("next"), FontAwesome.Glyph.ARROW_RIGHT, this::doNext);
         nextButton.setDisable(nextDisabled);
@@ -41,8 +47,11 @@ public abstract class InstallerPage extends BorderPane {
                 exitButton());
     }
 
+    /**
+     * Go to next page
+     */
     protected void doNext() {
-        InstallerPage next = nextPages.pollFirst();
+        AbstractInstallerPage next = nextPages.pollFirst();
         NavigationCore.changePage(next);
     }
 
@@ -54,7 +63,7 @@ public abstract class InstallerPage extends BorderPane {
         nextPages.clear();
     }
 
-    protected void addPage(InstallerPage page) {
+    protected void addPage(AbstractInstallerPage page) {
         nextPages.add(page);
     }
 
@@ -64,7 +73,7 @@ public abstract class InstallerPage extends BorderPane {
 
     protected abstract Pane makeFooter();
 
-    public Deque<InstallerPage> getNextPages() {
+    public Deque<AbstractInstallerPage> getNextPages() {
         return nextPages;
     }
 }

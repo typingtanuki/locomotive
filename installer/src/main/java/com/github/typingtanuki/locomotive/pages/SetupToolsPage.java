@@ -16,10 +16,13 @@ import java.util.List;
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.*;
 
-public class SetupToolsPage extends InstallerPage {
+/**
+ * Page with useful tools
+ */
+public class SetupToolsPage extends AbstractInstallerPage {
     private final List<AbstractToolWidget> tools = new ArrayList<>();
 
-    public SetupToolsPage(Deque<InstallerPage> nextPages) {
+    public SetupToolsPage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

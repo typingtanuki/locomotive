@@ -14,10 +14,13 @@ import java.util.Deque;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class AddPpaPage extends InstallerPage {
+/**
+ * The page for installing a new PPA
+ */
+public class AddPpaPage extends AbstractInstallerPage {
     private final Ppa ppa;
 
-    public AddPpaPage(Ppa ppa, Deque<InstallerPage> nextPages) {
+    public AddPpaPage(Ppa ppa, Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
 
         this.ppa = ppa;

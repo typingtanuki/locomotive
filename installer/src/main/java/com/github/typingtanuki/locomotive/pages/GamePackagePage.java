@@ -17,7 +17,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class GamePackagePage extends InstallerPage {
+/**
+ * The page for installing gaming related packages
+ */
+public class GamePackagePage extends AbstractInstallerPage {
     private final CountDownLatch latch = new CountDownLatch(4);
 
     private final AtomicBoolean steam = new AtomicBoolean(false);
@@ -25,7 +28,7 @@ public class GamePackagePage extends InstallerPage {
     private final AtomicBoolean itch = new AtomicBoolean(false);
     private final AtomicBoolean retroarch = new AtomicBoolean(false);
 
-    public GamePackagePage(Deque<InstallerPage> nextPages) {
+    public GamePackagePage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

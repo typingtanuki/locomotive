@@ -16,7 +16,10 @@ import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.CLASS_WELCOME;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.withClass;
 
-public class WelcomePage extends InstallerPage {
+/**
+ * The title page
+ */
+public class WelcomePage extends AbstractInstallerPage {
     public WelcomePage() {
         super(new ArrayDeque<>());
     }

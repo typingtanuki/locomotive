@@ -1,6 +1,6 @@
 package com.github.typingtanuki.locomotive.navigation;
 
-import com.github.typingtanuki.locomotive.pages.InstallerPage;
+import com.github.typingtanuki.locomotive.pages.AbstractInstallerPage;
 import com.github.typingtanuki.locomotive.pages.WelcomePage;
 import com.github.typingtanuki.locomotive.utils.LayoutUtils;
 import javafx.application.Platform;
@@ -8,6 +8,9 @@ import javafx.scene.layout.Pane;
 
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.setSize;
 
+/**
+ * The root element of all pages
+ */
 public class NavigationController extends Pane {
     public NavigationController() {
         setSize(this);
@@ -19,7 +22,7 @@ public class NavigationController extends Pane {
         changePage(new WelcomePage());
     }
 
-    public void changePage(InstallerPage page) {
+    public void changePage(AbstractInstallerPage page) {
         Platform.runLater(() -> {
             getChildren().clear();
             getChildren().add(page);

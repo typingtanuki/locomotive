@@ -26,8 +26,13 @@ public class GithubWidget extends AbstractInstallWidget {
 
         this.binary = binary;
         this.urlTargetWidget = urlTargetWidget;
-        showInstallButton();
-        setState(WidgetState.MISSING);
+
+        if (!urlTargetWidget.isDownloaded()) {
+            showInstallButton();
+            setState(WidgetState.MISSING);
+        } else {
+            setState(WidgetState.INSTALLED);
+        }
     }
 
     @Override

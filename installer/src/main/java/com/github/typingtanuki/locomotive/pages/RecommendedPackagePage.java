@@ -17,7 +17,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class RecommendedPackagePage extends InstallerPage {
+/**
+ * The page for installing recommended packages
+ */
+public class RecommendedPackagePage extends AbstractInstallerPage {
     private final CountDownLatch latch = new CountDownLatch(3);
 
     private final AtomicBoolean wine = new AtomicBoolean(false);
@@ -25,7 +28,7 @@ public class RecommendedPackagePage extends InstallerPage {
     private final AtomicBoolean antiMicroX = new AtomicBoolean(false);
     private final AtomicBoolean kodi = new AtomicBoolean(false);
 
-    public RecommendedPackagePage(Deque<InstallerPage> nextPages) {
+    public RecommendedPackagePage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

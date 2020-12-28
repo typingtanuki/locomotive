@@ -49,6 +49,13 @@ public final class I18n {
         fallback = ResourceBundle.getBundle("installer", Locale.ENGLISH);
     }
 
+    /**
+     * Get a string in the current locale, or in english for fallback
+     *
+     * @param key  The bundle key to get the string message from
+     * @param args The arguments for placeholders
+     * @return The translated string with placeholders replaced
+     */
     public static String get(String key, Object... args) {
         String pattern = getFrom(bundle, key);
         if (pattern == null) {

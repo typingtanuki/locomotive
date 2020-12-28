@@ -19,14 +19,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.header;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
 
-public class DriverOverviewPage extends InstallerPage {
+/**
+ * The page for driver related PPAs
+ */
+public class DriverOverviewPage extends AbstractInstallerPage {
     private final CountDownLatch latch = new CountDownLatch(3);
 
     private final AtomicBoolean swat = new AtomicBoolean(false);
     private final AtomicBoolean oibaf = new AtomicBoolean(false);
     private final AtomicBoolean calibrator = new AtomicBoolean(false);
 
-    public DriverOverviewPage(Deque<InstallerPage> nextPages) {
+    public DriverOverviewPage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
     }
 

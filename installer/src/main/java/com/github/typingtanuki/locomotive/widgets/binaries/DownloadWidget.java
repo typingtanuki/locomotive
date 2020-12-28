@@ -8,6 +8,7 @@ import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -15,6 +16,7 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     private final Binary binary;
     private final String extension;
     private final FileTargetWidget fileTargetWidget;
+    private final Path target;
 
     private String url;
 
@@ -31,6 +33,9 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
         this.binary = binary;
         this.extension = extension;
         this.fileTargetWidget = fileTargetWidget;
+
+        target = Paths.get("cache").resolve(binary.getBinary() + "-installer." + extension);
+
         setState(WidgetState.MISSING);
     }
 
@@ -42,7 +47,6 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     @Override
     protected void doInstall() {
         try {
-            Path target = Paths.get("cache").resolve(binary.getBinary() + "-installer." + extension);
             DownloadUtils.inFile(url, target, getDownload());
             DownloadUtils.makeExecutable(target);
             fileTargetWidget.setFileTarget(target);
@@ -58,6 +62,14 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     }
 
     public void urlResolved() {
-        showInstallButton();
+        if (isDownloaded()) {
+            setState(WidgetState.INSTALLED);
+        } else {
+            showInstallButton();
+        }
+    }
+
+    public boolean isDownloaded(){
+        return Files.exists(target);
     }
 }

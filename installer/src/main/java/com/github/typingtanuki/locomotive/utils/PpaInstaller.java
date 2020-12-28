@@ -16,21 +16,17 @@ public final class PpaInstaller {
     }
 
     public static void installPpa(Ppa ppa, TerminalComponent terminal) throws IOException {
-        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
-        processExec.checkSuccess();
-
+        ProcessExec.sudoExec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
         updateRepositories(terminal);
     }
 
     public static void installKey(PpaKey key, TerminalComponent terminal) throws IOException {
         Path keyFile = DownloadUtils.inTempFile(key.getKey(), nullDownload()).toAbsolutePath();
-        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
-        processExec.checkSuccess();
+        ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
         Files.deleteIfExists(keyFile);
     }
 
     private static void updateRepositories(TerminalComponent terminal) throws IOException {
-        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt", "update", "-y");
-        processExec.checkSuccess();
+        ProcessExec.sudoExec(terminal, "apt", "update", "-y");
     }
 }

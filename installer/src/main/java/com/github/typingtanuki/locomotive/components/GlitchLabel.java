@@ -10,8 +10,16 @@ import javafx.util.Duration;
 import java.util.Locale;
 import java.util.Random;
 
+/**
+ * A label with glitchy text
+ */
 public class GlitchLabel extends Label {
     private static final Random RANDOM = new Random();
+    /**
+     * Ratio of normal chars/glitch
+     * (1: All chars are glitch; 2: 50% of chars; ...)
+     */
+    private static final int GLITCH_RATIO = 10;
 
     private final String text;
     private String current;
@@ -24,23 +32,24 @@ public class GlitchLabel extends Label {
         Platform.runLater(this::animate);
     }
 
+    /**
+     * Start the glitch animation
+     */
     private void animate() {
         Timeline timeline = new Timeline();
         KeyFrame keyFrame = new KeyFrame(
                 Duration.millis(200),
                 event -> {
+                    // Build a string with some glitchy characters
                     StringBuilder out = new StringBuilder();
                     for (int i = 0; i < text.length(); i++) {
                         char c = text.charAt(i);
-                        switch (RANDOM.nextInt(10)) {
-                            case 0:
-                                out.append(c);
-                                break;
-                            case 1:
-                                out.append(glitchFor(c));
-                                break;
-                            default:
-                                out.append(c);
+                        if (RANDOM.nextInt(GLITCH_RATIO) == 0) {
+                            // Glitch
+                            out.append(glitchFor(c));
+                        } else {
+                            // Normal character
+                            out.append(c);
                         }
                     }
                     current = out.toString();
@@ -62,10 +71,16 @@ public class GlitchLabel extends Label {
         }
     }
 
+    /**
+     * Pick a character from the array
+     */
     private char pick(char[] transform) {
         return transform[RANDOM.nextInt(transform.length)];
     }
 
+    /**
+     * Find a glitchy character corresponding to the character we want to replace
+     */
     private char[] transform(char c) {
         String s = String.valueOf(c).toLowerCase(Locale.ENGLISH);
         switch (s) {

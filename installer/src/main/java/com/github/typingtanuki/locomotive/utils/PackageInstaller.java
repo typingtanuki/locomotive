@@ -49,8 +49,7 @@ public final class PackageInstaller {
         Files.setPosixFilePermissions(installer, permissions);
         LOGGER.info("Changing permissions of " + installer + ": OK");
 
-        ProcessExec processExec = ProcessExec.exec(terminal, installer.toAbsolutePath().toString());
-        processExec.checkSuccess();
+        ProcessExec.exec(terminal, installer.toAbsolutePath().toString());
     }
 
     private static void installAptBinary(AptBinary binary, TerminalComponent terminal) throws IOException {
@@ -59,7 +58,6 @@ public final class PackageInstaller {
         allArgs.addAll(binary.getFlags());
         allArgs.addAll(binary.getPackages());
         allArgs.add("-y");
-        ProcessExec processExec = ProcessExec.sudoExec(terminal, "apt", allArgs.toArray(new String[0]));
-        processExec.checkSuccess();
+        ProcessExec.sudoExec(terminal, "apt", allArgs.toArray(new String[0]));
     }
 }
