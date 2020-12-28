@@ -26,8 +26,7 @@ public class Enable32BitPage extends AbstractInstallerPage {
     protected Node makeContent() {
         return vertical(new Enable32BitWidget(
                 this::installStarts,
-                this::installFinished
-        ));
+                this::installFinished));
     }
 
     @Override
@@ -42,7 +41,6 @@ public class Enable32BitPage extends AbstractInstallerPage {
     protected HBox makeFooter() {
         return basicFooter(false);
     }
-
 
     public void installStarts() {
         Platform.runLater(() -> getNextButton().setDisable(true));

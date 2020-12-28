@@ -48,10 +48,6 @@ public abstract class AbstractWidget extends BorderPane {
         return state;
     }
 
-    protected void setIcon(Glyph icon) {
-        this.icon = icon;
-    }
-
     /**
      * Update the state of the widget, update icon, ...
      */
@@ -61,8 +57,8 @@ public abstract class AbstractWidget extends BorderPane {
         Platform.runLater(() -> {
 
             if (this.icon != null) {
-                withClass(this.icon, "icon");
-                withClass(this, "widget", state.name());
+                withClass(this.icon, CLASS_ICON);
+                withClass(this, CLASS_WIDGET, state.name());
                 setLeft(this.icon);
                 return;
             }
@@ -98,10 +94,14 @@ public abstract class AbstractWidget extends BorderPane {
                 rotate.play();
             }
 
-            withClass(icon, "icon", state.name());
-            withClass(this, "widget", state.name());
+            withClass(icon, CLASS_ICON, state.name());
+            withClass(this, CLASS_WIDGET, state.name());
             setLeft(icon);
         });
+    }
+
+    protected void setIcon(Glyph icon) {
+        this.icon = icon;
     }
 
     protected VBox getLayout() {

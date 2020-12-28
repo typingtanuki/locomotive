@@ -69,7 +69,7 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
         }
     }
 
-    public boolean isDownloaded(){
+    public boolean isDownloaded() {
         return Files.exists(target);
     }
 }

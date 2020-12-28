@@ -24,6 +24,13 @@ public class TerminalComponent extends TextArea {
         setOnKeyTyped(this::keyTyped);
     }
 
+    /**
+     * A more explicit way of expressing "no terminal"
+     */
+    public static TerminalComponent nullTerminal() {
+        return null;
+    }
+
     public void setInput(OutputStream input) {
         this.input = input;
     }
@@ -39,13 +46,5 @@ public class TerminalComponent extends TextArea {
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);
         }
-    }
-
-
-    /**
-     * A more explicit way of expressing "no terminal"
-     */
-    public static TerminalComponent nullTerminal() {
-        return null;
     }
 }

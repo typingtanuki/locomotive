@@ -21,7 +21,7 @@ public final class PpaTester {
     public static boolean isPpaActivated(Ppa ppa) throws IOException {
         String ppaName = ppa.getUrl();
         if (ppaName.contains(":")) {
-            ppaName = ppaName.split("\\:")[1];
+            ppaName = ppaName.split(":")[1];
         }
         if (ppaName.contains(" ")) {
             ppaName = ppaName.split(" ")[0];

@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.widgets.tools;
 
 import com.github.typingtanuki.locomotive.binary.Binary;
+import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.LayoutUtils;
 import com.sun.javafx.scene.control.skin.resources.ControlResources;
 import javafx.scene.control.*;
@@ -23,8 +24,8 @@ public class AutostartDialog extends Dialog<AutostartStatus> {
         makeCheckboxes(before.getAvailable(), false);
         makeCheckboxes(before.getEnabled(), true);
 
-        setTitle(ControlResources.getString("Dialog.confirm.title"));
-        dialogPane.setHeaderText(ControlResources.getString("Dialog.confirm.header"));
+        setTitle(I18n.get("autostart.dialog.header"));
+        dialogPane.setHeaderText(I18n.get("autostart.dialog.title"));
         dialogPane.getStyleClass().add("text-input-dialog");
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 

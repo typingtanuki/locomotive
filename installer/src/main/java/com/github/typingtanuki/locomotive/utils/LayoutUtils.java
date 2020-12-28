@@ -44,16 +44,9 @@ public final class LayoutUtils {
         return out;
     }
 
-    public static <T extends Node> T setGrow(T node) {
-        GridPane.setHgrow(node, Priority.ALWAYS);
-        GridPane.setVgrow(node, Priority.ALWAYS);
-        GridPane.setMargin(node, new Insets(MARGIN_SIZE));
-        return node;
-    }
-
     public static Pane header(String title, String description, FontAwesome.Glyph icon) {
-        BorderPane out = withClass(new BorderPane(), "header");
-        out.setLeft(withClass(IconUtils.getIcon(icon), "icon"));
+        BorderPane out = withClass(new BorderPane(), CLASS_HEADER);
+        out.setLeft(withClass(IconUtils.getIcon(icon), CLASS_ICON));
         out.setCenter(vertical(
                 withClass(new GlitchLabel(title), CLASS_TITLE),
                 withClass(new Label(description), CLASS_SUB_TITLE)));

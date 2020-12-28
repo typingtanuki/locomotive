@@ -25,8 +25,7 @@ public final class DownloadUtils {
 
     public static byte[] inMemory(String url,
                                   DownloadComponent downloadComponent) throws IOException {
-        try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-             ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
             inStream(url, buffer, downloadComponent);
             return buffer.toByteArray();
         } catch (IOException e) {

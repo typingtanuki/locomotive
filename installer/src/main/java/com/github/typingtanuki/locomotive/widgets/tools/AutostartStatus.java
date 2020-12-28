@@ -20,6 +20,13 @@ public class AutostartStatus {
         }
     }
 
+    public static Path desktopAutostart(Binary binary) {
+        return Paths.get("/home")
+                .resolve(System.getProperty("user.name"))
+                .resolve(".config")
+                .resolve("autostart")
+                .resolve(binary.getBinary() + ".desktop");
+    }
 
     private void check(Binary binary) {
         if (!PackageTester.isBinaryOnPath(binary)) {
@@ -35,14 +42,6 @@ public class AutostartStatus {
 
     private boolean isAutostart(Binary binary) {
         return Files.exists(desktopAutostart(binary));
-    }
-
-    public static Path desktopAutostart(Binary binary) {
-        return Paths.get("/home")
-                .resolve(System.getProperty("user.name"))
-                .resolve(".config")
-                .resolve("autostart")
-                .resolve(binary.getBinary() + ".desktop");
     }
 
     @Override
