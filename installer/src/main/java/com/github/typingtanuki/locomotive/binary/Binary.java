@@ -3,6 +3,8 @@ package com.github.typingtanuki.locomotive.binary;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import org.controlsfx.glyphfont.FontAwesome;
 
+import java.util.Objects;
+
 /**
  * Represents a binary and its way of installation
  */
@@ -47,5 +49,18 @@ public abstract class Binary {
 
     public FontAwesome.Glyph icon() {
         return FontAwesome.Glyph.FILE_CODE_ALT;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Binary binary1 = (Binary) o;
+        return Objects.equals(binary, binary1.binary);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(binary);
     }
 }

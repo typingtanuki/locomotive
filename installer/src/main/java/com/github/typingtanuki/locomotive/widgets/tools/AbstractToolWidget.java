@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.widgets.tools;
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.pages.SetupToolsPage;
+import com.github.typingtanuki.locomotive.utils.IconUtils;
 import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ public abstract class AbstractToolWidget extends AbstractWidget {
 
     private Button executeButton;
     private TerminalComponent terminal = null;
+    private boolean useTerminal;
 
     public AbstractToolWidget(String title,
                               String description,
@@ -25,6 +27,7 @@ public abstract class AbstractToolWidget extends AbstractWidget {
         this.setupToolsPage = setupToolsPage;
 
         setState(WidgetState.MISSING);
+        setIcon(IconUtils.getIcon(FontAwesome.Glyph.WRENCH));
     }
 
     protected void init() {
@@ -39,14 +42,20 @@ public abstract class AbstractToolWidget extends AbstractWidget {
 
     protected abstract boolean isInstalled();
 
+    protected void setNoTerminal() {
+        useTerminal = false;
+    }
+
     private void execute() {
         setupToolsPage.toolStarted();
         setState(WidgetState.PROCESSING);
 
         if (terminal == null) {
             Platform.runLater(() -> {
-                terminal = new TerminalComponent();
-                getLayout().getChildren().add(terminal);
+                if (useTerminal) {
+                    terminal = new TerminalComponent();
+                    getLayout().getChildren().add(terminal);
+                }
                 CoreExecutor.execute(this::start);
             });
         }

@@ -30,6 +30,10 @@ public abstract class AbstractWidget extends BorderPane {
      * The state of the widget
      */
     private WidgetState state;
+    /**
+     * Override the status icon
+     */
+    private Glyph icon;
 
     public AbstractWidget(String title, String description) {
         super();
@@ -44,6 +48,10 @@ public abstract class AbstractWidget extends BorderPane {
         return state;
     }
 
+    protected void setIcon(Glyph icon) {
+        this.icon = icon;
+    }
+
     /**
      * Update the state of the widget, update icon, ...
      */
@@ -51,6 +59,14 @@ public abstract class AbstractWidget extends BorderPane {
         this.state = state;
 
         Platform.runLater(() -> {
+
+            if (this.icon != null) {
+                withClass(this.icon, "icon");
+                withClass(this, "widget", state.name());
+                setLeft(this.icon);
+                return;
+            }
+
             boolean spin = false;
             Glyph icon;
             switch (state) {
@@ -81,6 +97,7 @@ public abstract class AbstractWidget extends BorderPane {
                 rotate.setDelay(Duration.ZERO);
                 rotate.play();
             }
+
             withClass(icon, "icon", state.name());
             withClass(this, "widget", state.name());
             setLeft(icon);

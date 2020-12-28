@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.pages;
 
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.widgets.tools.AbstractToolWidget;
+import com.github.typingtanuki.locomotive.widgets.tools.AutostartToolWidget;
 import com.github.typingtanuki.locomotive.widgets.tools.CalibratorToolWidget;
 import com.github.typingtanuki.locomotive.widgets.tools.ScriptToolWidget;
 import javafx.scene.Node;
@@ -37,6 +38,10 @@ public class SetupToolsPage extends AbstractInstallerPage {
         tools.add(new CalibratorToolWidget(
                 I18n.get("calibrate.title"),
                 I18n.get("calibrate.description"),
+                this));
+        tools.add(new AutostartToolWidget(
+                I18n.get("autostart.title"),
+                I18n.get("autostart.description"),
                 this));
         return vertical(tools.toArray(new AbstractToolWidget[0]));
     }
