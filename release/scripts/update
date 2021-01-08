@@ -4,3 +4,5 @@ apt upgrade -y -f
 apt dist-upgrade -y -f
 apt autoremove -y
 apt autoclean -y
+snap refresh
+flatpack update -y

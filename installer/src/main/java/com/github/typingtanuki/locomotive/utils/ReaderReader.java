@@ -32,6 +32,8 @@ public class ReaderReader implements Callable<Void> {
                 builder.append(toAppend);
                 if (terminal != null) {
                     Platform.runLater(() -> terminal.appendText(toAppend));
+                } else {
+                    System.out.println(" >> " + toAppend.strip());
                 }
                 builder.append(System.getProperty("line.separator"));
             }

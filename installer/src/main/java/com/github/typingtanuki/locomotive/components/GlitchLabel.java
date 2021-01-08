@@ -16,19 +16,37 @@ import java.util.Random;
 public class GlitchLabel extends Label {
     private static final Random RANDOM = new Random();
     /**
-     * Ratio of normal chars/glitch
-     * (1: All chars are glitch; 2: 50% of chars; ...)
+     * Percentage of characters with will appear glitchy
      */
     private static final int GLITCH_RATIO = 10;
+    /**
+     * Percentage of a glitchy character from the base type to clear up
+     */
+    private static final int UNGLITCH_RATIO = 20;
 
-    private final String text;
+    /**
+     * The clear text to display
+     */
+    private final String core;
+    /**
+     * A glitchy version of the text, slowly clearing up
+     */
+    private String text;
+    /**
+     * The currently displayed string
+     */
     private String current;
 
     public GlitchLabel(String text) {
         super(text);
         setStyle("-fx-font-family: monospace");
-        this.text = text;
-        this.current = text;
+        this.core = text;
+        StringBuilder glitch = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            glitch.append(glitchFor(text.charAt(i)));
+        }
+        this.text = glitch.toString();
+        this.current = this.text;
         Platform.runLater(this::animate);
     }
 
@@ -42,6 +60,18 @@ public class GlitchLabel extends Label {
                 event -> {
                     // Build a string with some glitchy characters
                     StringBuilder out = new StringBuilder();
+                    for (int i = 0; i < text.length(); i++) {
+                        char ca = core.charAt(i);
+                        char cb = text.charAt(i);
+                        if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
+                            out.append(ca);
+                        } else {
+                            out.append(cb);
+                        }
+                    }
+                    text = out.toString();
+                    out.setLength(0);
+
                     for (int i = 0; i < text.length(); i++) {
                         char c = text.charAt(i);
                         if (RANDOM.nextInt(GLITCH_RATIO) == 0) {

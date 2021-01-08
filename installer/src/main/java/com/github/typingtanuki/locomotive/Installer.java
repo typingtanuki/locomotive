@@ -3,11 +3,87 @@
  */
 package com.github.typingtanuki.locomotive;
 
+import com.github.typingtanuki.locomotive.comm.InstallerServer;
+import com.github.typingtanuki.locomotive.components.TerminalComponent;
+import com.github.typingtanuki.locomotive.executor.CoreExecutor;
+import com.github.typingtanuki.locomotive.utils.ProcessExec;
+
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Main class to bypass the javafx checks
  */
 public class Installer {
     public static void main(String[] args) {
-        InstallerMain.main(args);
+        if (isRoot()) {
+            startAdminNode(args);
+        } else {
+            startGUI(args);
+        }
+    }
+
+    private static boolean isRoot() {
+        return "root".equalsIgnoreCase(System.getProperty("user.name"));
+    }
+
+    private static void startAdminNode(String[] args) {
+        if (args.length != 1) {
+            throw new IllegalStateException("Wrong arguments passed to admin node.");
+        }
+        int port;
+        try {
+            port = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            throw new IllegalStateException("Wrong arguments passed to admin node.");
+        }
+
+        System.out.println("bouning bouning " + port);
+        try {
+            InstallerAdmin.start(port);
+        } catch (IOException e) {
+            System.out.println("qweqwe");
+            e.printStackTrace();
+        }
+    }
+
+    private static void startGUI(String[] args) {
+        try {
+            InstallerServer.start();
+            startSecondProcess();
+            InstallerServer.waitHandshake();
+
+            InstallerMain.main(args);
+            InstallerServer.stop();
+        } catch (IOException | RuntimeException e) {
+            System.err.println("Could not start node");
+            e.printStackTrace(System.err);
+            System.exit(10);
+        }
+    }
+
+    private static void startSecondProcess() {
+        CoreExecutor.init();
+        CoreExecutor.execute(() -> {
+            System.out.println("Starting second process");
+            String javaHome = System.getProperty("java.home");
+            String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+            String classpath = System.getProperty("java.class.path");
+            String className = Installer.class.getName();
+
+            try {
+                System.out.println("Go");
+                ProcessExec.sudoExec(
+                        TerminalComponent.nullTerminal(),
+                        javaBin,
+                        "-cp",
+                        classpath,
+                        className,
+                        String.valueOf(InstallerServer.getPort()));
+            } catch (IOException e) {
+                System.out.println("kweq");
+                e.printStackTrace();
+            }
+        });
     }
 }
