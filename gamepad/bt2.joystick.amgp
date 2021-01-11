@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<joystick configversion="19" appversion="3.1.3">
+    <!--The SDL name for a joystick is included for informational purposes only.-->
+    <sdlname>ROG Kunai 3 Gamepad Consumer Control</sdlname>
+    <!--The Unique ID for a joystick is included for informational purposes only.-->
+    <uniqueID>05000000050b00000679000000010000</uniqueID>
+    <sets>
+        <set index="1">
+            <button index="8">
+                <slots>
+                    <slot>
+                        <code>4</code>
+                        <mode>mousebutton</mode>
+                    </slot>
+                </slots>
+            </button>
+            <button index="7">
+                <slots>
+                    <slot>
+                        <code>5</code>
+                        <mode>mousebutton</mode>
+                    </slot>
+                </slots>
+            </button>
+        </set>
+    </sets>
+</joystick>
