@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.utils;
 import com.github.typingtanuki.locomotive.binary.AptBinary;
 import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.binary.DownloadBinary;
+import com.github.typingtanuki.locomotive.comm.InstallerServer;
 import com.github.typingtanuki.locomotive.components.DownloadComponent;
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import org.slf4j.Logger;
@@ -58,6 +59,6 @@ public final class PackageInstaller {
         allArgs.addAll(binary.getFlags());
         allArgs.addAll(binary.getPackages());
         allArgs.add("-y");
-        ProcessExec.sudoExec(terminal, "apt", allArgs.toArray(new String[0]));
+        InstallerServer.exec(terminal, "apt", allArgs.toArray(new String[0]));
     }
 }

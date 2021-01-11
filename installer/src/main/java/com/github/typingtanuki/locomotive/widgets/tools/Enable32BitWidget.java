@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.widgets.tools;
 
+import com.github.typingtanuki.locomotive.comm.InstallerServer;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
@@ -23,7 +24,7 @@ public class Enable32BitWidget extends AbstractInstallWidget {
     @Override
     protected void doInstall() {
         try {
-            ProcessExec.sudoExec(
+            InstallerServer.exec(
                     getTerminal(),
                     "dpkg",
                     "--add-architecture",

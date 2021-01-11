@@ -42,6 +42,6 @@ public class WelcomePage extends AbstractInstallerPage {
     }
 
     public void doStart() {
-        NavigationCore.changePage(new SystemOverviewPage(getNextPages()));
+        NavigationCore.changePage(new EnableAdminPage());
     }
 }

@@ -4,11 +4,7 @@
 package com.github.typingtanuki.locomotive;
 
 import com.github.typingtanuki.locomotive.comm.InstallerServer;
-import com.github.typingtanuki.locomotive.components.TerminalComponent;
-import com.github.typingtanuki.locomotive.executor.CoreExecutor;
-import com.github.typingtanuki.locomotive.utils.ProcessExec;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -50,8 +46,6 @@ public class Installer {
     private static void startGUI(String[] args) {
         try {
             InstallerServer.start();
-            startSecondProcess();
-            InstallerServer.waitHandshake();
 
             InstallerMain.main(args);
             InstallerServer.stop();
@@ -60,30 +54,5 @@ public class Installer {
             e.printStackTrace(System.err);
             System.exit(10);
         }
-    }
-
-    private static void startSecondProcess() {
-        CoreExecutor.init();
-        CoreExecutor.execute(() -> {
-            System.out.println("Starting second process");
-            String javaHome = System.getProperty("java.home");
-            String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
-            String classpath = System.getProperty("java.class.path");
-            String className = Installer.class.getName();
-
-            try {
-                System.out.println("Go");
-                ProcessExec.sudoExec(
-                        TerminalComponent.nullTerminal(),
-                        javaBin,
-                        "-cp",
-                        classpath,
-                        className,
-                        String.valueOf(InstallerServer.getPort()));
-            } catch (IOException e) {
-                System.out.println("kweq");
-                e.printStackTrace();
-            }
-        });
     }
 }

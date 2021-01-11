@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.comm;
 
+import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 
 import java.io.IOException;
@@ -39,7 +40,6 @@ public final class InstallerServer {
     }
 
     public static void waitHandshake() {
-        System.out.println("Waiting for handshake");
         while (!shook) {
             try {
                 Thread.sleep(1000);
@@ -51,5 +51,9 @@ public final class InstallerServer {
 
     public static void shaked() {
         shook = true;
+    }
+
+    public static void exec(TerminalComponent terminal, String command, String... arguments) throws IOException {
+        // TBD
     }
 }

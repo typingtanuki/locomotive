@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive;
 
 import com.github.typingtanuki.locomotive.comm.InstallerMessenger;
+import com.github.typingtanuki.locomotive.comm.MessageType;
 
 import java.io.IOException;
 
@@ -13,6 +14,6 @@ public final class InstallerAdmin {
 
     public static void start(int port) throws IOException {
         messenger = new InstallerMessenger(port);
-        messenger.send("pifoplop");
+        messenger.send(-1, true, true, MessageType.shake, "");
     }
 }

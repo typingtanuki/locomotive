@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.utils;
 
+import com.github.typingtanuki.locomotive.comm.InstallerServer;
 import com.github.typingtanuki.locomotive.components.TerminalComponent;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.ppa.PpaKey;
@@ -16,17 +17,17 @@ public final class PpaInstaller {
     }
 
     public static void installPpa(Ppa ppa, TerminalComponent terminal) throws IOException {
-        ProcessExec.sudoExec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
+        InstallerServer.exec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
         updateRepositories(terminal);
     }
 
     public static void installKey(PpaKey key, TerminalComponent terminal) throws IOException {
         Path keyFile = DownloadUtils.inTempFile(key.getKey(), nullDownload()).toAbsolutePath();
-        ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
+        InstallerServer.exec(terminal, "apt-key", "add", keyFile.toString());
         Files.deleteIfExists(keyFile);
     }
 
     private static void updateRepositories(TerminalComponent terminal) throws IOException {
-        ProcessExec.sudoExec(terminal, "apt", "update", "-y");
+        InstallerServer.exec(terminal, "apt", "update", "-y");
     }
 }

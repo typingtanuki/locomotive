@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.widgets.tools;
 
+import com.github.typingtanuki.locomotive.comm.InstallerServer;
 import com.github.typingtanuki.locomotive.pages.SetupToolsPage;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
@@ -35,7 +36,7 @@ public class ScriptToolWidget extends AbstractToolWidget {
     @Override
     protected void start() {
         try {
-            ProcessExec.sudoExec(getTerminal(), fullCommand);
+            InstallerServer.exec(getTerminal(), fullCommand);
             finished();
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);
