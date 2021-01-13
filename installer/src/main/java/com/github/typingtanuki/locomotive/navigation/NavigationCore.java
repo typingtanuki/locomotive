@@ -1,5 +1,7 @@
 package com.github.typingtanuki.locomotive.navigation;
 
+import com.github.typingtanuki.locomotive.components.GlitchLabel;
+import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.pages.AbstractInstallerPage;
 import javafx.application.Platform;
@@ -42,8 +44,10 @@ public final class NavigationCore {
      */
     public static void doExit(int status) {
         Platform.runLater(() -> {
-            Platform.exit();
-            System.exit(status);
+            GlitchLabel.cancelAll();
+        });
+        Platform.runLater(() -> {
+            exit(status);
         });
     }
 
@@ -54,5 +58,11 @@ public final class NavigationCore {
      */
     public static void changePage(AbstractInstallerPage page) {
         controller.changePage(page);
+    }
+
+    private static void exit(int signal) {
+        CoreExecutor.exit();
+        Platform.exit();
+        System.exit(signal);
     }
 }

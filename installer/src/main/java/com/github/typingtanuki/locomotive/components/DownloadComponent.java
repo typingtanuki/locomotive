@@ -4,7 +4,6 @@ package com.github.typingtanuki.locomotive.components;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.utils.LayoutUtils;
 import javafx.application.Platform;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 
@@ -15,12 +14,12 @@ import java.text.StringCharacterIterator;
  * A component used to display download progress
  */
 public class DownloadComponent extends VBox {
-    private final Label label;
+    private final GlitchLabel label;
     private final ProgressBar progress;
 
     public DownloadComponent() {
         setWidth(LayoutUtils.TERMINAL_WIDTH);
-        label = new Label(I18n.get("download.start"));
+        label = new GlitchLabel(I18n.get("download.start"));
         progress = new ProgressBar();
         getChildren().add(label);
         getChildren().add(progress);

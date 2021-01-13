@@ -4,6 +4,7 @@ import com.github.typingtanuki.locomotive.binary.AptBinary;
 import com.github.typingtanuki.locomotive.binary.Binary;
 import com.github.typingtanuki.locomotive.binary.DownloadBinary;
 import com.github.typingtanuki.locomotive.binary.GithubBinary;
+import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 import com.github.typingtanuki.locomotive.widgets.binaries.*;
@@ -11,7 +12,6 @@ import com.github.typingtanuki.locomotive.widgets.ppa.PpaInstallerWidget;
 import com.github.typingtanuki.locomotive.widgets.ppa.PpaKeyInstallerWidget;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class AddBinaryPage extends AbstractInstallerPage {
         if (binary instanceof GithubBinary) {
             return githubContent((GithubBinary) binary);
         }
-        return new Label("Unknown binary type " + binary.getClass().getSimpleName());
+        return new GlitchLabel("Unknown binary type " + binary.getClass().getSimpleName());
     }
 
     private Node githubContent(GithubBinary binary) {

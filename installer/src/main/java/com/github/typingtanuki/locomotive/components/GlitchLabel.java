@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -14,22 +16,60 @@ import java.util.Random;
  * A label with glitchy text
  */
 public class GlitchLabel extends Label {
+    private static final List<Timeline> TIMELINES = new ArrayList<>();
+
     private static final Random RANDOM = new Random();
     /**
-     * Ratio of normal chars/glitch
-     * (1: All chars are glitch; 2: 50% of chars; ...)
+     * Percentage of characters with will appear glitchy
      */
     private static final int GLITCH_RATIO = 10;
+    /**
+     * Percentage of a glitchy character from the base type to clear up
+     */
+    private static final int UNGLITCH_RATIO = 20;
 
-    private final String text;
+    /**
+     * The clear text to display
+     */
+    private final String core;
+    private final boolean keepGlitching;
+    /**
+     * A glitchy version of the text, slowly clearing up
+     */
+    private String text;
+    /**
+     * The currently displayed string
+     */
     private String current;
 
     public GlitchLabel(String text) {
+        this(text, false);
+    }
+
+    public GlitchLabel(String text, boolean keepGlitching) {
         super(text);
+
+        this.keepGlitching = keepGlitching;
+
         setStyle("-fx-font-family: monospace");
-        this.text = text;
-        this.current = text;
+        this.core = text;
+        StringBuilder glitch = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            glitch.append(glitchFor(text.charAt(i)));
+        }
+        this.text = glitch.toString();
+        this.current = this.text;
+        setText(current);
         Platform.runLater(this::animate);
+    }
+
+    public static void cancelAll() {
+        synchronized (TIMELINES) {
+            for (Timeline timeline : TIMELINES) {
+                timeline.stop();
+            }
+            TIMELINES.clear();
+        }
     }
 
     /**
@@ -37,27 +77,85 @@ public class GlitchLabel extends Label {
      */
     private void animate() {
         Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(
-                Duration.millis(200),
-                event -> {
-                    // Build a string with some glitchy characters
-                    StringBuilder out = new StringBuilder();
-                    for (int i = 0; i < text.length(); i++) {
-                        char c = text.charAt(i);
-                        if (RANDOM.nextInt(GLITCH_RATIO) == 0) {
-                            // Glitch
-                            out.append(glitchFor(c));
-                        } else {
-                            // Normal character
-                            out.append(c);
+        KeyFrame keyFrame;
+        if (keepGlitching) {
+            keyFrame = new KeyFrame(
+                    Duration.millis(200),
+                    event -> {
+                        // Build a string with some glitchy characters
+                        StringBuilder out = new StringBuilder();
+                        for (int i = 0; i < text.length(); i++) {
+                            char ca = core.charAt(i);
+                            char cb = text.charAt(i);
+                            if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
+                                out.append(ca);
+                            } else {
+                                out.append(cb);
+                            }
                         }
-                    }
-                    current = out.toString();
-                    setText(current);
-                });
+                        text = out.toString();
+                        out.setLength(0);
+
+                        for (int i = 0; i < text.length(); i++) {
+                            char c = text.charAt(i);
+                            if (RANDOM.nextInt(GLITCH_RATIO) == 0) {
+                                // Glitch
+                                out.append(glitchFor(c));
+                            } else {
+                                // Normal character
+                                out.append(c);
+                            }
+                        }
+                        current = out.toString();
+                        setText(current);
+                    });
+        } else {
+            keyFrame = new KeyFrame(
+                    Duration.millis(10),
+                    event -> {
+                        boolean finished = true;
+                        boolean fixed = false;
+                        int lastGlitch = -1;
+
+                        // Build a string with some glitchy characters
+                        StringBuilder out = new StringBuilder();
+                        for (int i = 0; i < text.length(); i++) {
+                            char ca = core.charAt(i);
+                            char cb = text.charAt(i);
+                            if (ca != cb) {
+                                finished = false;
+                            } else {
+                                lastGlitch = i;
+                            }
+                            if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
+                                out.append(ca);
+                                fixed = true;
+                            } else {
+                                out.append(cb);
+                            }
+                        }
+
+                        if (!finished && !fixed) {
+                            out.setCharAt(lastGlitch, core.charAt(lastGlitch));
+                        }
+
+                        text = out.toString();
+                        setText(text);
+
+                        if (finished) {
+                            timeline.stop();
+                            synchronized (TIMELINES) {
+                                TIMELINES.remove(timeline);
+                            }
+                        }
+                    });
+        }
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        synchronized (TIMELINES) {
+            TIMELINES.add(timeline);
+        }
     }
 
     private char glitchFor(char c) {

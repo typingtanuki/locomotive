@@ -39,4 +39,14 @@ public final class CoreExecutor {
     public static void execute(Runnable runnable) {
         executor.submit(runnable);
     }
+
+    public static void exit() {
+        executor.shutdown();
+        try {
+            executor.awaitTermination(5000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        executor.shutdownNow();
+    }
 }

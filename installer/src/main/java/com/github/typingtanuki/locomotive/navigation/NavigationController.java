@@ -1,5 +1,6 @@
 package com.github.typingtanuki.locomotive.navigation;
 
+import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.pages.AbstractInstallerPage;
 import com.github.typingtanuki.locomotive.pages.WelcomePage;
 import com.github.typingtanuki.locomotive.utils.LayoutUtils;
@@ -24,6 +25,7 @@ public class NavigationController extends Pane {
 
     public void changePage(AbstractInstallerPage page) {
         Platform.runLater(() -> {
+            GlitchLabel.cancelAll();
             getChildren().clear();
             getChildren().add(page);
             page.attached();

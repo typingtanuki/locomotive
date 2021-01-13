@@ -26,7 +26,7 @@ public class WelcomePage extends AbstractInstallerPage {
 
     @Override
     protected Node makeContent() {
-        return withClass(new GlitchLabel(I18n.get("welcome")), CLASS_WELCOME);
+        return withClass(new GlitchLabel(I18n.get("welcome"), true), CLASS_WELCOME);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.github.typingtanuki.locomotive.widgets;
 
+import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.utils.IconUtils;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
@@ -39,8 +39,8 @@ public abstract class AbstractWidget extends BorderPane {
         super();
         setState(WidgetState.PROCESSING);
         layout = vertical(
-                withClass(new Label(title), CLASS_WIDGET_TITLE),
-                withClass(new Label(description), CLASS_WIDGET_SUB_TITLE));
+                withClass(new GlitchLabel(title), CLASS_WIDGET_TITLE),
+                withClass(new GlitchLabel(description), CLASS_WIDGET_SUB_TITLE));
         setCenter(layout);
     }
 

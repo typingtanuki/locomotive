@@ -4,7 +4,6 @@ import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import org.controlsfx.glyphfont.FontAwesome;
 
@@ -48,8 +47,8 @@ public final class LayoutUtils {
         BorderPane out = withClass(new BorderPane(), CLASS_HEADER);
         out.setLeft(withClass(IconUtils.getIcon(icon), CLASS_ICON));
         out.setCenter(vertical(
-                withClass(new GlitchLabel(title), CLASS_TITLE),
-                withClass(new Label(description), CLASS_SUB_TITLE)));
+                withClass(new GlitchLabel(title, true), CLASS_TITLE),
+                withClass(new GlitchLabel(description), CLASS_SUB_TITLE)));
         return out;
     }
 
