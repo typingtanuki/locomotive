@@ -5,6 +5,7 @@ import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
 import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import javafx.application.Application;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class InstallerMain extends Application {
@@ -17,6 +18,9 @@ public class InstallerMain extends Application {
         // Show a modal on uncaught exceptions
         Thread.setDefaultUncaughtExceptionHandler(
                 (t, e) -> DialogUtils.showErrorDialog(e));
+
+        // Initialize fonts
+        Font.loadFont(InstallerMain.class.getResource("/misaki_mincho.ttf").toExternalForm(), 10);
 
         // Initialize base classes
         I18n.init();

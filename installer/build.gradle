@@ -23,7 +23,7 @@ dependencies {
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
-    def javaFX = '11.0.2'
+    def javaFX = '15.0.1'
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFX, classifier: 'linux'
     implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFX, classifier: 'linux'

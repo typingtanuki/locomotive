@@ -3,6 +3,7 @@ package com.github.typingtanuki.locomotive.utils;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Glow;
 import org.controlsfx.glyphfont.FontAwesome;
 
 public final class ButtonUtils {
@@ -13,6 +14,7 @@ public final class ButtonUtils {
     public static Button button(String key, FontAwesome.Glyph icon, Runnable action) {
         Button out = new Button(key, IconUtils.getIcon(icon));
         out.setOnAction((e) -> action.run());
+        out.setEffect(new Glow(1.5));
         return out;
     }
 

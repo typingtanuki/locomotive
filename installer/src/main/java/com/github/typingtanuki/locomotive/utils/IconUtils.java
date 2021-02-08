@@ -1,6 +1,7 @@
 package com.github.typingtanuki.locomotive.utils;
 
 
+import javafx.scene.effect.Glow;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
@@ -10,6 +11,8 @@ public final class IconUtils {
     }
 
     public static Glyph getIcon(FontAwesome.Glyph name) {
-        return new Glyph("FontAwesome", name);
+        Glyph glyph= new Glyph("FontAwesome", name);
+        glyph.setEffect(new Glow(3));
+        return glyph;
     }
 }

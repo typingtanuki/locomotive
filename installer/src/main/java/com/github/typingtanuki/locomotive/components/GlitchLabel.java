@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class GlitchLabel extends Label {
      */
     private final String core;
     private final boolean keepGlitching;
+
     /**
      * A glitchy version of the text, slowly clearing up
      */
@@ -49,9 +51,14 @@ public class GlitchLabel extends Label {
     public GlitchLabel(String text, boolean keepGlitching) {
         super(text);
 
+        if (keepGlitching) {
+            setEffect(new Glow(2));
+        } else {
+            setEffect(new Glow(0.5));
+        }
+
         this.keepGlitching = keepGlitching;
 
-        setStyle("-fx-font-family: monospace");
         this.core = text;
         StringBuilder glitch = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
@@ -135,7 +142,7 @@ public class GlitchLabel extends Label {
                             }
                         }
 
-                        if (!finished && !fixed) {
+                        if (!finished && !fixed && lastGlitch >= 0) {
                             out.setCharAt(lastGlitch, core.charAt(lastGlitch));
                         }
 
@@ -191,39 +198,39 @@ public class GlitchLabel extends Label {
             case "d":
                 return new char[]{'D', 'b', ')'};
             case "e":
-                return new char[]{'3', 'Σ', '&', '€'};
+                return new char[]{'3', '&'};
             case "f":
                 return new char[]{'F', 'ƒ'};
             case "g":
                 return new char[]{'G', 'g', '%'};
             case "h":
-                return new char[]{'‖', '‡'};
+                return new char[]{'y', 'Y'};
             case "i":
-                return new char[]{'|', ';', ':', '¡', '¦'};
+                return new char[]{'|', ';', ':', '¦'};
             case "j":
                 return new char[]{'|', ';', '¦'};
             case "k":
-                return new char[]{'◁', '◀', '‡', '«'};
+                return new char[]{'«', '<'};
             case "l":
-                return new char[]{'|', '1', '£'};
+                return new char[]{'|', '1'};
             case "m":
                 return new char[]{'W'};
             case "n":
-                return new char[]{'N', 'ñ'};
+                return new char[]{'N'};
             case "o":
-                return new char[]{'0', '◎', '●', '*', '¤'};
+                return new char[]{'0'};
             case "p":
-                return new char[]{'`', 'q', 'Q', '%', '&', '¶', 'Þ'};
+                return new char[]{'`', 'q', 'Q', '%'};
             case "q":
-                return new char[]{'p', '|', 'P', '%', '&', '¶'};
+                return new char[]{'p', '|', 'P', '%', '&'};
             case "r":
-                return new char[]{'K', '®'};
+                return new char[]{'K'};
             case "s":
-                return new char[]{'$', '2', 'Š', 'š', '§'};
+                return new char[]{'$', '2'};
             case "t":
-                return new char[]{'|', '7', '+', '†'};
+                return new char[]{'7', '+'};
             case "u":
-                return new char[]{'v', 'V', 'µ'};
+                return new char[]{'v', 'V'};
             case "v":
                 return new char[]{'U', 'u'};
             case "w":
@@ -237,7 +244,13 @@ public class GlitchLabel extends Label {
             case " ":
             case "-":
             case "_":
-                return new char[]{'_', '-', '~', '¯'};
+                return new char[]{'_', '-', '~'};
+            case "・":
+                return new char[]{'＿', 'ー', '〜'};
+            case "斧":
+                return new char[]{'斧', '父', '方'};
+            case "関":
+                return new char[]{'間', '門'};
         }
         return new char[]{c};
     }
