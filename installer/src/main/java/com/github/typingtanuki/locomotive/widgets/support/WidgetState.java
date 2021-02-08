@@ -4,5 +4,6 @@ public enum WidgetState {
     PROCESSING,
     INSTALLED,
     MISSING,
+    FAILED,
     UNKNOWN
 }

@@ -76,6 +76,9 @@ public abstract class AbstractWidget extends BorderPane {
                     icon = IconUtils.getIcon(FontAwesome.Glyph.SPINNER);
                     spin = true;
                     break;
+                case FAILED:
+                    icon = IconUtils.getIcon(FontAwesome.Glyph.EXCLAMATION_TRIANGLE);
+                    break;
                 case UNKNOWN:
                 default:
                     icon = IconUtils.getIcon(FontAwesome.Glyph.QUESTION);

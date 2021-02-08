@@ -19,6 +19,8 @@ public class TerminalComponent extends TextArea {
     public TerminalComponent() {
         super();
 
+        getStyleClass().add("terminal");
+
         setWidth(LayoutUtils.TERMINAL_WIDTH);
         setHeight(LayoutUtils.TERMINAL_HEIGHT);
         setOnKeyTyped(this::keyTyped);
@@ -44,6 +46,9 @@ public class TerminalComponent extends TextArea {
             input.write(keyEvent.getCharacter().getBytes(StandardCharsets.UTF_8));
             input.flush();
         } catch (IOException e) {
+            if (e.getMessage().equals("Stream closed")) {
+                return;
+            }
             DialogUtils.showErrorDialog(e);
         }
     }

@@ -3,9 +3,10 @@ package com.github.typingtanuki.locomotive.widgets.ppa;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.ppa.PpaKey;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PpaInstaller;
 import com.github.typingtanuki.locomotive.utils.PpaTester;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
+import com.github.typingtanuki.locomotive.utils.ProcessNotAuthorized;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
@@ -55,8 +56,8 @@ public class PpaKeyInstallerWidget extends AbstractInstallWidget {
                 setState(WidgetState.MISSING);
                 showInstallButton();
             }
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
     }
 
@@ -65,8 +66,8 @@ public class PpaKeyInstallerWidget extends AbstractInstallWidget {
         try {
             PpaInstaller.installKey(key, getTerminal());
             installIsDone();
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessNotAuthorized | ProcessFailedException | IOException e) {
+            setState(WidgetState.FAILED);
         }
     }
 }

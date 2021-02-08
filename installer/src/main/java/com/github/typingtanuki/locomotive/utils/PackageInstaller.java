@@ -22,7 +22,8 @@ public final class PackageInstaller {
 
     public static void installBinary(Binary binary,
                                      TerminalComponent terminalComponent,
-                                     DownloadComponent download) throws IOException {
+                                     DownloadComponent download)
+            throws IOException, ProcessFailedException, ProcessNotAuthorized {
         if (binary instanceof AptBinary) {
             installAptBinary((AptBinary) binary, terminalComponent);
             return;
@@ -36,23 +37,29 @@ public final class PackageInstaller {
 
     private static void installDownloadBinary(DownloadBinary binary,
                                               TerminalComponent terminal,
-                                              DownloadComponent download) throws IOException {
+                                              DownloadComponent download) throws ProcessFailedException, IOException {
         Path installer = Paths.get("./cache/").resolve(binary.getBinary() + "-installer");
         LOGGER.info("Downloading to " + installer);
         DownloadUtils.inFile(binary.getUrl(), installer, download);
         LOGGER.info("Downloading to " + installer + ": OK");
         LOGGER.info("Changing permissions of " + installer);
-        Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(installer);
-        permissions.add(PosixFilePermission.OWNER_EXECUTE);
-        permissions.add(PosixFilePermission.GROUP_EXECUTE);
-        permissions.add(PosixFilePermission.OTHERS_EXECUTE);
-        Files.setPosixFilePermissions(installer, permissions);
+        try {
+            Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(installer);
+            permissions.add(PosixFilePermission.OWNER_EXECUTE);
+            permissions.add(PosixFilePermission.GROUP_EXECUTE);
+            permissions.add(PosixFilePermission.OTHERS_EXECUTE);
+            Files.setPosixFilePermissions(installer, permissions);
+        } catch (IOException e) {
+            throw new IOException("Failed to set the permissions", e);
+        }
         LOGGER.info("Changing permissions of " + installer + ": OK");
 
         ProcessExec.exec(terminal, installer.toAbsolutePath().toString());
     }
 
-    private static void installAptBinary(AptBinary binary, TerminalComponent terminal) throws IOException {
+    private static void installAptBinary(AptBinary binary,
+                                         TerminalComponent terminal)
+            throws ProcessFailedException, ProcessNotAuthorized {
         List<String> allArgs = new ArrayList<>();
         allArgs.add("install");
         allArgs.addAll(binary.getFlags());

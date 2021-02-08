@@ -3,13 +3,12 @@ package com.github.typingtanuki.locomotive.widgets.ppa;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PpaInstaller;
 import com.github.typingtanuki.locomotive.utils.PpaTester;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
+import com.github.typingtanuki.locomotive.utils.ProcessNotAuthorized;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
-
-import java.io.IOException;
 
 public class PpaInstallerWidget extends AbstractInstallWidget {
     private final Ppa ppa;
@@ -42,8 +41,8 @@ public class PpaInstallerWidget extends AbstractInstallWidget {
                 setState(WidgetState.MISSING);
                 showInstallButton();
             }
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
     }
 
@@ -52,8 +51,8 @@ public class PpaInstallerWidget extends AbstractInstallWidget {
         try {
             PpaInstaller.installPpa(ppa, getTerminal());
             setState(WidgetState.INSTALLED);
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessNotAuthorized | ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
     }
 }

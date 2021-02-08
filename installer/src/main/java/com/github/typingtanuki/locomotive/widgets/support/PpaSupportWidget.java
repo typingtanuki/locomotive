@@ -2,11 +2,10 @@ package com.github.typingtanuki.locomotive.widgets.support;
 
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PpaTester;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
 import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -33,8 +32,8 @@ public class PpaSupportWidget extends AbstractWidget {
                 setState(WidgetState.MISSING);
                 isInstalled.set(false);
             }
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
         latch.countDown();
     }

@@ -3,7 +3,6 @@ package com.github.typingtanuki.locomotive.utils;
 import com.github.typingtanuki.locomotive.ppa.Ppa;
 import com.github.typingtanuki.locomotive.ppa.PpaKey;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -18,7 +17,7 @@ public final class PpaTester {
         super();
     }
 
-    public static boolean isPpaActivated(Ppa ppa) throws IOException {
+    public static boolean isPpaActivated(Ppa ppa) throws ProcessFailedException {
         String ppaName = ppa.getUrl();
         if (ppaName.contains(":")) {
             ppaName = ppaName.split(":")[1];
@@ -37,7 +36,7 @@ public final class PpaTester {
         return false;
     }
 
-    private static Set<String> resolvePpas() throws IOException {
+    private static Set<String> resolvePpas() throws ProcessFailedException {
         if (!PPAS.isEmpty()) {
             return PPAS;
         }
@@ -53,7 +52,7 @@ public final class PpaTester {
         return PPAS;
     }
 
-    private static Set<String> resolveKeys() throws IOException {
+    private static Set<String> resolveKeys() throws ProcessFailedException {
         if (!PPA_KEYS.isEmpty()) {
             return PPA_KEYS;
         }
@@ -71,7 +70,7 @@ public final class PpaTester {
         return PPA_KEYS;
     }
 
-    public static boolean isPpaKeyActivated(PpaKey key) throws IOException {
+    public static boolean isPpaKeyActivated(PpaKey key) throws ProcessFailedException {
         if (key == null) {
             // No key needed
             return true;

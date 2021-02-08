@@ -3,9 +3,10 @@ package com.github.typingtanuki.locomotive.widgets.binaries;
 import com.github.typingtanuki.locomotive.binary.AptBinary;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PackageInstaller;
 import com.github.typingtanuki.locomotive.utils.PackageTester;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
+import com.github.typingtanuki.locomotive.utils.ProcessNotAuthorized;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
@@ -41,8 +42,8 @@ public class AptInstallerWidget extends AbstractInstallWidget {
         try {
             PackageInstaller.installBinary(aptBinary, getTerminal(), getDownload());
             setState(WidgetState.INSTALLED);
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessNotAuthorized | ProcessFailedException | IOException e) {
+            setState(WidgetState.FAILED);
         }
     }
 }

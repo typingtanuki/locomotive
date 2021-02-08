@@ -3,6 +3,13 @@
     -fx-text-fill: #e2850e;
 }
 
+.terminal, .terminal .content {
+    -fx-background-color: black;
+    -fx-text-fill: #2fc70f;
+    -fx-highlight-text-fill: #034e0b;
+    -fx-highlight-fill: #32e80c;
+}
+
 .welcome {
     -fx-font-size: 80px;
 }
@@ -16,11 +23,15 @@
 }
 
 .icon.INSTALLED {
-    -fx-text-fill: #006f00;
+    -fx-text-fill: #049ee7;
 }
 
 .icon.MISSING {
-    -fx-text-fill: #cd700d;
+    -fx-text-fill: #aa0dcd;
+}
+
+.icon.FAILED {
+    -fx-text-fill: #fa1313;
 }
 
 .icon.PROCESSING {
@@ -56,4 +67,11 @@
     -fx-min-width: 60px;
     -fx-max-width: 60px;
     -fx-padding: 0px 0px 0px 7px;
+}
+
+.overlay {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-image: url("overlay.png");
+    -fx-background-position: left top;
+    -fx-background-repeat: repeat;
 }

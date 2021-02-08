@@ -1,10 +1,11 @@
 package com.github.typingtanuki.locomotive.widgets.tools;
 
 import com.github.typingtanuki.locomotive.pages.SetupToolsPage;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
+import com.github.typingtanuki.locomotive.utils.ProcessNotAuthorized;
+import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,8 +38,8 @@ public class ScriptToolWidget extends AbstractToolWidget {
         try {
             ProcessExec.sudoExec(getTerminal(), fullCommand);
             finished();
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessNotAuthorized | ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
     }
 }

@@ -43,20 +43,28 @@ public class ProcessExec {
         return "P-" + SEQUENCE;
     }
 
-    public static ProcessExec exec(TerminalComponent terminal, String binary, String... args) throws IOException {
+    public static ProcessExec exec(TerminalComponent terminal,
+                                   String binary,
+                                   String... args) throws ProcessFailedException {
         ProcessExec pe = new ProcessExec(terminal);
-        pe.execute(binary, args);
+        try {
+            pe.execute(binary, args);
+        } catch (ProcessNotAuthorized e) {
+            throw new ProcessFailedException("Process failed with exit 127", e);
+        }
         return pe;
     }
 
-    public static ProcessExec sudoExec(TerminalComponent terminal, String binary, String... args) throws IOException {
+    public static ProcessExec sudoExec(TerminalComponent terminal,
+                                       String binary,
+                                       String... args) throws ProcessFailedException, ProcessNotAuthorized {
         ProcessExec pe = new ProcessExec(terminal);
         pe.isAdmin = true;
         pe.execute(binary, args);
         return pe;
     }
 
-    private void execute(String binary, String... args) throws IOException {
+    private void execute(String binary, String... args) throws ProcessFailedException, ProcessNotAuthorized {
         exit = -1;
 
         List<String> allArgs = new ArrayList<>(args.length + 2);
@@ -71,7 +79,12 @@ public class ProcessExec {
         builder.environment().put("LANG", "en_US.UTF-8");
         builder.environment().put("LANGUAGE", "en_US:en");
         builder.command(allArgs);
-        Process process = builder.start();
+        Process process;
+        try {
+            process = builder.start();
+        } catch (IOException e) {
+            throw new ProcessFailedException("Failed starting process", e);
+        }
 
         if (terminal != null) {
             terminal.setInput(process.getOutputStream());
@@ -92,13 +105,17 @@ public class ProcessExec {
             LOGGER.info("{} Process finished with exit {}", processId, exit);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new IOException("Process was interrupted", e);
+            throw new ProcessFailedException("Process was interrupted", e);
         } catch (ExecutionException e) {
-            throw new IOException("Could not read output of process", e);
+            throw new ProcessFailedException("Could not read output of process", e);
         }
 
-        if (!stdoutReaderReader.isFinished() || !stderrReaderReader.isFinished()) {
-            throw new IOException("Command finished, but stream is not");
+        try {
+            if (!stdoutReaderReader.isFinished() || !stderrReaderReader.isFinished()) {
+                throw new ProcessFailedException("Command finished, but stream is not");
+            }
+        } catch (IOException e) {
+            throw new ProcessFailedException("Error Checking process state", e);
         }
 
         checkSuccess();
@@ -112,15 +129,18 @@ public class ProcessExec {
         return stderr.toString();
     }
 
-    private void checkSuccess() throws IOException {
+    private void checkSuccess() throws ProcessNotAuthorized, ProcessFailedException {
         if (exit == null) {
             throw new IllegalStateException("Process was not started");
         }
         if (exit == 0) {
             return;
         }
+        if (exit == 127) {
+            throw new ProcessNotAuthorized();
+        }
 
-        throw new IOException("Process exited with code: " + exit +
+        throw new ProcessFailedException("Process exited with code: " + exit +
                 "\r\nStdout:\r\n" + getStdout() +
                 "\r\nStderr:\r\n" + getStderr());
     }

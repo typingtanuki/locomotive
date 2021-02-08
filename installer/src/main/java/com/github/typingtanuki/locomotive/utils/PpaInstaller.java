@@ -15,18 +15,21 @@ public final class PpaInstaller {
         super();
     }
 
-    public static void installPpa(Ppa ppa, TerminalComponent terminal) throws IOException {
+    public static void installPpa(Ppa ppa, TerminalComponent terminal)
+            throws ProcessFailedException, ProcessNotAuthorized {
         ProcessExec.sudoExec(terminal, "apt-add-repository", ppa.getUrl(), "-y");
         updateRepositories(terminal);
     }
 
-    public static void installKey(PpaKey key, TerminalComponent terminal) throws IOException {
+    public static void installKey(PpaKey key, TerminalComponent terminal)
+            throws IOException, ProcessFailedException, ProcessNotAuthorized {
         Path keyFile = DownloadUtils.inTempFile(key.getKey(), nullDownload()).toAbsolutePath();
         ProcessExec.sudoExec(terminal, "apt-key", "add", keyFile.toString());
         Files.deleteIfExists(keyFile);
     }
 
-    private static void updateRepositories(TerminalComponent terminal) throws IOException {
+    private static void updateRepositories(TerminalComponent terminal)
+            throws ProcessFailedException, ProcessNotAuthorized {
         ProcessExec.sudoExec(terminal, "apt", "update", "-y");
     }
 }

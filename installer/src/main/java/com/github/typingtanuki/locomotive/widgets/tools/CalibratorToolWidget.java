@@ -2,11 +2,11 @@ package com.github.typingtanuki.locomotive.widgets.tools;
 
 import com.github.typingtanuki.locomotive.binary.Binaries;
 import com.github.typingtanuki.locomotive.pages.SetupToolsPage;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.PackageTester;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
+import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
+import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -43,8 +43,8 @@ public class CalibratorToolWidget extends AbstractToolWidget {
                 }
             }
             chooseDevices();
-        } catch (IOException e) {
-            DialogUtils.showErrorDialog(e);
+        } catch (ProcessFailedException e) {
+            setState(WidgetState.FAILED);
         }
     }
 
