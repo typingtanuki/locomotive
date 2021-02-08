@@ -26,7 +26,7 @@ public class DriverOverviewPage extends AbstractInstallerPage {
     private final CountDownLatch latch = new CountDownLatch(2);
 
     private final AtomicBoolean swat = new AtomicBoolean(false);
-//    private final AtomicBoolean oibaf = new AtomicBoolean(false);
+    private final AtomicBoolean oibaf = new AtomicBoolean(false);
     private final AtomicBoolean calibrator = new AtomicBoolean(false);
 
     public DriverOverviewPage(Deque<AbstractInstallerPage> nextPages) {
@@ -38,7 +38,7 @@ public class DriverOverviewPage extends AbstractInstallerPage {
         CoreExecutor.execute(this::waitForLatch);
         return vertical(
                 new PpaSupportWidget(Ppas.xSwat(), latch, swat),
-//                new PpaSupportWidget(Ppas.oibaf(), latch, oibaf),
+                new PpaSupportWidget(Ppas.oibaf(), latch, oibaf),
                 new BinarySupportWidget(Binaries.xinputCalibrator(), latch, calibrator)
         );
     }
@@ -50,9 +50,9 @@ public class DriverOverviewPage extends AbstractInstallerPage {
             if (!swat.get()) {
                 addPage(new AddPpaPage(Ppas.xSwat(), getNextPages()));
             }
-//            if (!oibaf.get()) {
-//                addPage(new AddPpaPage(Ppas.oibaf(), getNextPages()));
-//            }
+            if (!oibaf.get()) {
+                addPage(new AddPpaPage(Ppas.oibaf(), getNextPages()));
+            }
             if (!calibrator.get()) {
                 addPage(new AddBinaryPage(Binaries.xinputCalibrator(), getNextPages()));
             }
