@@ -21,12 +21,13 @@ import static com.github.typingtanuki.locomotive.utils.LayoutUtils.vertical;
  * The page for installing gaming related packages
  */
 public class GamePackagePage extends AbstractInstallerPage {
-    private final CountDownLatch latch = new CountDownLatch(4);
+    private final CountDownLatch latch = new CountDownLatch(5);
 
     private final AtomicBoolean steam = new AtomicBoolean(false);
     private final AtomicBoolean gamehub = new AtomicBoolean(false);
     private final AtomicBoolean itch = new AtomicBoolean(false);
     private final AtomicBoolean retroarch = new AtomicBoolean(false);
+    private final AtomicBoolean legendary = new AtomicBoolean(false);
 
     public GamePackagePage(Deque<AbstractInstallerPage> nextPages) {
         super(nextPages);
@@ -40,7 +41,8 @@ public class GamePackagePage extends AbstractInstallerPage {
                 new BinarySupportWidget(Binaries.steam(), latch, steam),
                 new BinarySupportWidget(Binaries.gamehub(), latch, gamehub),
                 new BinarySupportWidget(Binaries.itch(), latch, itch),
-                new BinarySupportWidget(Binaries.retroarch(), latch, retroarch)
+                new BinarySupportWidget(Binaries.retroarch(), latch, retroarch),
+                new BinarySupportWidget(Binaries.legendary(), latch, legendary)
         );
     }
 
@@ -59,6 +61,9 @@ public class GamePackagePage extends AbstractInstallerPage {
             }
             if (!retroarch.get()) {
                 addPage(new AddBinaryPage(Binaries.retroarch(), getNextPages()));
+            }
+            if (!legendary.get()) {
+                addPage(new AddBinaryPage(Binaries.legendary(), getNextPages()));
             }
             addPage(new SetupToolsPage(getNextPages()));
             Platform.runLater(() -> getNextButton().setDisable(false));

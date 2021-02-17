@@ -31,6 +31,10 @@ public final class Binaries {
         return new GithubBinary("antimicrox", "AntiMicroX", "antimicrox");
     }
 
+    public static Binary legendary() {
+        return new GithubBinary("legendary", "derrod", "legendary");
+    }
+
     public static Binary gamehub() {
         return new AptBinary("gamehub",
                 Ppas.gamehub()).extraPackages("xcb", "icoutils");
@@ -42,7 +46,8 @@ public final class Binaries {
 
     public static Binary itch() {
         return new DownloadBinary("itch",
-                "https://itch.io/app/download?platform=linux");
+                "https://itch.io/app/download?platform=linux",
+                "unknown");
     }
 
     public static Binary retroarch() {

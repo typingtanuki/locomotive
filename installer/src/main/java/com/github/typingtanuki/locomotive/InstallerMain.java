@@ -25,6 +25,7 @@ public class InstallerMain extends Application {
         // Initialize base classes
         I18n.init();
         CoreExecutor.init();
+        primaryStage.setOnCloseRequest((e) -> NavigationCore.doExit(0));
         NavigationCore.init(primaryStage);
 
         // Start

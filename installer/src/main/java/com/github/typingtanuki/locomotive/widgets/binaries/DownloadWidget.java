@@ -13,12 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWidget {
+    private final FileTargetWidget fileTargetWidget;
     private final Binary binary;
     private final String extension;
-    private final FileTargetWidget fileTargetWidget;
-    private final Path target;
 
     private String url;
+    private String version;
 
     public DownloadWidget(Binary binary,
                           String extension,
@@ -32,9 +32,8 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
 
         this.binary = binary;
         this.extension = extension;
-        this.fileTargetWidget = fileTargetWidget;
 
-        target = Paths.get("cache").resolve(binary.getBinary() + "-installer." + extension);
+        this.fileTargetWidget = fileTargetWidget;
 
         setState(WidgetState.MISSING);
     }
@@ -44,8 +43,14 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
         return I18n.get("download");
     }
 
+    private Path fileName() {
+        String baseName = binary.getBinary() + "-installer-" + version + "." + extension;
+        return Paths.get("cache").resolve(baseName);
+    }
+
     @Override
     protected void doInstall() {
+        Path target = fileName();
         try {
             DownloadUtils.inFile(url, target, getDownload());
             DownloadUtils.makeExecutable(target);
@@ -57,8 +62,9 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     }
 
     @Override
-    public void setUrlTarget(String url) {
+    public void setTarget(String url, String version) {
         this.url = url;
+        this.version = version;
     }
 
     public void urlResolved() {
@@ -70,6 +76,6 @@ public class DownloadWidget extends AbstractInstallWidget implements UrlTargetWi
     }
 
     public boolean isDownloaded() {
-        return Files.exists(target);
+        return Files.exists(fileName());
     }
 }

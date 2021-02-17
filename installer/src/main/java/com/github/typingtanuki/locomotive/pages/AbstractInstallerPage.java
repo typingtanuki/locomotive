@@ -15,6 +15,8 @@ import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.setSize;
+import static com.github.typingtanuki.locomotive.utils.StyleUtils.CLASS_OVERLAY;
+import static com.github.typingtanuki.locomotive.utils.StyleUtils.CLASS_UNDERLAY;
 
 /**
  * The base page
@@ -27,6 +29,7 @@ public abstract class AbstractInstallerPage extends BorderPane {
     public AbstractInstallerPage(Deque<AbstractInstallerPage> nextPages) {
         this.nextPages = nextPages;
         setSize(this);
+        getStyleClass().add(CLASS_UNDERLAY);
     }
 
     public void attached() {

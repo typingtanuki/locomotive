@@ -12,6 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GithubWidget extends AbstractInstallWidget {
+    private static final Pattern DEB_PATTERN = Pattern.compile("<a href=\"([^\"]+\\.deb)\"");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("/download/([^/]+)/");
+
     private final GithubBinary binary;
     private final UrlTargetWidget urlTargetWidget;
 
@@ -50,10 +53,9 @@ public class GithubWidget extends AbstractInstallWidget {
 
             // Searching for the .deb link
             String debPackage = null;
-            Pattern DEB_PATTERN = Pattern.compile(".*<a href=\"([^\"]+\\.deb)\".*");
             for (String line : fullPage.split("[\r\n]")) {
                 Matcher debMatcher = DEB_PATTERN.matcher(line);
-                if (debMatcher.matches()) {
+                if (debMatcher.find()) {
                     debPackage = debMatcher.group(1);
                 }
             }
@@ -63,10 +65,18 @@ public class GithubWidget extends AbstractInstallWidget {
             }
 
             // Pass the link to the downloader
-            urlTargetWidget.setUrlTarget("https://www.github.com" + debPackage);
+            urlTargetWidget.setTarget("https://www.github.com" + debPackage, extractVersion(debPackage));
             setState(WidgetState.INSTALLED);
         } catch (IOException e) {
             DialogUtils.showErrorDialog(e);
         }
+    }
+
+    private String extractVersion(String url) {
+        Matcher matcher = VERSION_PATTERN.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        throw new IllegalArgumentException("Could not find version in " + url);
     }
 }

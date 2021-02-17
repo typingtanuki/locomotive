@@ -19,7 +19,9 @@ import java.util.Random;
 public class GlitchLabel extends Label {
     private static final List<Timeline> TIMELINES = new ArrayList<>();
 
-    private static final Random RANDOM = new Random();
+    private static final int MAX_LENGTH = 75;
+
+    protected static final Random RANDOM = new Random();
     /**
      * Percentage of characters with will appear glitchy
      */
@@ -27,7 +29,8 @@ public class GlitchLabel extends Label {
     /**
      * Percentage of a glitchy character from the base type to clear up
      */
-    private static final int UNGLITCH_RATIO = 20;
+    private static final int UNGLITCH_RATIO = 10;
+    private static final char BLANK_CHAR = '+';
 
     /**
      * The clear text to display
@@ -49,25 +52,38 @@ public class GlitchLabel extends Label {
     }
 
     public GlitchLabel(String text, boolean keepGlitching) {
+        this(text, keepGlitching, keepGlitching ? 2D : 0.5D);
+    }
+
+    public GlitchLabel(String text, boolean keepGlitching, double glowLevel) {
         super(text);
 
-        if (keepGlitching) {
-            setEffect(new Glow(2));
-        } else {
-            setEffect(new Glow(0.5));
-        }
+        setEffect(new Glow(glowLevel));
 
         this.keepGlitching = keepGlitching;
 
         this.core = text;
-        StringBuilder glitch = new StringBuilder();
-        for (int i = 0; i < text.length(); i++) {
-            glitch.append(glitchFor(text.charAt(i)));
-        }
-        this.text = glitch.toString();
+        this.text = initialString(text, keepGlitching);
         this.current = this.text;
         setText(current);
         Platform.runLater(this::animate);
+    }
+
+    private static String initialString(String text, boolean keepGlitching) {
+        if (keepGlitching) {
+            return text;
+        }
+
+        StringBuilder glitch = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            glitch.append(glitchFor(GlitchCharacter.random().getValue()));
+        }
+        if (!text.contains("\n")) {
+            for (int i = text.length(); i < MAX_LENGTH; i++) {
+                glitch.append(glitchFor(GlitchCharacter.random().getValue()));
+            }
+        }
+        return glitch.toString();
     }
 
     public static void cancelAll() {
@@ -86,86 +102,109 @@ public class GlitchLabel extends Label {
         Timeline timeline = new Timeline();
         KeyFrame keyFrame;
         if (keepGlitching) {
-            keyFrame = new KeyFrame(
-                    Duration.millis(200),
-                    event -> {
-                        // Build a string with some glitchy characters
-                        StringBuilder out = new StringBuilder();
-                        for (int i = 0; i < text.length(); i++) {
-                            char ca = core.charAt(i);
-                            char cb = text.charAt(i);
-                            if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
-                                out.append(ca);
-                            } else {
-                                out.append(cb);
-                            }
-                        }
-                        text = out.toString();
-                        out.setLength(0);
-
-                        for (int i = 0; i < text.length(); i++) {
-                            char c = text.charAt(i);
-                            if (RANDOM.nextInt(GLITCH_RATIO) == 0) {
-                                // Glitch
-                                out.append(glitchFor(c));
-                            } else {
-                                // Normal character
-                                out.append(c);
-                            }
-                        }
-                        current = out.toString();
-                        setText(current);
-                    });
+            keyFrame = glitch();
         } else {
-            keyFrame = new KeyFrame(
-                    Duration.millis(10),
-                    event -> {
-                        boolean finished = true;
-                        boolean fixed = false;
-                        int lastGlitch = -1;
-
-                        // Build a string with some glitchy characters
-                        StringBuilder out = new StringBuilder();
-                        for (int i = 0; i < text.length(); i++) {
-                            char ca = core.charAt(i);
-                            char cb = text.charAt(i);
-                            if (ca != cb) {
-                                finished = false;
-                            } else {
-                                lastGlitch = i;
-                            }
-                            if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
-                                out.append(ca);
-                                fixed = true;
-                            } else {
-                                out.append(cb);
-                            }
-                        }
-
-                        if (!finished && !fixed && lastGlitch >= 0) {
-                            out.setCharAt(lastGlitch, core.charAt(lastGlitch));
-                        }
-
-                        text = out.toString();
-                        setText(text);
-
-                        if (finished) {
-                            timeline.stop();
-                            synchronized (TIMELINES) {
-                                TIMELINES.remove(timeline);
-                            }
-                        }
-                    });
+            keyFrame = unglitch(timeline);
         }
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
         synchronized (TIMELINES) {
             TIMELINES.add(timeline);
         }
+        timeline.play();
     }
 
-    private char glitchFor(char c) {
+    private KeyFrame unglitch(Timeline timeline) {
+        return new KeyFrame(
+                Duration.millis(40),
+                event -> {
+                    boolean finished = true;
+                    boolean fixed = false;
+                    int lastGlitch = -1;
+
+                    // Build a string with some glitchy characters
+                    StringBuilder out = new StringBuilder();
+                    for (int i = 0; i < text.length(); i++) {
+                        char ca;
+                        if (i < core.length()) {
+                            ca = core.charAt(i);
+                        } else {
+                            ca = BLANK_CHAR;
+                        }
+                        char cb = text.charAt(i);
+                        if (ca != cb) {
+                            finished = false;
+                        } else {
+                            lastGlitch = i;
+                        }
+                        if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
+                            if (ca != BLANK_CHAR) {
+                                out.append(ca);
+                            }
+                            fixed = true;
+                        } else {
+                            out.append(cb);
+                        }
+                    }
+
+                    if (!finished && !fixed && lastGlitch >= 0 && lastGlitch < core.length()) {
+                        out.setCharAt(lastGlitch, core.charAt(lastGlitch));
+                    }
+
+                    text = out.toString().stripTrailing();
+                    setText(text);
+
+                    if (finished) {
+                        timeline.stop();
+                        synchronized (TIMELINES) {
+                            TIMELINES.remove(timeline);
+                        }
+                    }
+                });
+    }
+
+    private KeyFrame glitch() {
+        return new KeyFrame(
+                Duration.millis(150),
+                event -> {
+                    // Build a string with some glitchy characters
+                    StringBuilder out = new StringBuilder();
+                    for (int i = 0; i < text.length(); i++) {
+                        char ca;
+                        if (i < core.length()) {
+                            ca = core.charAt(i);
+                        } else {
+                            ca = BLANK_CHAR;
+                        }
+
+                        char cb = text.charAt(i);
+                        if (RANDOM.nextInt(UNGLITCH_RATIO) == 0) {
+                            if (ca != BLANK_CHAR) {
+                                out.append(ca);
+                            }
+                        } else {
+                            out.append(cb);
+                        }
+                    }
+                    text = out.toString().stripTrailing();
+                    out.setLength(0);
+
+                    for (int i = 0; i < text.length(); i++) {
+                        char c = text.charAt(i);
+                        if (RANDOM.nextInt(GLITCH_RATIO) == 0) {
+                            // Glitch
+                            out.append(glitchFor(c));
+                        } else {
+                            // Normal character
+                            out.append(c);
+                        }
+                    }
+                    current = out.toString();
+                    setText(current);
+                });
+    }
+
+    private static char glitchFor(char c) {
         switch (RANDOM.nextInt(5)) {
             case 0:
                 return String.valueOf(c).toLowerCase(Locale.ENGLISH).charAt(0);
@@ -179,77 +218,88 @@ public class GlitchLabel extends Label {
     /**
      * Pick a character from the array
      */
-    private char pick(char[] transform) {
+    private static char pick(char[] transform) {
         return transform[RANDOM.nextInt(transform.length)];
     }
 
     /**
      * Find a glitchy character corresponding to the character we want to replace
      */
-    private char[] transform(char c) {
+    private static char[] transform(char c) {
         String s = String.valueOf(c).toLowerCase(Locale.ENGLISH);
-        switch (s) {
-            case "a":
+        GlitchCharacter g = GlitchCharacter.from(s.charAt(0));
+
+        switch (g) {
+            case a:
                 return new char[]{'▲', '△', '@', '^', 'ª'};
-            case "b":
+            case b:
                 return new char[]{'3', 'd', 'ß'};
-            case "c":
+            case c:
                 return new char[]{'○', '❍', '(', '¢', '©'};
-            case "d":
+            case d:
                 return new char[]{'D', 'b', ')'};
-            case "e":
+            case n3:
+            case e:
                 return new char[]{'3', '&'};
-            case "f":
+            case f:
                 return new char[]{'F', 'ƒ'};
-            case "g":
+            case n6:
+            case n9:
+            case g:
                 return new char[]{'G', 'g', '%'};
-            case "h":
+            case h:
                 return new char[]{'y', 'Y'};
-            case "i":
+            case n1:
+            case i:
                 return new char[]{'|', ';', ':', '¦'};
-            case "j":
+            case j:
                 return new char[]{'|', ';', '¦'};
-            case "k":
+            case k:
                 return new char[]{'«', '<'};
-            case "l":
+            case n7:
+            case l:
                 return new char[]{'|', '1'};
-            case "m":
+            case m:
                 return new char[]{'W'};
-            case "n":
-                return new char[]{'N'};
-            case "o":
+            case n:
+                return new char[]{'N', 'H'};
+            case n0:
+            case o:
                 return new char[]{'0'};
-            case "p":
+            case p:
                 return new char[]{'`', 'q', 'Q', '%'};
-            case "q":
+            case q:
                 return new char[]{'p', '|', 'P', '%', '&'};
-            case "r":
+            case r:
                 return new char[]{'K'};
-            case "s":
+            case n2:
+            case n5:
+            case n8:
+            case s:
                 return new char[]{'$', '2'};
-            case "t":
+            case t:
                 return new char[]{'7', '+'};
-            case "u":
+            case u:
                 return new char[]{'v', 'V'};
-            case "v":
+            case v:
                 return new char[]{'U', 'u'};
-            case "w":
-                return new char[]{'M'};
-            case "x":
-                return new char[]{'>', '<'};
-            case "y":
+            case w:
+                return new char[]{'M', '丸'};
+            case x:
+                return new char[]{'×'};
+            case y:
                 return new char[]{'|', 'Ÿ', '¥'};
-            case "z":
+            case z:
                 return new char[]{'2', 'Ž', 'ž'};
-            case " ":
-            case "-":
-            case "_":
+            case SPACE:
+            case DASH:
+            case UNDER:
                 return new char[]{'_', '-', '~'};
-            case "・":
+            case DOT:
                 return new char[]{'＿', 'ー', '〜'};
-            case "斧":
+            case ONO:
                 return new char[]{'斧', '父', '方'};
-            case "関":
+            case SEKI:
                 return new char[]{'間', '門'};
         }
         return new char[]{c};

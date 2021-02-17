@@ -75,11 +75,11 @@ public class AddBinaryPage extends AbstractInstallerPage {
                 this::installFinished);
         DownloadWidget downloadWidget = new DownloadWidget(
                 binary,
-                "run",
+                "bin",
                 binaryInstallerWidget,
                 this::installStarts,
                 binaryInstallerWidget::downloadFinished);
-        downloadWidget.setUrlTarget(binary.getUrl());
+        downloadWidget.setTarget(binary.getUrl(), binary.getVersion());
         downloadWidget.urlResolved();
 
         return vertical(

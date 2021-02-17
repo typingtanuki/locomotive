@@ -13,8 +13,8 @@ public final class Ppas {
         return new Ppa("ppa:ubuntu-x-swat/updates");
     }
 
-    public static Ppa oibaf() {
-        return new Ppa("ppa:oibaf/graphics-drivers");
+    public static Ppa kisak() {
+        return new Ppa("ppa:kisak/turtle");
     }
 
     public static Ppa kubuntuUpdates() {

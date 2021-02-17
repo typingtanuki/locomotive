@@ -26,6 +26,12 @@ public final class PackageTester {
                 return true;
             }
         }
+
+        Path path = Paths.get(System.getenv("HOME")).resolve("." + binary.getBinary()).resolve(binary.getBinary());
+        if (Files.exists(path)  /* Binary does not exists in this path */ &&
+                Files.isExecutable(path) /* Binary exists, but is not executable */) {
+            return true;
+        }
         return false;
     }
 

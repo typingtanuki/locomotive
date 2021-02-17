@@ -4,6 +4,7 @@ import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.executor.CoreExecutor;
 import com.github.typingtanuki.locomotive.i18n.I18n;
 import com.github.typingtanuki.locomotive.pages.AbstractInstallerPage;
+import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -45,6 +46,7 @@ public final class NavigationCore {
     public static void doExit(int status) {
         Platform.runLater(() -> {
             GlitchLabel.cancelAll();
+            AbstractWidget.cancelAll();
         });
         Platform.runLater(() -> {
             exit(status);

@@ -17,7 +17,7 @@ public abstract class AbstractToolWidget extends AbstractWidget {
 
     private Button executeButton;
     private TerminalComponent terminal = null;
-    private boolean useTerminal;
+    private boolean useTerminal = true;
 
     public AbstractToolWidget(String title,
                               String description,

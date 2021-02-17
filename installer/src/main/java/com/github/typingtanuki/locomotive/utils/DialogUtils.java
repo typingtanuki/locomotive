@@ -2,6 +2,7 @@ package com.github.typingtanuki.locomotive.utils;
 
 import com.github.typingtanuki.locomotive.components.GlitchLabel;
 import com.github.typingtanuki.locomotive.navigation.NavigationCore;
+import com.github.typingtanuki.locomotive.widgets.AbstractWidget;
 import javafx.application.Platform;
 import org.controlsfx.dialog.ExceptionDialog;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public final class DialogUtils {
         LOGGER.error("Installer failed", e);
         Platform.runLater(() -> {
             GlitchLabel.cancelAll();
+            AbstractWidget.cancelAll();
         });
         Platform.runLater(() -> {
             ExceptionDialog dialog = new ExceptionDialog(e);
