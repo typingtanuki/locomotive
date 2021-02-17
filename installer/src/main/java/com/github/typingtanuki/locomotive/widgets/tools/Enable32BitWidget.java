@@ -1,14 +1,11 @@
 package com.github.typingtanuki.locomotive.widgets.tools;
 
 import com.github.typingtanuki.locomotive.i18n.I18n;
-import com.github.typingtanuki.locomotive.utils.DialogUtils;
 import com.github.typingtanuki.locomotive.utils.ProcessExec;
 import com.github.typingtanuki.locomotive.utils.ProcessFailedException;
 import com.github.typingtanuki.locomotive.utils.ProcessNotAuthorized;
 import com.github.typingtanuki.locomotive.widgets.AbstractInstallWidget;
 import com.github.typingtanuki.locomotive.widgets.support.WidgetState;
-
-import java.io.IOException;
 
 public class Enable32BitWidget extends AbstractInstallWidget {
     public Enable32BitWidget(Runnable installStarts, Runnable installFinished) {

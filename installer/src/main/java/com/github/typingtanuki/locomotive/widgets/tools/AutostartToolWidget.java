@@ -34,7 +34,7 @@ public class AutostartToolWidget extends AbstractToolWidget {
                 Binaries.onBoard(),
                 Binaries.gamehub(),
                 Binaries.steam(),
-                Binaries.antimicroX()));
+                Binaries.antimicrox()));
 
         Platform.runLater(() -> {
             AutostartStatus autostartStatus = showPopup(before);

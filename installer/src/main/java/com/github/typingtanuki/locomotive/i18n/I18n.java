@@ -61,7 +61,7 @@ public final class I18n {
         if (pattern == null) {
             pattern = getFrom(fallback, key);
             if (pattern == null) {
-                LOGGER.error("Need to ressourcify: {}", key);
+                LOGGER.error("Need to add to resource: {}", key);
                 return key;
             } else {
                 LOGGER.error("Missing {} in locale {}, falling back to {}", key, locale, pattern);

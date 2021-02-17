@@ -23,7 +23,7 @@ public enum GlitchCharacter {
     NEW_LINE('\n', false);
 
     private final char value;
-    private final boolean pickable;
+    private final boolean selectable;
 
     GlitchCharacter() {
         this('\0');
@@ -33,9 +33,9 @@ public enum GlitchCharacter {
         this(s, true);
     }
 
-    GlitchCharacter(char s, boolean pickable) {
+    GlitchCharacter(char s, boolean selectable) {
         this.value = s;
-        this.pickable = pickable;
+        this.selectable = selectable;
     }
 
     public static GlitchCharacter from(char s) {
@@ -54,11 +54,11 @@ public enum GlitchCharacter {
 
     public static GlitchCharacter random() {
         GlitchCharacter[] values = GlitchCharacter.values();
-        boolean pickable = false;
+        boolean selectable = false;
         GlitchCharacter picked = GlitchCharacter.DASH;
-        while (!pickable) {
+        while (!selectable) {
             picked = values[RANDOM.nextInt(values.length)];
-            pickable = picked.pickable;
+            selectable = picked.selectable;
         }
         return picked;
     }

@@ -99,7 +99,7 @@ Before starting to build, let's test and prepare the different parts
     1. Plug the USB type C cable to the LattePanda Alpha
         * A red light will start blinking on the LattePanda
         * After a while a blue light will also turn on
-    1. Wait for the red light on the LattePanda to stay on and the blue light blinking at regular interval
+    1. Wait for the red light on the LattePanda to stay on, and the blue light blinking at regular interval
     1. Press the power button for a few seconds, until the blue light turns and stays on
 
 > **NOTE**: It may take a while for the screen and LattePanda to finish their handshake.
@@ -132,7 +132,7 @@ Now turn off your LattePanda by pressing the power button for a few seconds.
 
 ### Install the micro SD card
 
-> **NOTE**: The LattePanda Alpha supports to up to 2TB SD cards
+> **NOTE**: The LattePanda Alpha supports to up to 2 TB SD cards
 
 1. Locate the micro SD slot on the back side of the LattePanda Alpha
 1. Gently push the micro SD card in the slot

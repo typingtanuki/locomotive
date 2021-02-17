@@ -39,7 +39,7 @@ public class RecommendedPackagePage extends AbstractInstallerPage {
         return vertical(
                 new BinarySupportWidget(Binaries.wine(), latch, wine),
                 new BinarySupportWidget(Binaries.onBoard(), latch, onBoard),
-                new BinarySupportWidget(Binaries.antimicroX(), latch, antiMicroX),
+                new BinarySupportWidget(Binaries.antimicrox(), latch, antiMicroX),
                 new BinarySupportWidget(Binaries.kodi(), latch, kodi));
     }
 
@@ -54,7 +54,7 @@ public class RecommendedPackagePage extends AbstractInstallerPage {
                 addPage(new AddBinaryPage(Binaries.onBoard(), getNextPages()));
             }
             if (!antiMicroX.get()) {
-                addPage(new AddBinaryPage(Binaries.antimicroX(), getNextPages()));
+                addPage(new AddBinaryPage(Binaries.antimicrox(), getNextPages()));
             }
             if (!kodi.get()) {
                 addPage(new AddBinaryPage(Binaries.kodi(), getNextPages()));

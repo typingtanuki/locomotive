@@ -51,7 +51,7 @@ public class DownloadComponent extends VBox {
     }
 
     /**
-     * Update the label and the progess bar
+     * Update the label and the progress bar
      *
      * @param current The number of bytes downloaded so far
      * @param total   The number of bytes total

@@ -27,7 +27,7 @@ public final class Binaries {
         return new AptBinary("kodi").extraPackages("python3", "python3-dbus");
     }
 
-    public static Binary antimicroX() {
+    public static Binary antimicrox() {
         return new GithubBinary("antimicrox", "AntiMicroX", "antimicrox");
     }
 

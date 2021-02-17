@@ -8,8 +8,6 @@ public class Ppa {
     private final String title;
     private final String description;
 
-    private final Boolean installed = null;
-
     public Ppa(String ppa) {
         this(ppa, null);
     }
@@ -30,18 +28,6 @@ public class Ppa {
         if (ppa.startsWith("deb")) {
             return ppa.split("//")[1].split("/")[0].replaceAll("\\.", "_");
         }
-        return ppa;
-    }
-
-    @Override
-    public String toString() {
-        return "Ppa{" +
-                "installed=" + installed +
-                ", title='" + title + '\'' +
-                '}';
-    }
-
-    public String getName() {
         return ppa;
     }
 

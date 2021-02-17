@@ -48,9 +48,7 @@ public final class NavigationCore {
             GlitchLabel.cancelAll();
             AbstractWidget.cancelAll();
         });
-        Platform.runLater(() -> {
-            exit(status);
-        });
+        Platform.runLater(() -> exit(status));
     }
 
     /**
