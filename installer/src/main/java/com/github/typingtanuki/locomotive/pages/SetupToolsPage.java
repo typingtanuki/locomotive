@@ -15,6 +15,7 @@ import java.util.Deque;
 import java.util.List;
 
 import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
+import static com.github.typingtanuki.locomotive.utils.ButtonUtils.menuButton;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.*;
 
 /**
@@ -56,7 +57,7 @@ public class SetupToolsPage extends AbstractInstallerPage {
 
     @Override
     protected HBox makeFooter() {
-        return horizontal(exitButton());
+        return horizontal(menuButton(), exitButton());
     }
 
     public void toolStarted() {

@@ -67,8 +67,9 @@ public class PpaOverviewPage extends AbstractInstallerPage {
             if (!buildEssentials.get()) {
                 addPage(new AddBinaryPage(Binaries.buildEssentials(), getNextPages()));
             }
-            addPage(new DriverOverviewPage(getNextPages()));
-            Platform.runLater(() -> getNextButton().setDisable(false));
+            if (!getNextPages().isEmpty()) {
+                Platform.runLater(() -> getNextButton().setDisable(false));
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

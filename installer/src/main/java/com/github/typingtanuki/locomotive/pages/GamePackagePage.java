@@ -65,8 +65,9 @@ public class GamePackagePage extends AbstractInstallerPage {
             if (!legendary.get()) {
                 addPage(new AddBinaryPage(Binaries.legendary(), getNextPages()));
             }
-            addPage(new SetupToolsPage(getNextPages()));
-            Platform.runLater(() -> getNextButton().setDisable(false));
+            if (!getNextPages().isEmpty()) {
+                Platform.runLater(() -> getNextButton().setDisable(false));
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

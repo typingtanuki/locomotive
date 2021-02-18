@@ -29,7 +29,7 @@ public class Enable32BitWidget extends AbstractInstallWidget {
                     "--add-architecture",
                     "i386");
             installIsDone();
-        }catch (ProcessNotAuthorized | ProcessFailedException e){
+        } catch (ProcessNotAuthorized | ProcessFailedException e) {
             setState(WidgetState.FAILED);
         }
     }

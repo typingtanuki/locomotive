@@ -11,8 +11,7 @@ import org.controlsfx.glyphfont.FontAwesome;
 
 import java.util.Deque;
 
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.button;
-import static com.github.typingtanuki.locomotive.utils.ButtonUtils.exitButton;
+import static com.github.typingtanuki.locomotive.utils.ButtonUtils.*;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.horizontal;
 import static com.github.typingtanuki.locomotive.utils.LayoutUtils.setSize;
 import static com.github.typingtanuki.locomotive.utils.StyleUtils.CLASS_UNDERLAY;
@@ -45,6 +44,7 @@ public abstract class AbstractInstallerPage extends BorderPane {
         nextButton.setDisable(nextDisabled);
 
         return horizontal(
+                menuButton(),
                 nextButton,
                 exitButton());
     }

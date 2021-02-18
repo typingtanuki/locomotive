@@ -60,7 +60,9 @@ public class RecommendedPackagePage extends AbstractInstallerPage {
                 addPage(new AddBinaryPage(Binaries.kodi(), getNextPages()));
             }
             addPage(new GamePackagePage(getNextPages()));
-            Platform.runLater(() -> getNextButton().setDisable(false));
+            if (!getNextPages().isEmpty()) {
+                Platform.runLater(() -> getNextButton().setDisable(false));
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

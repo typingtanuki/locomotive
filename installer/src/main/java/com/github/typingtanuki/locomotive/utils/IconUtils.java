@@ -11,7 +11,7 @@ public final class IconUtils {
     }
 
     public static Glyph getIcon(FontAwesome.Glyph name) {
-        Glyph glyph= new Glyph("FontAwesome", name);
+        Glyph glyph = new Glyph("FontAwesome", name);
         glyph.setEffect(new Glow(3));
         return glyph;
     }

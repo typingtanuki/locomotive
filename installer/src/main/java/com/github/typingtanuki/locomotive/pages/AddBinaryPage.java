@@ -123,7 +123,7 @@ public class AddBinaryPage extends AbstractInstallerPage {
 
     @Override
     protected Pane makeFooter() {
-        return basicFooter(false);
+        return basicFooter(getNextPages().isEmpty());
     }
 
     public void installStarts() {
@@ -131,6 +131,8 @@ public class AddBinaryPage extends AbstractInstallerPage {
     }
 
     public void installFinished() {
-        Platform.runLater(() -> getNextButton().setDisable(false));
+        if (!getNextPages().isEmpty()) {
+            Platform.runLater(() -> getNextButton().setDisable(false));
+        }
     }
 }

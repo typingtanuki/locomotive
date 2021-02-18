@@ -64,6 +64,6 @@ public class WelcomePage extends AbstractInstallerPage {
     }
 
     public void doStart() {
-        NavigationCore.changePage(new PpaOverviewPage(getNextPages()));
+        NavigationCore.changePage(new MenuPage());
     }
 }

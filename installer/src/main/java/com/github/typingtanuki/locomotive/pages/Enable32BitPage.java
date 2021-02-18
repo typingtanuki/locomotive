@@ -47,6 +47,8 @@ public class Enable32BitPage extends AbstractInstallerPage {
     }
 
     public void installFinished() {
-        Platform.runLater(() -> getNextButton().setDisable(false));
+        if (!getNextPages().isEmpty()) {
+            Platform.runLater(() -> getNextButton().setDisable(false));
+        }
     }
 }

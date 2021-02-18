@@ -51,6 +51,15 @@ public abstract class AbstractWidget extends BorderPane {
         setCenter(layout);
     }
 
+    public static void cancelAll() {
+        synchronized (TIMELINES) {
+            for (Timeline timeline : TIMELINES) {
+                timeline.stop();
+            }
+            TIMELINES.clear();
+        }
+    }
+
     public WidgetState getState() {
         return state;
     }
@@ -113,15 +122,6 @@ public abstract class AbstractWidget extends BorderPane {
             withClass(this, CLASS_WIDGET, state.name());
             setLeft(icon);
         });
-    }
-
-    public static void cancelAll() {
-        synchronized (TIMELINES) {
-            for (Timeline timeline : TIMELINES) {
-                timeline.stop();
-            }
-            TIMELINES.clear();
-        }
     }
 
     protected void setIcon(Glyph icon) {

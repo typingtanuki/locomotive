@@ -55,8 +55,9 @@ public class DriverOverviewPage extends AbstractInstallerPage {
             if (!calibrator.get()) {
                 addPage(new AddBinaryPage(Binaries.xinputCalibrator(), getNextPages()));
             }
-            addPage(new RecommendedPackagePage(getNextPages()));
-            Platform.runLater(() -> getNextButton().setDisable(false));
+            if (!getNextPages().isEmpty()) {
+                Platform.runLater(() -> getNextButton().setDisable(false));
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
