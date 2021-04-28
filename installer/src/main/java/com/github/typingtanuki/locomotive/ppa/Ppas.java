@@ -26,7 +26,7 @@ public final class Ppas {
     }
 
     public static Ppa wine() {
-        return new Ppa("deb https://dl.winehq.org/wine-builds/ubuntu focal main",
+        return new Ppa("deb https://dl.winehq.org/wine-builds/ubuntu groovy main",
                 new PpaKey("winehq.org", "https://dl.winehq.org/wine-builds/winehq.key"));
     }
 

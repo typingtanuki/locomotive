@@ -44,7 +44,7 @@ public final class PpaTester {
             if (!PPAS.isEmpty()) {
                 return PPAS;
             }
-            ProcessExec exec = ProcessExec.exec(nullTerminal(), "apt", "policy");
+            ProcessExec exec = ProcessExec.exec(nullTerminal(), "apt-add-repository", "-L");
             for (String s : exec.getStdout().split("\\n")) {
                 PPAS.add(s.strip().toLowerCase(Locale.ENGLISH));
             }
